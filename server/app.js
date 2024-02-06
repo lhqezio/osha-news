@@ -2,6 +2,10 @@ const express = require('express');
 
 const app = express();
 
+// Hello world route
+const helloRoute = require('./routes/helloworldRoute');
+app.use('/hello', helloRoute);
+
 app.get('/', (req, res) => {
   res.send('Server ON');
 });
