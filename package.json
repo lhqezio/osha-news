@@ -1,0 +1,19 @@
+{
+  "name": "osha-news",
+  "version": "1.0.0",
+  "description": "News App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject.git"
+  },
+  "author": "Oni, Alexander Z, Settimio, Hoang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject/issues"
+  },
+  "homepage": "https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject#readme"
+}
