@@ -1,6 +1,6 @@
 require('dotenv').config();
 const dbUrl = process.env.ATLAS_URI;
-const { MongoClient } =  require("mongodb");
+const { MongoClient } =  require('mongodb');
 
 let instance = null;
 
@@ -17,7 +17,7 @@ class DB {
     return instance;
   }
 
-  async connect(dbname, /* collections */ ){
+  async connect(dbname){
     if (instance.db) {
       return;
     }
@@ -34,3 +34,5 @@ class DB {
   }
 
 }
+
+module.exports = DB;
