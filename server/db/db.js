@@ -39,7 +39,16 @@ class DB {
    * Add many rows of news data
    */
   async createManyNewsArticles(articles) {
-    return await instance.newsArticles.insertMany(articles);
+    await instance.newsArticles.insertMany(articles);
+  }
+
+  /**
+   * Remove articles from the Database using filter.
+   * @param filter filter for the delete
+   */
+  async deleteManyArticles(filter) {
+    const result = await instance.newsArticles.deleteMany(filter);
+    return result.deletedCount;
   }
 }
 
