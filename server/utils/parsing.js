@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const fs = require('fs/promises');
 
 const parseData = async () => {
@@ -13,7 +14,6 @@ const parseData = async () => {
 
     fs.writeFile(newDataPath, newContent);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.log(error);
   }
 };
