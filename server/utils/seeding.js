@@ -4,9 +4,10 @@ const path = require('path');
 
 const db = new DB();
 
-
 const seeding = async() => {
   try{
+    console.log('Seeding started.');
+
     await db.connect('news', 'newsArticles');
 
     const fileData = await fs.readFile(path.join(__dirname, '../data/parsedData.json'));
@@ -14,6 +15,8 @@ const seeding = async() => {
     const jsonData = await JSON.parse(fileData);
 
     await db.createManyNewsArticles(jsonData);
+    
+    console.log(`Inserted records in newsArticles.`);
   } catch (err) {
     console.error(err);
   } finally {
