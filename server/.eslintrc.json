@@ -12,7 +12,6 @@
   "ignorePatterns": "**/__tests__",
   "rules": {
     ////////// Possible Errors //////////
-    "no-console": ["warn", { "allow": ["error"] }],
     "one-var": ["warn", "never"],
     "no-undef": "warn",
     "prefer-const": "warn",
