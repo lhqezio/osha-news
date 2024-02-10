@@ -30,7 +30,7 @@ class DB {
     instance.collection = await instance.db.collection(colName);
   }
 
-  async connectToCollection(dbname, colName) {
+  async selectCollection(dbname, colName) {
     instance.db = await instance.client.db(dbname);
     instance.collection = await instance.db.collection(colName);
   }

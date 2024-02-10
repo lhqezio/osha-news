@@ -8,7 +8,7 @@ module.exports.getUsers = async (req, res) => {
 
 module.exports.addUser = async (req, res) => {
   try {
-    await db.connectToCollection('news', 'userComment');
+    await db.selectCollection('news', 'userComment');
   
     const userComment = req.body;
   
