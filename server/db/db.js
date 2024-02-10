@@ -11,7 +11,7 @@ class DB {
       this.db = null;
       
       // add collections
-      this.newsArticles = null;
+      this.collection = null;
 
       instance = this;
     }
@@ -27,7 +27,12 @@ class DB {
     instance.db = await instance.client.db(dbname);
 
     // connect to collections
-    instance.newsArticles = await instance.db.collection(colName);
+    instance.collection = await instance.db.collection(colName);
+  }
+
+  async connectToCollection(dbname, colName) {
+    instance.db = await instance.client.db(dbname);
+    instance.collection = await instance.db.collection(colName);
   }
 
   async close() {
@@ -39,7 +44,7 @@ class DB {
    * Add many rows of news data
    */
   async createManyNewsArticles(articles) {
-    await instance.newsArticles.insertMany(articles);
+    await instance.collection.insertMany(articles);
   }
 
   /**
@@ -47,7 +52,7 @@ class DB {
    * @param filter filter for the delete
    */
   async deleteManyArticles(filter) {
-    const result = await instance.newsArticles.deleteMany(filter);
+    const result = await instance.collection.deleteMany(filter);
     return result.deletedCount;
   }
 
@@ -55,7 +60,7 @@ class DB {
    * Add one user-comment
    */
   async createUserComment(comment) {
-    await instance.userComment.insertMany([comment]);
+    await instance.collection.insertMany([comment]);
   }
 }
 
