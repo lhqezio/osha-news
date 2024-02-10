@@ -50,6 +50,13 @@ class DB {
     const result = await instance.newsArticles.deleteMany(filter);
     return result.deletedCount;
   }
+
+  /**
+   * Add one user-comment
+   */
+  async createUserComment(comment) {
+    await instance.userComment.insertMany([comment]);
+  }
 }
 
 module.exports = DB;
