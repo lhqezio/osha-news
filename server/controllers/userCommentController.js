@@ -8,8 +8,6 @@ module.exports.getUsers = async (req, res) => {
 
 module.exports.addUser = async (req, res) => {
   try {
-    await db.selectCollection('news', 'userComment');
-  
     const userComment = req.body;
   
     await db.createUserComment(userComment);
