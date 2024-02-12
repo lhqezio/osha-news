@@ -19,7 +19,7 @@ const usersCommentsRoute = require('./routes/userCommentRoute');
 app.use('/user-comment', usersCommentsRoute);
 
 const usersImagesRoute = require('./routes/userImageRoute');
-app.use('/fileUpload', usersImagesRoute);
+app.use('/user-images', usersImagesRoute);
 
 app.get('/', (req, res) => {
   res.send('Server ON');
