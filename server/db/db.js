@@ -83,7 +83,9 @@ class DB {
     const newsArticlesResult = await instance.newsArticles.deleteMany(filter);
     const userCommentsResult = await instance.userComments.deleteMany(filter);
     const userImagesResult = await instance.userImages.deleteMany(filter);
-    return newsArticlesResult.deletedCount + userCommentsResult.deletedCount + userImagesResult.deletedCount;
+    return  newsArticlesResult.deletedCount + 
+            userCommentsResult.deletedCount + 
+            userImagesResult.deletedCount;
   }
 
   /**

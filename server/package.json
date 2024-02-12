@@ -13,7 +13,9 @@
   "dependencies": {
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
-    "mongodb": "^6.3.0"
+    "mongodb": "^6.3.0",
+    "@azure/storage-blob": "^12.17.0",
+    "express-fileupload": "^1.4.3"
   },
   "devDependencies": {
     "eslint": "^8.56.0",
