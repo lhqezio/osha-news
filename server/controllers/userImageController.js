@@ -23,3 +23,19 @@ module.exports.getUserImages = async (req, res) => {
     res.status(500).json({'error': 'Internal Error.'});
   }
 };
+
+/**
+ * Route method for "/user-image"
+ * Add user images to database
+ */
+module.exports.addUserImage = async (req, res) => {
+    try {
+      const userImage = req.body;
+    
+      await db.createUserComment(userImage);
+    
+      res.status(201).json({'status': 'User Image as successfully been added.'});
+    } catch (err) {
+      res.status(500).json({'error': 'Internal Error.'});
+    }
+  };
