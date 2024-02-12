@@ -9,8 +9,11 @@ const helloRoute = require('./routes/helloworldRoute');
 app.use('/hello', helloRoute);
 
 // Users route
-const usersRoute = require('./routes/userCommentRoute');
-app.use('/user-comment', usersRoute);
+const usersCommentsRoute = require('./routes/userCommentRoute');
+app.use('/user-comment', usersCommentsRoute);
+
+const usersImagesRoute = require('./routes/userImageRoute');
+app.use('/user-image', usersImagesRoute);
 
 app.get('/', (req, res) => {
   res.send('Server ON');
