@@ -6,9 +6,9 @@ const clearDatabase = async () => {
   try {
     console.log('Deleting started.');
     db = new DB();
-    await db.connect('news', 'newsArticles');
+    await db.connect('news');
 
-    const amount = await db.deleteManyArticles({});
+    const amount = await db.deleteMany({});
     
     console.log(`Deleted ${amount} records form newsArticles.`);
   } catch (err) {
