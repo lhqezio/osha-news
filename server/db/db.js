@@ -34,6 +34,7 @@ class DB {
     this.createAllCollection();
     instance.newsArticles = await instance.db.collection('newsArticles');
     instance.userComments = await instance.db.collection('userComments');
+    instance.userImages = await instance.db.collection('userImages');
   }
 
   /**
@@ -51,6 +52,9 @@ class DB {
     }
     if (collNames.filter(coll => coll.name === 'userComments').length === 0) {
       await instance.db.createCollection('userComments');
+    }
+    if (collNames.filter(coll => coll.name === 'userImages').length === 0) {
+      await instance.db.createCollection('userImages');
     }
   }
 
@@ -78,7 +82,8 @@ class DB {
   async deleteMany(filter) {
     const newsArticlesResult = await instance.newsArticles.deleteMany(filter);
     const userCommentsResult = await instance.userComments.deleteMany(filter);
-    return newsArticlesResult.deletedCount + userCommentsResult.deletedCount;
+    const userImagesResult = await instance.userImages.deleteMany(filter);
+    return newsArticlesResult.deletedCount + userCommentsResult.deletedCount + userImagesResult.deletedCount;
   }
 
   /**
@@ -97,6 +102,24 @@ class DB {
   async getUserComments(filter) {
     const comments = await instance.userComments.find(filter).toArray();
     return comments;
+  }
+
+  /**
+   * Add one user-image
+   * @param image single image to add to userImage
+   */
+  async createUserImage(image){
+    await instance.userImages.insertMany([image]);
+  }
+
+  /**
+   * Get userImages
+   * @param filter filter of the search
+   * @returns images found
+   */
+  async getUserImages(filter){
+    const images = await instance.userImages.find(filter).toArray();
+    return images;
   }
 }
 
