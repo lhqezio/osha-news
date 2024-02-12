@@ -76,7 +76,7 @@ function CommentPage() {
                 Comment<br />
                 {commentInput}
                 </div>
-                <button onClick={postComment} type="button">Post Comment</button>
+                <button onClick={postComment} type="button" className='border'>Post Comment</button>
                 {commentPostError ? <div>{commentPostError}</div> : null}
             </div>
             <div>
