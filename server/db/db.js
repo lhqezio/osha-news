@@ -82,7 +82,8 @@ class DB {
   async deleteMany(filter) {
     const newsArticlesResult = await instance.newsArticles.deleteMany(filter);
     const userCommentsResult = await instance.userComments.deleteMany(filter);
-    return newsArticlesResult.deletedCount + userCommentsResult.deletedCount;
+    const userImagesResult = await instance.userImages.deleteMany(filter);
+    return newsArticlesResult.deletedCount + userCommentsResult.deletedCount + userImagesResult.deletedCount;
   }
 
   /**

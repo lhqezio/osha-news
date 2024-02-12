@@ -32,7 +32,7 @@ module.exports.addUserImage = async (req, res) => {
     try {
       const userImage = req.body;
     
-      await db.createUserComment(userImage);
+      await db.createUserImage(userImage);
     
       res.status(201).json({'status': 'User Image as successfully been added.'});
     } catch (err) {
