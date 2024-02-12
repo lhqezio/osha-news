@@ -18,6 +18,10 @@ class DB {
     return instance;
   }
 
+  /**
+   * Connect to specified database
+   * @param dbname name of the database
+   */
   async connect(dbname){
     if (instance.db) {
       return;
@@ -32,7 +36,14 @@ class DB {
     instance.userComments = await instance.db.collection('userComments');
   }
 
+  /**
+   * Create all collection needed for the app.
+   */
   async createAllCollection() {
+    if (!instance.db) {
+      return;
+    }
+
     const collNames = await instance.db.listCollections().toArray();
 
     if (collNames.filter(coll => coll.name === 'newsArticles').length === 0) {
@@ -43,6 +54,9 @@ class DB {
     }
   }
 
+  /**
+   * Close database connection
+   */
   async close() {
     await instance.client.close();
     instance = null;
@@ -81,7 +95,7 @@ class DB {
    * @returns comments found 
    */
   async getUserComments(filter) {
-    const comments = await instance.userComments.find(filter);
+    const comments = await instance.userComments.find(filter).toArray();
     return comments;
   }
 }
