@@ -1,8 +1,14 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
 app.use(express.json());
+app.use(
+  fileUpload({
+    createParentPath: true,
+  })
+);
 
 // Hello world route
 const helloRoute = require('./routes/helloworldRoute');
@@ -13,7 +19,7 @@ const usersCommentsRoute = require('./routes/userCommentRoute');
 app.use('/user-comment', usersCommentsRoute);
 
 const usersImagesRoute = require('./routes/userImageRoute');
-app.use('/user-image', usersImagesRoute);
+app.use('/fileUpload', usersImagesRoute);
 
 app.get('/', (req, res) => {
   res.send('Server ON');
