@@ -2,9 +2,39 @@ import {useState,useEffect} from 'react'
 import useInput from '../CustomHooks/useInput'
 
 function CommentPage() {
-    const [commentPost, setCommentPost] = useState('')
+    const [commentPostError, setCommentPostError] = useState('')
+    const [commentFetchError, setCommentFetchError] = useState('')
+    const [buttonClicked,setButtonClicked] = useState(false)
+    const [comments,setComments] = useState([])
     const [username, userInput] = useInput({ type: "text" });
     const [comment, commentInput] = useInput({ type: "text" });
+
+    useEffect(
+        ()=>{
+            fetch('/user-comment')
+                .then(
+                    (resp)=>{
+                        if(!resp.ok) {
+                            setCommentFetchError("Connection Error Occurred")
+                        }
+                        else {
+                            return resp.json()
+                        }
+                    }
+                )
+                .then (
+                    (json)=>{
+                        setComments(json)
+                    }
+                )
+                .catch (
+                    (err)=>{
+                        setCommentFetchError("Server Error Occured")
+                    }
+                )
+        },
+        [buttonClicked]
+    )
 
     function postComment() {
         if(username && comment) {
@@ -20,24 +50,24 @@ function CommentPage() {
                 })
             }).then(
                 (resp)=>{
-                    setCommentPost("Connection Error Occured")
+                    setCommentPostError("Connection Error Occured")
                 }
             ).catch(
                 (err)=>{
-                    setCommentPost("Server Error Occured")
+                    setCommentPostError("Server Error Occured")
                 }
             )
         } else {
-            setCommentPost("One or more required fields are empty")
+            setCommentPostError("One or more required fields are empty")
         }
     }
 
     return (
-        <div>
-            <h2>
-                New Comment:
-            </h2>
-            <form>
+        <>
+            <div>
+                <h2>
+                    New Comment:
+                </h2>
                 <div>
                 UserName<br />
                 {userInput}
@@ -47,9 +77,15 @@ function CommentPage() {
                 {commentInput}
                 </div>
                 <button onClick={postComment} type="button">Post Comment</button>
-                {commentPost ? <h1>{commentPost}</h1> : null}
-            </form>
-        </div>
+                {commentPostError ? <div>{commentPostError}</div> : null}
+            </div>
+            <div>
+                <h2>
+                    All comments
+                </h2>
+                {commentFetchError ? <div>{commentFetchError}</div>:null}
+            </div>
+        </>
     )
 }
 
