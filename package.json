@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject/issues"
   },
-  "homepage": "https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject#readme"
+  "homepage": "https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
 }
