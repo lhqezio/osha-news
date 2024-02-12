@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { getUsers, addUser } = require('../controllers/userCommentController');
+const { getUserComments, addUserComment } = require('../controllers/userCommentController');
 
-router.get('/', getUsers);
+router.get('/', getUserComments);
 
-router.post('/', addUser);
+router.post('/', addUserComment);
 
 module.exports = router;
