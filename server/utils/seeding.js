@@ -8,7 +8,7 @@ const seeding = async() => {
   try{
     console.log('Seeding started.');
 
-    await db.connect('news', 'newsArticles');
+    await db.connect('news');
 
     const fileData = await fs.readFile(path.join(__dirname, '../data/parsedData.json'));
 
