@@ -2,17 +2,17 @@ const DB = require('../db/db');
 const { BlobServiceClient } = require('@azure/storage-blob');
 require('dotenv').config();
 
-const sasToken = process.env.AZURE_SAS;
-const containerName = 'helloblob';
-const storageAccountName = process.env.storageressourcename || 'azuretest2142443';
+const SAS_TOKEN = process.env.AZURE_SAS;
+const CONTAINER_NAME = 'helloblob';
+const STORAGE_ACCOUNT_NAME = process.env.storageressourcename || 'azuretest2142443';
 
 const blobService = new BlobServiceClient(
-  `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+  `https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/?${SAS_TOKEN}`
 );
 
-const publicUrl = 'https://azuretest2142443.blob.core.windows.net/helloblob/'
+const PUBLIC_URL = 'https://azuretest2142443.blob.core.windows.net/helloblob/'
 
-const containerClient = blobService.getContainerClient(containerName);
+const containerClient = blobService.getContainerClient(CONTAINER_NAME);
 
 const db = new DB();
 
@@ -54,7 +54,7 @@ module.exports.addUserImage = async (req, res) => {
     
       await db.createUserImage({
         username: req.body.username,
-        url: publicUrl + userImage,
+        url: PUBLIC_URL + userImage,
       });
     
       res.status(201).json({'status': 'User Image as successfully been added.'});
