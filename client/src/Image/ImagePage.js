@@ -28,40 +28,32 @@ function ImagePage() {
         },[]
     )
 
-    function convertToBlob() {
-      fetch(inputImage.current.value)
-      .then((response) => {
-        return response.blob()
-      })
-      .then((blob) => {
-        // send blob to azure and then save uri
-      });
-    }
-
-    function postImage() {
-        if(username && inputImage.current.value !== "") {
-            fetch('/user-image', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: username,
-                    image: inputImage.current.value,
-                })
-            }).then(
-                (resp)=>{
-                    setImagePostError("Connection Error Occured")
-                }
-            ).catch(
-                (err)=>{
-                    setImagePostError("Server Error Occured")
-                }
-            )
-        } else {
-            setImagePostError("One or more required fields are empty")
-        }
+    async function postImage() {
+      let jsonFile = inputImage.current.files[0]
+      const blob = await new Blob([jsonFile], { type: "application/json" });
+      if(username !== "" && blob) {
+          fetch('/user-image', {
+              method: 'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  username: username,
+                  image: blob,
+              })
+          }).then(
+              (resp)=>{
+                  setImagePostError("Connection Error Occured")
+              }
+          ).catch(
+              (err)=>{
+                  setImagePostError("Server Error Occured")
+              }
+          )
+      } else {
+          setImagePostError("One or more required fields are empty")
+      }
     }
 
     return (
@@ -82,9 +74,12 @@ function ImagePage() {
                 {imagePostError ? <div>{imagePostError}</div> : null}
             </div>
             <div>
-                <h2>
-                    All Images
-                </h2>
+                <h2>All Images</h2>
+                <ul>
+                {images.map((img) => (
+                  <li key={img.user}><p>{img.user}</p><img src= {img.uri} alt="userImage"></img></li>
+                ))}
+                </ul>
                 {imageFetchError ? <div>{imageFetchError}</div>:null}
             </div>
         </>
