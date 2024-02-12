@@ -102,6 +102,24 @@ class DB {
     const comments = await instance.userComments.find(filter).toArray();
     return comments;
   }
+
+  /**
+   * Add one user-image
+   * @param image single image to add to userImage
+   */
+  async createUserImage(image){
+    await instance.userImages.insertMany([image]);
+  }
+
+  /**
+   * Get userImages
+   * @param filter filter of the search
+   * @returns images found
+   */
+  async getUserImages(filter){
+    const images = await instance.userImages.find(filter).toArray();
+    return images;
+  }
 }
 
 module.exports = DB;
