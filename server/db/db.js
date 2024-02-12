@@ -34,6 +34,7 @@ class DB {
     this.createAllCollection();
     instance.newsArticles = await instance.db.collection('newsArticles');
     instance.userComments = await instance.db.collection('userComments');
+    instance.userImages = await instance.db.collection('userImages');
   }
 
   /**
@@ -51,6 +52,9 @@ class DB {
     }
     if (collNames.filter(coll => coll.name === 'userComments').length === 0) {
       await instance.db.createCollection('userComments');
+    }
+    if (collNames.filter(coll => coll.name === 'userImages').length === 0) {
+      await instance.db.createCollection('userImages');
     }
   }
 
