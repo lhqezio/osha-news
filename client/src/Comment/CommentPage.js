@@ -1,4 +1,37 @@
+import {useState,useEffect} from 'react'
+import useInput from '../CustomHooks/useInput'
+
 function CommentPage() {
+    const [commentPost, setCommentPost] = useState('')
+    const [username, userInput] = useInput({ type: "text" });
+    const [comment, commentInput] = useInput({ type: "text" });
+
+    function postComment() {
+        if(username && comment) {
+            fetch('/user-comment', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    comment: comment,
+                })
+            }).then(
+                (resp)=>{
+                    setCommentPost("Connection Error Occured")
+                }
+            ).catch(
+                (err)=>{
+                    setCommentPost("Server Error Occured")
+                }
+            )
+        } else {
+            setCommentPost("One or more required fields are empty")
+        }
+    }
+
     return (
         <div>
             <h2>
@@ -6,19 +39,15 @@ function CommentPage() {
             </h2>
             <form>
                 <div>
-                <label for="usern">
-                    Username
-                </label>
-                <input type="text" id="usern" name="usern">
-                </input>
+                UserName<br />
+                {userInput}
                 </div>
                 <div>
-                <label for="comment">
-                    Comment
-                </label>
-                <input type="text" id="comment" name="comment">
-                </input>
+                Comment<br />
+                {commentInput}
                 </div>
+                <button onClick={postComment} type="button">Post Comment</button>
+                {commentPost ? <h1>{commentPost}</h1> : null}
             </form>
         </div>
     )
