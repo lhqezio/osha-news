@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cd server && npm test",
+    "install": "cd ./client/ && npm i && cd ../server && npm i",
     "start": "cd ./client/ && npm run build && cd ../server && npm run start "
   },
   "repository": {

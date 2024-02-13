@@ -1,0 +1,29 @@
+image: node:18.18-bullseye-slim
+
+stages:
+  - lint
+  - build
+  - tests
+  - deploy
+
+default:
+  cache:
+    key:
+      files:
+        - ./package.json
+        - ./package-lock.json
+    paths:
+      - ./server/node_modules
+      - ./client/node_modules
+  before_script:
+    - npm i
+
+lint-server:
+  stage: lint
+   - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+  allow_failure: false
+
+lint-client:
+  stage: lint
+   - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+  allow_failure: false
