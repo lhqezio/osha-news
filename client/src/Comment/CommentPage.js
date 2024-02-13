@@ -6,7 +6,7 @@ function CommentPage() {
     const [commentFetchError, setCommentFetchError] = useState('')
     const [buttonClicked,setButtonClicked] = useState(false)
     const [comments,setComments] = useState([])
-    const [username, userInput] = useInput({ type: "text" });
+    const [name, nameInput] = useInput({ type: "text" });
     const [comment, commentInput] = useInput({ type: "text" });
 
     useEffect(
@@ -40,7 +40,7 @@ function CommentPage() {
     )
 
     function postComment() {
-        if(username && comment) {
+        if(name && comment) {
             fetch('/user-comment', {
                 method: 'POST',
                 headers: {
@@ -48,7 +48,7 @@ function CommentPage() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    name: username,
+                    name: name,
                     comment: comment,
                 })
             }).then(
@@ -75,7 +75,7 @@ function CommentPage() {
                 </h2>
                 <div className='mb-2'>
                 Username<br />
-                {userInput}
+                {nameInput}
                 </div>
                 <div className='mb-2'>
                 Comment<br />
