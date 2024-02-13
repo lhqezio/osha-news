@@ -10,13 +10,13 @@ default:
   cache:
     key:
       files:
-        - ./package.json
-        - ./package-lock.json
+        - ./client/package-lock.json
+        - ./server/package-lock.json
     paths:
-      - ./server/node_modules
-      - ./client/node_modules
+      - server/.npm/
+      - client/.npm/
   before_script:
-    - npm i
+    - cd server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline
 
 lint-server:
   stage: lint
@@ -24,4 +24,13 @@ lint-server:
    - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
   allow_failure: false
 
+build-frontend:
+  stage: build
+  script:
+    - cd client && npm run build
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - client/build
 
