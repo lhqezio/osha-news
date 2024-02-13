@@ -34,3 +34,8 @@ build-frontend:
     paths:
       - client/build
 
+test-server:
+  stage: tests
+  script: cd server && npm test
+
+
