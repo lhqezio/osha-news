@@ -43,9 +43,9 @@ deploy-azure:
   image:  mcr.microsoft.com/azure-cli
   dependencies:
     - build-frontend
-  only:
-    - main
-    - staging
+  # only:
+  #   - main
+  #   - staging
   before_script:
     - apk update
     - apk add zip
