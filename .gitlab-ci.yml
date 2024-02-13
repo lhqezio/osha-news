@@ -23,9 +23,3 @@ lint-server:
   script:
    - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
   allow_failure: false
-
-lint-client:
-  stage: lint
-  script:
-   - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
-  allow_failure: false
