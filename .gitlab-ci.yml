@@ -38,4 +38,20 @@ test-server:
   stage: tests
   script: cd server && npm test
 
+deploy-azure:
+  stage: deploy
+  image:  mcr.microsoft.com/azure-cli
+  dependencies:
+    - build-frontend
+  only:
+    - main
+    - staging
+  before_script:
+    - apk update
+    - apk add zip
+    - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
+  script:
+    - zip -r deploy.zip client/build server ./package.json
+    - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
+
 
