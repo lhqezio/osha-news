@@ -5,7 +5,7 @@ export const content = [
 export const theme = {
   extend: {
     fontFamily: {
-      sans: ["Open Sans", "sans-serif"],
+      sans: ["Futura Std", "sans-serif"],
       serif: ["Merriweather", "serif"]
     }
   },

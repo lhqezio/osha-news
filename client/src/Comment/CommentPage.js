@@ -6,7 +6,7 @@ function CommentPage() {
     const [commentFetchError, setCommentFetchError] = useState('')
     const [buttonClicked,setButtonClicked] = useState(false)
     const [comments,setComments] = useState([])
-    const [username, userInput] = useInput({ type: "text" });
+    const [name, nameInput] = useInput({ type: "text" });
     const [comment, commentInput] = useInput({ type: "text" });
 
     useEffect(
@@ -40,7 +40,7 @@ function CommentPage() {
     )
 
     function postComment() {
-        if(username && comment) {
+        if(name && comment) {
             fetch('/user-comment', {
                 method: 'POST',
                 headers: {
@@ -48,7 +48,7 @@ function CommentPage() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    name: username,
+                    name: name,
                     comment: comment,
                 })
             }).then(
@@ -68,36 +68,36 @@ function CommentPage() {
     }
 
     return (
-        <>
+        <div className='m-4'>
             <div>
-                <h2>
+                <h2 className='font-bold text-4xl mb-2'>
                     New Comment:
                 </h2>
-                <div>
-                UserName<br />
-                {userInput}
+                <div className='mb-2'>
+                Username<br />
+                {nameInput}
                 </div>
-                <div>
+                <div className='mb-2'>
                 Comment<br />
                 {commentInput}
                 </div>
                 <button onClick={()=>{
                     postComment()
                     setButtonClicked(true)
-                }} type="button" className='border'>Post Comment</button>
+                }} type="button" className='border border-black p-1 mt-2 mb-4'>Post Comment</button>
                 {commentPostError ? <div>{commentPostError}</div> : null}
             </div>
             <div>
-                <h2>
+                <h2 className='font-bold text-4xl mb-2'>
                     All comments
                 </h2>
                 {comments.map(
                     (comment) => 
                         <Comment comment={comment} />
                 )}
-                {commentFetchError ? <div>{commentFetchError}</div>:null}
+                {commentFetchError ? <div className='text-red-700'>{commentFetchError}</div>:null}
             </div>
-        </>
+        </div>
     )
 }
 
