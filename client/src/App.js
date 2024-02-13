@@ -15,18 +15,22 @@ function Root() {
       <Routes>
         <Route path="/" element= {
           <>
-            <div>
-            Welcome to React App
+            <div className="font-bold text-4xl">
+              OSHA
             </div>
-            <div>
-              <a href="/image">
-                Go to Image Page
-              </a>
-            </div>
-            <div>
-              <a href="/comment">
-                Go to Comment Page
-              </a>
+            <div className="mt-2">
+              <ul className="list-disc">
+                <li>
+                  <a href="/image">
+                    Go to Image Page
+                  </a>
+                </li>
+                <li>
+                  <a href="/comment">
+                    Go to Comment Page
+                  </a>
+                </li>
+              </ul>
             </div>
           </>
         } />

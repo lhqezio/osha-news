@@ -68,36 +68,36 @@ function CommentPage() {
     }
 
     return (
-        <>
+        <div className='m-4'>
             <div>
-                <h2>
+                <h2 className='font-bold text-4xl mb-2'>
                     New Comment:
                 </h2>
-                <div>
-                UserName<br />
+                <div className='mb-2'>
+                Username<br />
                 {userInput}
                 </div>
-                <div>
+                <div className='mb-2'>
                 Comment<br />
                 {commentInput}
                 </div>
                 <button onClick={()=>{
                     postComment()
                     setButtonClicked(true)
-                }} type="button" className='border'>Post Comment</button>
+                }} type="button" className='border border-black p-1 mt-2 mb-4'>Post Comment</button>
                 {commentPostError ? <div>{commentPostError}</div> : null}
             </div>
             <div>
-                <h2>
+                <h2 className='font-bold text-4xl mb-2'>
                     All comments
                 </h2>
                 {comments.map(
                     (comment) => 
                         <Comment comment={comment} />
                 )}
-                {commentFetchError ? <div>{commentFetchError}</div>:null}
+                {commentFetchError ? <div className='text-red-700'>{commentFetchError}</div>:null}
             </div>
-        </>
+        </div>
     )
 }
 
