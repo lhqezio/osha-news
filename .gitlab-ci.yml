@@ -21,7 +21,8 @@ default:
 lint-server:
   stage: lint
   script:
-   - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+    - cd server && ls -la
+    - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
   allow_failure: false
 
 build-frontend:
