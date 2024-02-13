@@ -5,8 +5,6 @@ function ImagePage() {
   const [imagePostError, setImagePostError] = useState('');
   const [imageFetchError, setImageFetchError] = useState('');
   const [username, userInput] = useInput({ type: "text" });
-  const inputImage = useRef(0);
-  const inputUser = useRef(0);
   const form = useRef(0);
   const [images, setImages] = useState([]);
 
@@ -31,9 +29,6 @@ function ImagePage() {
     );
 
     async function postImage() {
-        console.log("here")
-        let jsonFile = inputImage.current.files[0];
-        const blob = await new Blob([jsonFile], { type: "application/json" });
         const formdata = new FormData(form.current);
         if(formdata) {
             fetch('/user-images', {
@@ -53,34 +48,6 @@ function ImagePage() {
         }
     }
 
-    // return (
-    //     <>
-    //         <div>
-    //             <h2>
-    //                 All Images:
-    //             </h2>
-    //             <div>
-    //             </div>
-    //             <div>
-    //                 <form method="POST" action="http://localhost:3001/user-images" enctype="multipart/form-data">
-    //                     <input type="text" name="user" ref={inputUser}/>
-    //                     <input type="file" id="avatar" name="file" ref={inputImage}/>  
-    //                     <input type="submit"/>
-    //                 </form>
-    //             </div>
-    //         </div>
-    //         <div>
-    //             <h2>All Images</h2>
-    //             <ul>
-    //             {images.map((img) => (
-                    
-    //               <li key={img.user}><p>{img.username}</p><img src= {img.url} alt="userImage"></img></li>
-    //             ))}
-    //             </ul>
-    //             {imageFetchError ? <div>{imageFetchError}</div>:null}
-    //         </div>
-    //     </>
-    // )
     return (
         <>
             <div>
