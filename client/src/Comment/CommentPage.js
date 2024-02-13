@@ -25,15 +25,18 @@ function CommentPage() {
                 .then (
                     (json)=>{
                         setComments(json)
+                        console.log(json)
                     }
                 )
                 .catch (
                     (err)=>{
                         setCommentFetchError("Server Error Occured")
                     }
+                ).finally(
+                    setButtonClicked(false)
                 )
         },
-        [buttonClicked]
+        [buttonClicked,]
     )
 
     function postComment() {
@@ -45,12 +48,14 @@ function CommentPage() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: username,
+                    name: username,
                     comment: comment,
                 })
             }).then(
                 (resp)=>{
-                    setCommentPostError("Connection Error Occured")
+                    if(!resp.ok){
+                        setCommentPostError("Connection Error Occured")
+                    }
                 }
             ).catch(
                 (err)=>{
@@ -76,17 +81,36 @@ function CommentPage() {
                 Comment<br />
                 {commentInput}
                 </div>
-                <button onClick={postComment} type="button" className='border'>Post Comment</button>
+                <button onClick={()=>{
+                    postComment()
+                    setButtonClicked(true)
+                }} type="button" className='border'>Post Comment</button>
                 {commentPostError ? <div>{commentPostError}</div> : null}
             </div>
             <div>
                 <h2>
                     All comments
                 </h2>
+                {comments.map(
+                    (comment) => 
+                        <Comment comment={comment} />
+                )}
                 {commentFetchError ? <div>{commentFetchError}</div>:null}
             </div>
         </>
     )
 }
 
+function Comment({comment}) {
+    return(
+        <div>
+            <div className='font-extrabold'>
+                {comment.name}
+            </div>
+            <div className='font-light'>
+                {comment.comment}
+            </div>
+        </div>
+    )
+}
 export default CommentPage

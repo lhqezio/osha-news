@@ -1,14 +1,42 @@
+import { Route,Routes,RouterProvider, createBrowserRouter} from "react-router-dom";
 import CommentPage from "./Comment/CommentPage"
-import ImagePage from "./Image/ImagePage"
+import ImagePage from "./Image/ImagePage" 
 
-function App() {
-  return (
-    <div className="App">
-      This is the React App
-      <CommentPage></CommentPage>
-      <ImagePage></ImagePage>
-    </div>
-  );
+const router = createBrowserRouter([
+  { path: "*", Component: Root },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
 
-export default App;
+function Root() {
+  return (
+      <Routes>
+        <Route path="/" element= {
+          <>
+            <div>
+            Welcome to React App
+            </div>
+            <div>
+              <a href="/image">
+                Go to Image Page
+              </a>
+            </div>
+            <div>
+              <a href="/comment">
+                Go to Comment Page
+              </a>
+            </div>
+          </>
+        } />
+        <Route path="/comment" element= {
+          <CommentPage />
+        } />
+
+        <Route path="/image" element= {
+          <ImagePage />
+        } />
+      </Routes>
+  );
+}
