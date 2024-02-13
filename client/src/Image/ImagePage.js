@@ -29,34 +29,34 @@ function ImagePage() {
         },[]
     );
 
-    async function postImage() {
-      console.log(inputUser.current.value);
-      let jsonFile = inputImage.current.files[0];
-      const blob = await new Blob([jsonFile], { type: "application/json" });
-      if(inputUser.current.value !== "" && blob) {
-          fetch('/user-images', {
-              method: 'POST',
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                  username: inputUser.current.value,
-                  image: blob,
-              })
-          }).then(
-              (resp)=>{
-                  setImagePostError("Connection Error Occured");
-              }
-          ).catch(
-              (err)=>{
-                  setImagePostError("Server Error Occured");
-              }
-          );
-      } else {
-          setImagePostError("One or more required fields are empty");
-      }
-    }
+    // async function postImage() {
+    //   console.log(inputUser.current.value);
+    //   let jsonFile = inputImage.current.files[0];
+    //   const blob = await new Blob([jsonFile], { type: "application/json" });
+    //   if(inputUser.current.value !== "" && blob) {
+    //       fetch('/user-images', {
+    //           method: 'POST',
+    //           headers: {
+    //               'Accept': 'application/json',
+    //               'Content-Type': 'application/json',
+    //           },
+    //           body: JSON.stringify({
+    //               username: inputUser.current.value,
+    //               image: blob,
+    //           })
+    //       }).then(
+    //           (resp)=>{
+    //               setImagePostError("Connection Error Occured");
+    //           }
+    //       ).catch(
+    //           (err)=>{
+    //               setImagePostError("Server Error Occured");
+    //           }
+    //       );
+    //   } else {
+    //       setImagePostError("One or more required fields are empty");
+    //   }
+    // }
 
     return (
         <>
@@ -67,10 +67,10 @@ function ImagePage() {
                 <div>
                 </div>
                 <div>
-                    <form>
-                        <input type="text" ref={inputUser}/>
+                    <form method="POST" action="http://localhost:3001/user-images" enctype="multipart/form-data">
+                        <input type="text" name="user" ref={inputUser}/>
                         <input type="file" id="avatar" name="file" ref={inputImage}/>  
-                        <button onClick={postImage}>Submit</button>
+                        <input type="submit"/>
                     </form>
                 </div>
             </div>
@@ -78,7 +78,8 @@ function ImagePage() {
                 <h2>All Images</h2>
                 <ul>
                 {images.map((img) => (
-                  <li key={img.user}><p>{img.user}</p><img src= {img.url} alt="userImage"></img></li>
+                    
+                  <li key={img.user}><p>{img.username}</p><img src= {img.url} alt="userImage"></img></li>
                 ))}
                 </ul>
                 {imageFetchError ? <div>{imageFetchError}</div>:null}

@@ -53,7 +53,7 @@ module.exports.addUserImage = async (req, res) => {
     await blobClient.uploadData(file.data, options); 
   
     await db.createUserImage({
-      username: req.body.username,
+      username: req.body.user,
       url: PUBLIC_URL + userImage,
     });
   
