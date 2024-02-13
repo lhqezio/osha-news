@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3001;
 (async () => {
   try {
     const db = new DB();
-    await db.connect('dataset', 'dataset');
+    await db.connect('news');
     app.set('db', db);
   } catch (e) {
     console.error('could not connect');
