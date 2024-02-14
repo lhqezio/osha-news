@@ -4,7 +4,6 @@ import useInput from '../CustomHooks/useInput'
 function ImagePage() {
   const [imagePostError, setImagePostError] = useState('');
   const [imageFetchError, setImageFetchError] = useState('');
-  const [username, userInput] = useInput({ type: "text" });
   const form = useRef(0);
   const [images, setImages] = useState([]);
 
@@ -44,7 +43,7 @@ function ImagePage() {
                 }
             );
         } else {
-            setImagePostError("One or more required fields are empty");
+                setImagePostError("One or more required fields are empty");
         }
     }
 
@@ -58,8 +57,8 @@ function ImagePage() {
                 </div>
                 <div>
                     <form ref={form}>
-                        <input type="text" name="user"/>
-                        <input type="file" id="avatar" name="file"/>  
+                        <input type="text" name="user" ref={inputUser}/>
+                        <input type="file" id="avatar" name="file" ref={inputImage}/>  
                         <input type="submit"/>
                         <button type="button" onClick={postImage}>Submit</button>
                     </form>
@@ -74,6 +73,7 @@ function ImagePage() {
                 ))}
                 </ul>
                 {imageFetchError ? <div>{imageFetchError}</div>:null}
+                {imagePostError ? <div>{imagePostError}</div>:null}
             </div>
         </div>
     )

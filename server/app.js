@@ -30,9 +30,6 @@ app.use('/user-comment', usersCommentsRoute);
 const usersImagesRoute = require('./routes/userImageRoute');
 app.use('/user-images', usersImagesRoute);
 
-app.use(express.static(path.join(path.dirname(_filename), '..', 
-  'client', 'build')));
-
 app.get('*', (req, res)=>{
   res.sendFile(path.join(path.dirname(_filename), '..', 
     'client', 'build', 'index.html'));
