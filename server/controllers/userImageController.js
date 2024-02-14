@@ -10,7 +10,7 @@ const blobService = new BlobServiceClient(
   `https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/?${SAS_TOKEN}`
 );
 
-const PUBLIC_URL = 'https://azuretest2142443.blob.core.windows.net/helloblob/'
+const PUBLIC_URL = 'https://azuretest2142443.blob.core.windows.net/helloblob/';
 
 const containerClient = blobService.getContainerClient(CONTAINER_NAME);
 
@@ -43,22 +43,22 @@ module.exports.getUserImages = async (req, res) => {
  * Add user images to database
  */
 module.exports.addUserImage = async (req, res) => {
-    try {
-      const userImage = req.files.file.name;
-      const file = req.files.file;
+  try {
+    const userImage = req.files.file.name;
+    const file = req.files.file;
 
-      const blobClient = containerClient.getBlockBlobClient(userImage);
+    const blobClient = containerClient.getBlockBlobClient(userImage);
 
-      const options = { blobHTTPHeaders: { blobContentType: file.mimetype } };
-      await blobClient.uploadData(file.data, options); 
-    
-      await db.createUserImage({
-        username: req.body.username,
-        url: PUBLIC_URL + userImage,
-      });
-    
-      res.status(201).json({'status': 'User Image as successfully been added.'});
-    } catch (err) {
-      res.status(500).json({'error': 'Internal Error.'});
-    }
-  };
+    const options = { blobHTTPHeaders: { blobContentType: file.mimetype } };
+    await blobClient.uploadData(file.data, options); 
+  
+    await db.createUserImage({
+      username: req.body.user,
+      url: PUBLIC_URL + userImage,
+    });
+  
+    res.status(201).json({'status': 'User Image as successfully been added.'});
+  } catch (err) {
+    res.status(500).json({'error': err.message});
+  }
+};
