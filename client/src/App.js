@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route,Routes,RouterProvider, createBrowserRouter} from "react-router-dom";
+import CommentPage from "./Comment/CommentPage"
+import ImagePage from "./Image/ImagePage" 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const router = createBrowserRouter([
+  { path: "*", Component: Root },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
 
-export default App;
+function Root() {
+  return (
+      <Routes>
+        <Route path="/" element= {
+          <>
+            <div className="font-bold text-4xl">
+              OSHA
+            </div>
+            <div className="mt-2">
+              <ul className="list-disc">
+                <li>
+                  <a href="/image">
+                    Go to Image Page
+                  </a>
+                </li>
+                <li>
+                  <a href="/comment">
+                    Go to Comment Page
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </>
+        } />
+        <Route path="/comment" element= {
+          <CommentPage />
+        } />
+
+        <Route path="/image" element= {
+          <ImagePage />
+        } />
+      </Routes>
+  );
+}
