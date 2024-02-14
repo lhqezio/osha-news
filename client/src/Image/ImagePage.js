@@ -1,5 +1,4 @@
 import {useState,useEffect,useRef} from 'react'
-import useInput from '../CustomHooks/useInput'
 
 function ImagePage() {
   const [imagePostError, setImagePostError] = useState('');
