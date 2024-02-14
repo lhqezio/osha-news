@@ -58,8 +58,8 @@ function ImagePage() {
                 </div>
                 <div>
                     <form ref={form}>
-                        <input type="text" name="user" ref={inputUser}/>
-                        <input type="file" id="avatar" name="file" ref={inputImage}/>  
+                        <input type="text" name="user"/>
+                        <input type="file" id="avatar" name="file"/>  
                         <input type="submit"/>
                         <button type="button" onClick={postImage}>Submit</button>
                     </form>
