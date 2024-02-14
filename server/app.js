@@ -9,6 +9,7 @@ const _filename =
 __filename || typeof require !== 'undefined' && require('url').fileURLToPath || '';
 
 // Add middleware to serve static files
+app.use(express.static('../client/build'));
 
 const fileUpload = require('express-fileupload');
 
