@@ -33,12 +33,15 @@ lint-client:
 build-frontend:
   stage: build
   script:
-    - cd client && npm run build
+    - cd client && npm install && npm run build && cd ../
+    - cd server && npm install && cd ../
   artifacts:
     expire_in: 1 days
     when: on_success
     paths:
       - client/build
+      - client/node_modules
+      - server/node_modules
 
 test-server:
   stage: tests
