@@ -49,7 +49,7 @@ function ImagePage() {
     }
 
     return (
-        <>
+        <div>
             <div>
                 <h2>
                     All Images:
@@ -75,7 +75,7 @@ function ImagePage() {
                 </ul>
                 {imageFetchError ? <div>{imageFetchError}</div>:null}
             </div>
-        </>
+        </div>
     )
 }
 
