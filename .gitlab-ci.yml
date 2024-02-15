@@ -60,7 +60,7 @@ deploy-azure:
     - apk add zip
     - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
   script:
-    - zip -qr deploy.zip client/build server ./package.json client/node_modules server/node_modules
+    - zip -qr deploy.zip client/node_modules server/node_modules
     - "az webapp config appsettings set -g $RESOURCE_GROUP_NAME -n $APP_NAME --settings ATLAS_URI=$ATLAS_URI"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZURE_SAS=$AZURE_SAS"
     - "az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZ_SP_ID=$AZ_SP_ID"
