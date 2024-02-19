@@ -25,12 +25,20 @@ default:
 
 lint-server:
   stage: lint
+  rules:
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
   script:
     - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
   allow_failure: false
 
 lint-client:
   stage: lint
+  rules:
+    - changes: 
+      - client/**
+      - ".gitlab-ci.yml"
   script:
     - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
   allow_failure: false
@@ -73,6 +81,10 @@ build-backend:
 
 test-server:
   stage: tests
+  rules:
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
   script: cd server && npm test
 
 deploy-azure:
