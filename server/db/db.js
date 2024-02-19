@@ -123,6 +123,11 @@ class DB {
     const images = await instance.userImages.find(filter).toArray();
     return images;
   }
+
+  async getCategories() {
+    const categories = await instance.newsArticles.distinct('category').toArray();
+    return categories;
+  }
 }
 
 module.exports = DB;
