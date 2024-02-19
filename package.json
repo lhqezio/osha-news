@@ -6,7 +6,8 @@
   "scripts": {
     "test": "cd server && npm test",
     "start": "cd ./server && npm start",
-    "install": "cd server && npm i && cd ../client && npm i"
+    "install": "cd server && npm i && cd ../client && npm i",
+    "init-data": "cd server && npm run init-data"
   },
   "repository": {
     "type": "git",
