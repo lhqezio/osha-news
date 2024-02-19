@@ -133,7 +133,7 @@ class DB {
   }
 
   async getCategories() {
-    const categories = await instance.newsArticles.distinct('category').toArray();
+    const categories = await instance.newsArticles.distinct('category');
     return categories;
   }
 }

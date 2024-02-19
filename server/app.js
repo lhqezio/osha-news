@@ -9,4 +9,8 @@ app.use(express.json());
 const articleRoute = require('./routes/articlesRoute');
 app.use('/article', articleRoute);
 
+// Category route
+const categoryRoute = require('./routes/categoryRoute');
+app.use('/categories', categoryRoute);
+
 module.exports = app;
