@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cd server && npm test",
     "start": "cd ./server && npm start",
+    "build": "cd client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
     "init-data": "cd server && npm run init-data"
   },
