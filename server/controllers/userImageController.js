@@ -53,12 +53,12 @@ module.exports.addUserImage = async (req, res) => {
     await blobClient.uploadData(file.data, options); 
   
     await db.createUserImage({
-      username: req.body.user,
+      username: req.body.username,
       url: PUBLIC_URL + userImage,
     });
   
     res.status(201).json({'status': 'User Image as successfully been added.'});
   } catch (err) {
-    res.status(500).json({'error': err.message});
+    res.status(500).json({'error': 'Internal Error.'});
   }
 };
