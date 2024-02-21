@@ -27,7 +27,14 @@ module.exports.getOneArticle = async (req, res) => {
 module.exports.getRandomArticle = async (req, res) => {
   try {
     const filter = {};
-    const amount = 1;
+    let amount = 1;
+
+    if (req.query.amount) {
+      const temp = parseInt(req.query.amount);
+      if (temp > 0) {
+        amount = temp;
+      }
+    }
 
     const articles = await db.getRandomArticle(
       filter,
