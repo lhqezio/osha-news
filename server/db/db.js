@@ -76,10 +76,28 @@ class DB {
 
   /**
    * Get one article
+   * @returns first article
    */
   async getOneArticle() {
     const article = await instance.newsArticles.findOne();
     return article;
+  }
+
+  /** 
+   * Get random articles acording to a filter
+   * @param filter
+   * @param amount
+   * @returns random article
+   */
+  async getRandomArticle(filter, amount) {
+    const articles = await instance.newsArticles.aggregate(
+      [
+        { $match: filter },
+        { $sample: { size: amount } }
+      ]
+    ).toArray();
+    
+    return articles;
   }
 
   /**
