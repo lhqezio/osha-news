@@ -1,5 +1,7 @@
+import { Outlet } from 'react-router-dom';
+
 export default function Root(){
-    return (
+  return (
     <div>
       <ul>
         <li>Politics</li>
@@ -18,6 +20,9 @@ export default function Root(){
         <li>Home & Living</li>
         <li>Parents</li>
       </ul>
+      <div>
+        <Outlet />
+      </div>
     </div>
-    )
+  );
 }

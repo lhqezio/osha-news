@@ -1,8 +1,12 @@
 const DB = require('../db/db');
 
-const db = DB();
+const db = new DB();
 
 module.exports.getAllCategories = async (req, res) => {
-  const categories = await db.getAllCategories();
-  res.send(categories);
+  try{
+    const categories = await db.getCategories();
+    res.status(200).json(categories);
+  } catch (err) {
+    res.status(500).json({'error': 'Internal Error'});
+  }
 };
