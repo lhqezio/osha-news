@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import ArticleDetail from './ArticleDetail';
 
 export default function ShortScroll(props) {
   const [fetchErrMsg, setFetchErrMsg] = useState();
-  const [article, setArticle] = useState();
+  const [article, setArticle] = useState(null);
 
   useEffect(
     ()=>{
@@ -11,7 +12,7 @@ export default function ShortScroll(props) {
   );
 
   function fetchArticle() {
-    fetch('/article').
+    fetch('http://localhost:3001/article').
       then(
         (resp)=>{
           if(!resp.ok){
@@ -31,9 +32,9 @@ export default function ShortScroll(props) {
   return (
     <div>
       {fetchErrMsg ? <div>{fetchErrMsg}</div> : null}
-      {article ? 
+      {article !== null ? 
         <div>
-          {article}
+          {<ArticleDetail article={article} />}
         </div> : null}
       <p>ShortScroll</p>
     </div>

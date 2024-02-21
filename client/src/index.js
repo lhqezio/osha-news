@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import Root from './Root';
 import ErrorPage from './error-page';
 import ShortScroll from './Article/ShortScroll';
+import './index.css';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path:'/articles',
+        path:'articles',
         element: <ShortScroll />
       },
     ],

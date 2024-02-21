@@ -1,10 +1,12 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 
 export default function Root(){
   return (
     <div>
       <ul>
-        <li>Politics</li>
+        <li>
+          <Link to={`articles`}>Politics</Link>
+        </li>
         <li>Wellness</li>
         <li>Entertainment</li>
         <li>Travel</li>
