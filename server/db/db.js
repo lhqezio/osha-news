@@ -75,6 +75,14 @@ class DB {
   }
 
   /**
+   * Get one article
+   */
+  async getOneArticle() {
+    const article = await instance.newsArticles.findOne();
+    return article;
+  }
+
+  /**
    * Remove from the Database using filter.
    * @param filter filter for the delete
    * @returns amount of element deleted
@@ -125,7 +133,7 @@ class DB {
   }
 
   async getCategories() {
-    const categories = await instance.newsArticles.distinct('category').toArray();
+    const categories = await instance.newsArticles.distinct('category');
     return categories;
   }
 }

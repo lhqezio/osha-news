@@ -14,7 +14,19 @@ const seeding = async() => {
 
     const jsonData = await JSON.parse(fileData);
 
-    await db.createManyNewsArticles(jsonData);
+    const articleData = jsonData.map((article) => {
+      return {
+        'link': article.link,
+        'headline': article.headline,
+        'category': article.category,
+        'short_description': article.short_description,
+        'authors': article.authors,
+        'date': article.date,
+        'image': 'https://azuretest2142443.blob.core.windows.net/helloblob/news%20image.webp'
+      };
+    });
+
+    await db.createManyNewsArticles(articleData);
     
     console.log(`Inserted records in newsArticles.`);
   } catch (err) {
