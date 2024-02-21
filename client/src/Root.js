@@ -1,7 +1,9 @@
+import ShortScroll from './Article/ShortScroll';
+
 export default function Root(){
-    return (
+  return (
     <div>
-      Hello
+      <ShortScroll />
     </div>
-    )
+  );
 }
