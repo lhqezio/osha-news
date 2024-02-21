@@ -5,6 +5,10 @@ const { MongoClient } =  require('mongodb');
 let instance = null;
 
 class DB {
+  #collectionList = ['newsArticles', 'userComments', 'userImages'];
+  client;
+  db;
+
   constructor() {
     if (!instance) {
       this.client = new MongoClient(dbUrl);
@@ -32,9 +36,9 @@ class DB {
 
     // Connect to collections
     this.createAllCollection();
-    instance.newsArticles = await instance.db.collection('newsArticles');
-    instance.userComments = await instance.db.collection('userComments');
-    instance.userImages = await instance.db.collection('userImages');
+    await Promise.all(this.#collectionList.map(async (collection) => {
+      instance[collection] = await instance.db.collection(collection);
+    }));
   }
 
   /**
@@ -47,15 +51,11 @@ class DB {
 
     const collNames = await instance.db.listCollections().toArray();
 
-    if (collNames.filter(coll => coll.name === 'newsArticles').length === 0) {
-      await instance.db.createCollection('newsArticles');
-    }
-    if (collNames.filter(coll => coll.name === 'userComments').length === 0) {
-      await instance.db.createCollection('userComments');
-    }
-    if (collNames.filter(coll => coll.name === 'userImages').length === 0) {
-      await instance.db.createCollection('userImages');
-    }
+    await Promise.all(this.#collectionList.map(async (collection) => {
+      if (collNames.filter(coll => coll.name === collection).length === 0) {
+        await instance.db.createCollection(collection);
+      }
+    }));
   }
 
   /**
@@ -88,12 +88,14 @@ class DB {
    * @returns amount of element deleted
    */
   async deleteMany(filter) {
-    const newsArticlesResult = await instance.newsArticles.deleteMany(filter);
-    const userCommentsResult = await instance.userComments.deleteMany(filter);
-    const userImagesResult = await instance.userImages.deleteMany(filter);
-    return  newsArticlesResult.deletedCount + 
-            userCommentsResult.deletedCount + 
-            userImagesResult.deletedCount;
+    let deletedCount = 0;
+
+    await Promise.all(this.#collectionList.map(async (collection) => {
+      const result = await instance[collection].deleteMany(filter);
+      deletedCount += result.deletedCount;
+    }));
+    
+    return deletedCount;
   }
 
   /**
