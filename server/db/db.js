@@ -83,6 +83,14 @@ class DB {
   }
 
   /**
+   * Get all articles that match query
+   */
+  async getSearchedArticles(query) {
+    const articles = await instance.newsArticles.find(query).limit(10).toArray();
+    return articles;
+  }
+
+  /**
    * Remove from the Database using filter.
    * @param filter filter for the delete
    * @returns amount of element deleted
@@ -132,6 +140,10 @@ class DB {
     return images;
   }
 
+  /**
+   * Get all categories in db
+   * @returns categories found
+   */
   async getCategories() {
     const categories = await instance.newsArticles.distinct('category');
     return categories;
