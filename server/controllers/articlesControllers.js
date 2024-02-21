@@ -23,10 +23,12 @@ module.exports.getOneArticle = async (req, res) => {
  * Get a random article from db
  * @param req request made to the api
  * @param res responce send by the api
+ * @param req.query.amount set the amount of random article
+ * @param req.param.filter list of viewed article by _id
  */
 module.exports.getRandomArticle = async (req, res) => {
   try {
-    const filter = {};
+    let filter = {};
     let amount = 1;
 
     if (req.query.amount) {
@@ -34,6 +36,16 @@ module.exports.getRandomArticle = async (req, res) => {
       if (temp > 0) {
         amount = temp;
       }
+    }
+
+    if (req.param.filter && req.param.filter.length) {
+      filter = {
+        _id:{
+          $elemMatch: {
+            $nin: req.param.filter
+          }
+        }
+      };
     }
 
     const articles = await db.getRandomArticle(
