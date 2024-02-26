@@ -8,6 +8,27 @@ import avatar from './images/avatar.png';
 export default function Root(){
   const categoryDropdown = useRef(0);
   const [hidden, setHidden] = useState(true);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(
+    ()=>{
+      fetch('/categories')
+        .then((resp)=>{
+          if(!resp.ok) {
+            console.error('Error occured');
+          }else {
+            return resp.json();
+          }
+        })
+        .then ((json)=>{
+          setCategories(json);
+        })
+        .catch ((err)=>{
+          console.error('Server Error Occured');
+        });
+    }, []
+  );  
+
 
   function showCategories(){
     if (hidden == true){
@@ -47,23 +68,9 @@ export default function Root(){
           onClick={showCategories}>Categories</button>
         <ul class={ hidden ? 'hidden' : 
           'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-gray-200' } >
-          <li>
-            <Link to={`articles`}>Politics</Link>
-          </li>
-          <li>Wellness</li>
-          <li>Entertainment</li>
-          <li>Travel</li>
-          <li>Style & Beauty</li>
-          <li>Parenting</li>
-          <li>Healthy Living</li>
-          <li>Queer Voices</li>
-          <li>Food & Drinks</li>
-          <li>Buisness</li>
-          <li>Comedy</li>
-          <li>Sports</li>
-          <li>Black Voices</li>
-          <li>Home & Living</li>
-          <li>Parents</li>
+          {categories.map(cat =>
+            <li>{cat}</li>
+          )}
         </ul>
       </div>
       <div>
