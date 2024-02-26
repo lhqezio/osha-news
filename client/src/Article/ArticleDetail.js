@@ -1,18 +1,7 @@
-export default function ArticleDetail({article}) {
+export default function ArticleDetail() {
   return (
-    <div>
-      <h1>
-        {article['headline']}
-      </h1>
-      <p>
-        {article['category']}
-      </p>
-      <p>
-        {article['authors']}
-      </p>
-      <p>
-        {article['date']}
-      </p>
+    <div className="section bg-green-700 w-10/12 h-10/12">
+        1
     </div>
   );
 }
