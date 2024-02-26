@@ -11,28 +11,13 @@ const articleSchema = mongoose.Schema({
   link: String,
   headline: String,
   category: String,
-  short_description: String,
+  text: String,
   authors: String,
   date: String,
   image: String
 });
 
 const ArticleModel = new mongoose.model('newsArticles', articleSchema);
-
-const newArticle = new ArticleModel({
-  link: 'test',
-  headline: 'test',
-  category: 'test',
-  short_description: 'test',
-  authors: 'test',
-  date: 'today',
-  image: 'test'
-});
-
-(async function test(){
-  await newArticle.save();
-})();
-
 
 /**
   * Add many rows of news data
