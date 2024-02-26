@@ -106,9 +106,6 @@ class DB {
   async getSearchedArticles(query, page) {
     const articles = await instance.newsArticles.aggregate(
       [
-        {
-          $match: { query }
-        },
         { 
           $facet: 
           { metadata: [{ $count: 'totalCount' }], 
