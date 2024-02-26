@@ -102,15 +102,19 @@ class DB {
 
   /**
    * Get all articles that match query
+   * @param query query that the search must match (limiter)
+   * @param page page number that chooses which range the values will come from (pagination)
+   * @returns articles that match the query and in the range of pagination page number
    */
   async getSearchedArticles(query, page) {
     const articles = await instance.newsArticles.aggregate(
       [
-        { $match: query },
+        { 
+          $match: query 
+        },
         { 
           $facet: 
-          { metadata: [{ $count: 'totalCount' }], 
-            data: [{ $skip: (page - 1) * 50 }, { $limit: 50 }]} 
+          { data: [{ $skip: (page - 1) * 50 }, { $limit: 50 }]} 
         }
       ]
     ).toArray();
