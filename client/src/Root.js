@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ShortScroll from './Article/ShortScroll';
 
 export default function Root(){
@@ -7,20 +7,20 @@ export default function Root(){
       <nav>
         <ul>
           <li>
-            <Link to={`/`}><img src='../images/home.png' alt='home icon'></img></Link>
+            <Link to={`/`}><img src="../images/home.png" alt="home icon"></img></Link>
           </li>
           <li>
-            <img src='../images/search.png' alt='search icon'></img>
+            <img src="../images/search.png" alt="search icon"></img>
           </li>
           <li>
-            <input type='text' value='Search'/>
+            <input type="text" value="Search"/>
           </li>
           <li>
             <h1>OSHA News</h1>
           </li>
           <li>User</li>
           <li>
-            <img src='../images/avatar.png'></img>
+            <img src="../images/avatar.png" alt="User Avatar"></img>
           </li>
         </ul>
       </nav>
