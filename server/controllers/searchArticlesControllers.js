@@ -15,6 +15,11 @@ module.exports.searchAllArticles = async (req, res) => {
     const searchValue = req.query.searchvalue;
     const pageNum = req.query.page;
 
+    if (!searchType || !searchValue) {
+      res.status(400).json({ 'error' : 'Missing search parameters' });
+      return;
+    }
+
     // set base page to 1
     let page = 1;
 
@@ -45,6 +50,6 @@ module.exports.searchAllArticles = async (req, res) => {
       res.status(200).json({'search method' : searchType, 'result' : results });
     }
   } catch (err) {
-    res.status(500).json({ 'error' : ' Internal Error' });
+    res.status(500).json({ 'error' : 'Internal Error' });
   }
 };
