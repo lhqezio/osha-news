@@ -25,6 +25,6 @@ module.exports.searchAllArticles = async (req, res) => {
     }
     res.status(200).json({'search method' : searchType, 'result' : results });
   } catch (err) {
-    res.status(500).json({ 'error' : 'Internal Error'});
+    res.status(500).json({ 'error' : err});
   }
 };
