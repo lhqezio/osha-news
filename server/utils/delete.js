@@ -7,7 +7,7 @@ const clearDatabase = async () => {
 
     const amount = await emptyDatabase();
     
-    console.log(`Deleted ${amount} records form newsArticles.`);
+    console.log(`Deleted ${amount} records from newsArticles.`);
   } catch (err) {
     console.error(err);
   }

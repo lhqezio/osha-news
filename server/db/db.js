@@ -33,7 +33,8 @@ module.exports.createManyNewsArticles = async(articles) => {
  * @returns amount of element deleted
  */
 module.exports.emptyDatabase = async() => {
-  await ArticleModel.deleteMany();
+  const newsArticleResult = await ArticleModel.deleteMany();
+  return newsArticleResult.deletedCount;
 };
 
 /**
