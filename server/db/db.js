@@ -103,8 +103,19 @@ class DB {
   /**
    * Get all articles that match query
    */
-  async getSearchedArticles(query) {
-    const articles = await instance.newsArticles.find(query).limit(10).toArray();
+  async getSearchedArticles(query, page) {
+    const articles = await instance.newsArticles.aggregate(
+      [
+        {
+          $match: { query }
+        },
+        { 
+          $facet: 
+          { metadata: [{ $count: 'totalCount' }], 
+            data: [{ $skip: (page - 1) * 50 }, { $limit: 50 }]} 
+        }
+      ]
+    ).toArray();
     return articles;
   }
 
