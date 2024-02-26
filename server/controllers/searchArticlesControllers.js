@@ -15,8 +15,12 @@ module.exports.searchAllArticles = async (req, res) => {
     const searchValue = req.query.searchvalue;
     const pageNum = req.query.page;
 
-    if (!searchType || !searchValue) {
-      res.status(400).json({ 'error' : 'Missing search parameters' });
+    if (!searchType) {
+      res.status(400).json({ 'error' : 'Missing search type parameter' });
+      return;
+    }
+    if (!searchValue) {
+      res.status(400).json({ 'error' : 'Missing value parameter' });
       return;
     }
 
@@ -38,15 +42,17 @@ module.exports.searchAllArticles = async (req, res) => {
       results = await db.getSearchedArticles({ category : { $in : [searchValue]}}, page);
     } 
     if (searchType === 'headline') {
+      // create case insensitive regex search
+      const regex = new RegExp(searchValue, 'i');
       // search by keyword in headline
-      results = await db.getSearchedArticles({ headline : { $regex : searchValue}}, page);
+      results = await db.getSearchedArticles({ headline : { $regex : regex }}, page);
     }
 
     if (results[0].data.length === 0) {
       // if no values found, it will return no matches, not an error
       res.status(200).json({'search method' : searchType, 'result' : 'No matches' });
     } else {
-      // returns values found
+      // returns values found if more than 1 value exists
       res.status(200).json({'search method' : searchType, 'result' : results });
     }
   } catch (err) {
