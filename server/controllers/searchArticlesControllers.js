@@ -39,21 +39,25 @@ module.exports.searchAllArticles = async (req, res) => {
 
     if(searchType === 'category'){
       // search by category exact value
-      results = await db.getSearchedArticles({ category : { $in : [searchValue]}}, page);
+      results = await db.getSearchedArticles({ category : { $in : [searchValue] } }, page);
     } 
     if (searchType === 'headline') {
       // create case insensitive regex search
       const regex = new RegExp(searchValue, 'i');
       // search by keyword in headline
-      results = await db.getSearchedArticles({ headline : { $regex : regex }}, page);
+      results = await db.getSearchedArticles({ headline : { $regex : regex } }, page);
     }
 
     if (results[0].data.length === 0) {
       // if no values found, it will return no matches, not an error
-      res.status(200).json({'search method' : searchType, 'result' : 'No matches' });
+      res.status(200).json(
+        { 'search method' : searchType, 'search value' : searchValue, 'result' : 'No matches' }
+      );
     } else {
       // returns values found if more than 1 value exists
-      res.status(200).json({'search method' : searchType, 'result' : results });
+      res.status(200).json(
+        { 'search method' : searchType, 'search value' : searchValue, 'result' : results }
+      );
     }
   } catch (err) {
     res.status(500).json({ 'error' : 'Internal Error' });
