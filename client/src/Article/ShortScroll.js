@@ -27,7 +27,7 @@ export default function ShortScroll(props) {
         }
       ).catch (
         (err)=>{
-          setFetchErrMsg('server fetching err');
+          setFetchErrMsg('server fetching error');
         }
       );
   }
@@ -36,12 +36,13 @@ export default function ShortScroll(props) {
     <div>
       {fetchErrMsg ? <div>{fetchErrMsg}</div> : null}
       {true ? 
-        <div className="w-3/4 h-screen snap-mandatory snap-y overflow-auto 
-        my-0 mx-auto no-scrollbar::-webkit-scrollbar no-scrollbar">
-          <section class="snap-start h-screen bg-red-900">
+        <div className="w-3/4 h-[80vh] snap-mandatory snap-y overflow-auto 
+        my-0 mx-auto no-scrollbar::-webkit-scrollbar no-scrollbar scroll-smooth 
+        rounded-xl">
+          <section class="snap-start h-[80vh] bg-red-900">
             Page one
           </section>
-          <section class="snap-start h-screen bg-green-600">
+          <section class="snap-start h-[90vh] bg-green-600">
             Page two
           </section>
         </div> : null}
