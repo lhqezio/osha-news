@@ -3,16 +3,16 @@ import Article from './ArticleDetail';
 
 export default function ShortScroll(props) {
   const [fetchErrMsg, setFetchErrMsg] = useState();
-  const [article, setArticle] = useState(null);
+  const [articles, setArticles] = useState(null);
 
   useEffect(
     ()=>{
-      fetchArticle();
+      fetchArticles();
     }, []
   );
 
-  function fetchArticle() {
-    fetch('http://localhost:3001/article').
+  function fetchArticles() {
+    fetch('http://localhost:3001/article/random?amount=5').
       then(
         (resp)=>{
           if(!resp.ok){
@@ -24,7 +24,7 @@ export default function ShortScroll(props) {
       ).
       then(
         (json)=> {
-          setArticle(json);
+          setArticles(json);
         }
       ).catch (
         (err)=>{
@@ -36,11 +36,19 @@ export default function ShortScroll(props) {
   return (
     <div>
       {fetchErrMsg ? <div>{fetchErrMsg}</div> : null}
-      {article !== null ? 
+      {articles !== null ? 
         <div className="w-11/12 h-[80vh] snap-mandatory snap-y overflow-auto 
         my-0 mx-auto no-scrollbar::-webkit-scrollbar no-scrollbar scroll-smooth 
         rounded-xl shadow-md">
-          <Article article={article}></Article>
+          {
+            articles.map(
+              (article) =>{
+                return(
+                  <Article article={article} />
+                );
+              }
+            )
+          }
         </div> : null}
     </div>
   );

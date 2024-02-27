@@ -30,7 +30,7 @@ export default function Root(){
   );  
 
   function addSelectedCategory(e){
-    setSelectedCategories()
+    setSelectedCategories();
   }
 
   function showCategories(){
