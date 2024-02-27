@@ -59,18 +59,22 @@ module.exports.getRandomArticle = async (req, res) => {
 
 /**
  * Search method that searches through articles through different methods
- * @param req request made by api
- * @param res response sent by api
- * @param req.query.searchtype type of search by user
- * @param req.query.searchvalue value of search used in query
- * @param req.query.page page of values (pagination)
+ * @param req Request made by api
+ * @param res Response sent by api
+ * @param req.param.category List of category
+ * @param req.param.search Search query
+ * @param req.query.search Search query
+ * @param req.param.page Page number
+ * @param req.query.page Page number
+ * @param req.param.amount Amount of article in one page
+ * @param req.query.amount Amount of article in one page
  */
 module.exports.searchAllArticles = async (req, res) => {
   try{
     const category = req.param.category;
     const search = req.param.search ? req.param.search : req.query.search;
-    const page = req.param.page !== null ? req.param.page : req.query.page;
-    const amount = req.param.amount !== null ? req.param.amount : req.query.amount;
+    const page = req.param.page ? req.param.page : req.query.page;
+    const amount = req.param.amount ? req.param.amount : req.query.amount;
 
     if (!(search || category)) {
       res.status(400).json({ 'error' : 'missing search value' });
@@ -83,14 +87,14 @@ module.exports.searchAllArticles = async (req, res) => {
 
     // attempt to parse page num to int, will default to 1 if value is NaN or <=0
     if (page){
-      const temp = parseInt(page, 10);
+      const temp = parseInt(page);
       if (temp > 0) {
         pageBase = temp;
       }
     }
     
     if (amount){
-      const temp = parseInt(amount, 10);
+      const temp = parseInt(amount);
       if (temp > 0) {
         amountBase = temp;
       }
