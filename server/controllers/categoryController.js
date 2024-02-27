@@ -1,4 +1,4 @@
-const {getCategories} = require('../db/db');
+const { getCategories } = require('../db/db');
 
 module.exports.getAllCategories = async (req, res) => {
   try{
