@@ -71,21 +71,30 @@ module.exports.getRandomArticle = async (req, res) => {
  */
 module.exports.searchAllArticles = async (req, res) => {
   try{
+    // Get all values from param first and then from query if it doesnt exist
     const category = req.param.category;
     const search = req.param.search ? req.param.search : req.query.search;
     const page = req.param.page ? req.param.page : req.query.page;
     const amount = req.param.amount ? req.param.amount : req.query.amount;
 
+    // Make sure that one of search or category is present
     if (!(search || category)) {
       res.status(400).json({ 'error' : 'missing search value' });
       return;
     }
 
-    // set base page to 1
+    // Sets category if defined
+    let categoryFilter = null;
+
+    if (category !== null || category.length > 0) {
+      categoryFilter = category;
+    }
+
+    // set base page to 1 and amount to 10
     let pageBase = 1;
     let amountBase = 10;
 
-    // attempt to parse page num to int, will default to 1 if value is NaN or <=0
+    // Attempt to parse page num to int, will default to 1 if value is NaN or <=0
     if (page){
       const temp = parseInt(page);
       if (temp > 0) {
@@ -93,6 +102,7 @@ module.exports.searchAllArticles = async (req, res) => {
       }
     }
     
+    // Attempt to parse amount num to int, will default to 10 if value is NaN or <=0
     if (amount){
       const temp = parseInt(amount);
       if (temp > 0) {
@@ -102,12 +112,6 @@ module.exports.searchAllArticles = async (req, res) => {
 
     // create case insensitive regex search
     const regex = new RegExp(search, 'i');
-
-    let categoryFilter = null;
-
-    if (category !== null || category.length > 0) {
-      categoryFilter = category;
-    }
 
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
     const parsedResults = results[0].data;
