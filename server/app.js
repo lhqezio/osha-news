@@ -13,4 +13,8 @@ app.use('/article', articleRoute);
 const categoryRoute = require('./routes/categoryRoute');
 app.use('/categories', categoryRoute);
 
+// Search route
+const searchRoute = require('./routes/searchArticlesRoute');
+app.use('/search', searchRoute);
+
 module.exports = app;
