@@ -68,15 +68,15 @@ module.exports.getRandomArticle = async (filter, amount) => {
  * @param page page number that chooses which range the values will come from (pagination)
  * @returns articles that match the query and in the range of pagination page number
  */
-module.exports.getSearchedArticles = async (query, page) => {
+module.exports.getSearchedArticles = async (filter, page, amount) => {
   const articles = await ArticleModel.aggregate(
     [
       { 
-        $match: query 
+        $match: { headline : { $regex : filter } } 
       },
       { 
         $facet: 
-        { data: [{ $skip: (page - 1) * 50 }, { $limit: 50 }]} 
+        { data: [{ $skip: (page - 1) * amount }, { $limit: amount }]} 
       }
     ]
   );
