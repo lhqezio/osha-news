@@ -2,11 +2,10 @@ require('dotenv').config();
 const dbUrl = process.env.ATLAS_URI;
 const mongoose = require('mongoose');
 
-main().catch((err) => console.log(err));
-
-async function main() {
-  await mongoose.connect(dbUrl);
-}
+(async () => {
+  await mongoose.connect(dbUrl).
+    catch(console.log);
+})();
 
 // Article
 const articleSchema = mongoose.Schema({
@@ -27,16 +26,6 @@ const ArticleModel = new mongoose.model('newsArticles', articleSchema);
   */
 module.exports.createManyNewsArticles = async (articles) => {
   await ArticleModel.insertMany(articles);
-};
-
-/**
- * Remove from the Database using filter.
- * @param filter filter for the delete
- * @returns amount of element deleted
- */
-module.exports.emptyDatabase = async () => {
-  const newsArticleResult = await ArticleModel.deleteMany();
-  return newsArticleResult.deletedCount;
 };
 
 /**
@@ -95,20 +84,13 @@ module.exports.getSearchedArticles = async (query, page) => {
   return articles;
 };
 
-///#region Commented Code
-//   /**
-//    * Remove from the Database using filter.
-//    * @param filter filter for the delete
-//    * @returns amount of element deleted
-//    */
-//   async deleteMany(filter) {
-//     let deletedCount = 0;
-
-//     await Promise.all(this.#collectionList.map(async (collection) => {
-//       const result = await instance[collection].deleteMany(filter);
-//       deletedCount += result.deletedCount;
-//     }));
-    
-//     return deletedCount;
-//   }
-///#endregion
+// Utils
+/**
+ * Remove from the Database using filter.
+ * @param filter filter for the delete
+ * @returns amount of element deleted
+ */
+module.exports.emptyDatabase = async () => {
+  const newsArticleResult = await ArticleModel.deleteMany();
+  return newsArticleResult.deletedCount;
+};
