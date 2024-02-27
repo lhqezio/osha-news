@@ -10,7 +10,7 @@ const clearDatabase = async () => {
 
     const amount = await db.deleteMany({});
     
-    console.log(`Deleted ${amount} records form newsArticles.`);
+    console.log(`Deleted ${amount} records`);
   } catch (err) {
     console.error(err);
   } finally {

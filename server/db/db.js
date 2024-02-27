@@ -5,6 +5,10 @@ const { MongoClient } =  require('mongodb');
 let instance = null;
 
 class DB {
+  #collectionList = ['newsArticles', 'userComments', 'userImages'];
+  client;
+  db;
+
   constructor() {
     if (!instance) {
       this.client = new MongoClient(dbUrl);
@@ -32,9 +36,9 @@ class DB {
 
     // Connect to collections
     this.createAllCollection();
-    instance.newsArticles = await instance.db.collection('newsArticles');
-    instance.userComments = await instance.db.collection('userComments');
-    instance.userImages = await instance.db.collection('userImages');
+    await Promise.all(this.#collectionList.map(async (collection) => {
+      instance[collection] = await instance.db.collection(collection);
+    }));
   }
 
   /**
@@ -47,15 +51,11 @@ class DB {
 
     const collNames = await instance.db.listCollections().toArray();
 
-    if (collNames.filter(coll => coll.name === 'newsArticles').length === 0) {
-      await instance.db.createCollection('newsArticles');
-    }
-    if (collNames.filter(coll => coll.name === 'userComments').length === 0) {
-      await instance.db.createCollection('userComments');
-    }
-    if (collNames.filter(coll => coll.name === 'userImages').length === 0) {
-      await instance.db.createCollection('userImages');
-    }
+    await Promise.all(this.#collectionList.map(async (collection) => {
+      if (collNames.filter(coll => coll.name === collection).length === 0) {
+        await instance.db.createCollection(collection);
+      }
+    }));
   }
 
   /**
@@ -76,10 +76,49 @@ class DB {
 
   /**
    * Get one article
+   * @returns first article
    */
   async getOneArticle() {
     const article = await instance.newsArticles.findOne();
     return article;
+  }
+
+  /** 
+   * Get random articles acording to a filter
+   * @param filter
+   * @param amount
+   * @returns random article
+   */
+  async getRandomArticle(filter, amount) {
+    const articles = await instance.newsArticles.aggregate(
+      [
+        { $match: filter },
+        { $sample: { size: amount } }
+      ]
+    ).toArray();
+    
+    return articles;
+  }
+
+  /**
+   * Get all articles that match query
+   * @param query query that the search must match (limiter)
+   * @param page page number that chooses which range the values will come from (pagination)
+   * @returns articles that match the query and in the range of pagination page number
+   */
+  async getSearchedArticles(query, page) {
+    const articles = await instance.newsArticles.aggregate(
+      [
+        { 
+          $match: query 
+        },
+        { 
+          $facet: 
+          { data: [{ $skip: (page - 1) * 50 }, { $limit: 50 }]} 
+        }
+      ]
+    ).toArray();
+    return articles;
   }
 
   /**
@@ -88,12 +127,14 @@ class DB {
    * @returns amount of element deleted
    */
   async deleteMany(filter) {
-    const newsArticlesResult = await instance.newsArticles.deleteMany(filter);
-    const userCommentsResult = await instance.userComments.deleteMany(filter);
-    const userImagesResult = await instance.userImages.deleteMany(filter);
-    return  newsArticlesResult.deletedCount + 
-            userCommentsResult.deletedCount + 
-            userImagesResult.deletedCount;
+    let deletedCount = 0;
+
+    await Promise.all(this.#collectionList.map(async (collection) => {
+      const result = await instance[collection].deleteMany(filter);
+      deletedCount += result.deletedCount;
+    }));
+    
+    return deletedCount;
   }
 
   /**
@@ -132,6 +173,10 @@ class DB {
     return images;
   }
 
+  /**
+   * Get all categories in db
+   * @returns categories found
+   */
   async getCategories() {
     const categories = await instance.newsArticles.distinct('category');
     return categories;

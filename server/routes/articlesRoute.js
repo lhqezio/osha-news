@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { getOneArticle } = require('../controllers/articlesControllers');
+const { getOneArticle, getRandomArticle } = require('../controllers/articlesControllers');
 
 router.get('/', getOneArticle);
+
+router.get('/random', getRandomArticle);
+router.post('/random', getRandomArticle);
 
 module.exports = router;
