@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const {emptyDatabase} = require('../db/db');
+const { emptyDatabase } = require('../db/db');
 
 const clearDatabase = async () => {
   try {
@@ -14,4 +14,4 @@ const clearDatabase = async () => {
   process.exit();
 };
 
-(async () => clearDatabase())();
+(async () => await clearDatabase())();

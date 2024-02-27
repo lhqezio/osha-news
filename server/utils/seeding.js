@@ -2,7 +2,7 @@ const { createManyNewsArticles } = require('../db/db');
 const fs = require('fs/promises');
 const path = require('path');
 
-const seeding = async() => {
+const seeding = async () => {
   try{
     console.log('Seeding started.');
 
@@ -31,4 +31,4 @@ const seeding = async() => {
   process.exit();
 };
 
-seeding();
+(async () => await seeding())();
