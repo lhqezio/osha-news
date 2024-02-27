@@ -103,17 +103,18 @@ module.exports.searchAllArticles = async (req, res) => {
     // create case insensitive regex search
     const regex = new RegExp(search, 'i');
 
-    // let categoryFilter = {};
+    let categoryFilter = null;
 
-    // if (category !== null || category.length > 0) {
-    //   categoryFilter = category;
-    // }
+    if (category !== null || category.length > 0) {
+      categoryFilter = category;
+    }
 
-    const results = await getSearchedArticles(regex, pageBase, amountBase);
+    const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
+    const parsedResults = results[0].data;
     
     // returns values found if more than 1 value exists
     res.status(200).json(
-      { 'search value' : search, 'result' : results }
+      { 'search' : search, 'result' : parsedResults }
     );
   } catch (err) {
     res.status(500).json({ 'error' : 'Internal Error' });
