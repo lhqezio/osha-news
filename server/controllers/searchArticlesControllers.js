@@ -1,5 +1,4 @@
-const DB = require('../db/db');
-const db = new DB();
+const { getSearchedArticles } = require('../db/db');
 
 /**
  * Search method that searches through articles through different methods
@@ -43,11 +42,11 @@ module.exports.searchAllArticles = async (req, res) => {
     switch(searchType){
     case 'category':
       // search by category exact value
-      results = await db.getSearchedArticles({ category : { $in : [searchValue] } }, page);
+      results = await getSearchedArticles({ category : { $in : [searchValue] } }, page);
       break;
     case 'headline':
       // search by keyword in headline
-      results = await db.getSearchedArticles({ headline : { $regex : regex } }, page);
+      results = await getSearchedArticles({ headline : { $regex : regex } }, page);
       break;
     default:
       results = 'no matches';

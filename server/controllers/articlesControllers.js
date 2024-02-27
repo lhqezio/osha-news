@@ -1,4 +1,4 @@
-const {getOneArticle} = require('../db/db');
+const { getOneArticle, getRandomArticle } = require('../db/db');
 
 /**
  * Express Controller
@@ -46,7 +46,7 @@ module.exports.getRandomArticle = async (req, res) => {
       };
     }
 
-    const articles = await db.getRandomArticle(
+    const articles = await getRandomArticle(
       filter,
       amount
     );
