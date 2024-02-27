@@ -6,9 +6,9 @@ import search from './images/search.png';
 import avatar from './images/avatar.png';
 
 export default function Root(){
-  const categoryDropdown = useRef(0);
   const [hidden, setHidden] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(
     ()=>{
@@ -29,6 +29,9 @@ export default function Root(){
     }, []
   );  
 
+  function addSelectedCategory(e){
+    setSelectedCategories()
+  }
 
   function showCategories(){
     if (hidden == true){
