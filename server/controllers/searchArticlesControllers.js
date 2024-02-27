@@ -37,28 +37,26 @@ module.exports.searchAllArticles = async (req, res) => {
 
     let results;
 
-    if(searchType === 'category'){
+    // create case insensitive regex search
+    const regex = new RegExp(searchValue, 'i');
+
+    switch(searchType){
+    case 'category':
       // search by category exact value
       results = await db.getSearchedArticles({ category : { $in : [searchValue] } }, page);
-    } 
-    if (searchType === 'headline') {
-      // create case insensitive regex search
-      const regex = new RegExp(searchValue, 'i');
+      break;
+    case 'headline':
       // search by keyword in headline
       results = await db.getSearchedArticles({ headline : { $regex : regex } }, page);
+      break;
+    default:
+      results = 'no matches';
     }
-
-    if (results[0].data.length === 0) {
-      // if no values found, it will return no matches, not an error
-      res.status(200).json(
-        { 'search method' : searchType, 'search value' : searchValue, 'result' : 'No matches' }
-      );
-    } else {
-      // returns values found if more than 1 value exists
-      res.status(200).json(
-        { 'search method' : searchType, 'search value' : searchValue, 'result' : results }
-      );
-    }
+    
+    // returns values found if more than 1 value exists
+    res.status(200).json(
+      { 'search method' : searchType, 'search value' : searchValue, 'result' : results }
+    );
   } catch (err) {
     res.status(500).json({ 'error' : 'Internal Error' });
   }
