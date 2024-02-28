@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import ShortScroll from './Article/ShortScroll';
 import NavBar from './Navbar/Navbar';
 import CategoriesList from './Navbar/CategoriesList';

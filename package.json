@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cd server && npm test",
+    "lint": "cd client && npx eslint --ext js,jsx,mjs,cjs src/",
     "start": "cd ./server && npm start",
     "build": "cd client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",

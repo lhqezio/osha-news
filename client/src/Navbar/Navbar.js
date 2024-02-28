@@ -1,4 +1,3 @@
-import {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import home from '../images/home.png';
 import search from '../images/search.png';
