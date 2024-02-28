@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import LoadingAnimation from './LoadingAnimation';
 
 export default function Article({setUpdateScroll}) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
@@ -66,7 +67,8 @@ export default function Article({setUpdateScroll}) {
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
         {
-          fetchErrMsg !== '' ? <div>{fetchErrMsg}</div> : <div>Loading...</div>
+          fetchErrMsg !== '' ? <div>{fetchErrMsg}</div> : 
+            <LoadingAnimation type={'spokes'} color={'black'} />
         }
       </section>
   );
