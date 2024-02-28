@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.8.1",
+    "react-loading": "^2.0.3",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
@@ -23,7 +25,94 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "one-var": [
+        "warn",
+        "never"
+      ],
+      "no-undef": "warn",
+      "prefer-const": "warn",
+      "no-extra-parens": "warn",
+      "block-scoped-var": "warn",
+      "curly": [
+        "warn",
+        "multi-line"
+      ],
+      "no-await-in-loop": "warn",
+      "no-cond-assign": [
+        "error",
+        "always"
+      ],
+      "no-debugger": "warn",
+      "default-case": "warn",
+      "dot-location": [
+        "warn",
+        "object"
+      ],
+      "eqeqeq": "warn",
+      "no-alert": "warn",
+      "no-eq-null": "warn",
+      "no-eval": "warn",
+      "no-implicit-coercion": "warn",
+      "no-lone-blocks": "error",
+      "no-loop-func": "warn",
+      "no-multi-str": "warn",
+      "no-self-compare": "warn",
+      "strict": [
+        "warn",
+        "global"
+      ],
+      "no-lonely-if": "warn",
+      "array-bracket-spacing": [
+        "error",
+        "never"
+      ],
+      "array-bracket-newline": [
+        "error",
+        "consistent"
+      ],
+      "indent": [
+        "error",
+        2
+      ],
+      "camelcase": "error",
+      "comma-spacing": [
+        "error",
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "comma-style": [
+        "error",
+        "last"
+      ],
+      "brace-style": [
+        "error"
+      ],
+      "max-len": [
+        "error",
+        100
+      ],
+      "no-inline-comments": "error",
+      "no-tabs": "error",
+      "quotes": [
+        "error",
+        "single",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "space-infix-ops": "error",
+      "space-unary-ops": "error",
+      "semi": "error",
+      "semi-spacing": "error"
+    }
   },
   "browserslist": {
     "production": [
