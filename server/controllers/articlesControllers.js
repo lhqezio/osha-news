@@ -72,10 +72,13 @@ module.exports.getRandomArticle = async (req, res) => {
 module.exports.searchAllArticles = async (req, res) => {
   try{
     // Get all values from param first and then from query if it doesnt exist
-    const category = req.param.category;
-    const search = req.param.search ? req.param.search : req.query.search;
-    const page = req.param.page ? req.param.page : req.query.page;
-    const amount = req.param.amount ? req.param.amount : req.query.amount;
+    const category = req.body.category;
+    const search = req.body.search ? req.body.search : req.query.search;
+    const page = req.body.page ? req.body.page : req.query.page;
+    const amount = req.body.amount ? req.body.amount : req.query.amount;
+
+    console.log(category);
+    console.log(search);
 
     // Make sure that one of search or category is present
     if (!(search || category)) {
