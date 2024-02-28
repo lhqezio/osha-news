@@ -12,18 +12,18 @@ export default function Root(){
 
   useEffect(
     ()=>{
-      fetch('/categories')
-        .then((resp)=>{
+      fetch('/categories').
+        then((resp)=>{
           if(!resp.ok) {
             console.error('Error occured');
           }else {
             return resp.json();
           }
-        })
-        .then ((json)=>{
+        }).
+        then ((json)=>{
           setCategories(json);
-        })
-        .catch ((err)=>{
+        }).
+        catch ((err)=>{
           console.error('Server Error Occured');
         });
     }, []
@@ -34,12 +34,12 @@ export default function Root(){
   }
 
   function removeSelectedCategory(e){
-    let i = selectedCategories.indexOf(e.target.innerText);
+    const i = selectedCategories.indexOf(e.target.innerText);
     setSelectedCategories((cat) => cat.filter((_, index) => index !== i));
   }
 
   function showCategories(){
-    if (hidden == true){
+    if (hidden === true){
       console.log('is true');
       setHidden(false);
     }else{
@@ -58,14 +58,14 @@ export default function Root(){
               <input class="border my-px" type="text" value="Search"/>
             </div>
           </li>
-          <li class="inline w-1/3 flex justify-items-end">
+          <li class="w-1/3 flex justify-items-end">
             <h1 class="text-center w-full">OSHA News</h1>
           </li>
           <li class="inline w-1/3">
             <div class="grid grid-rows-1 justify-items-end">
               <div class="flex flex-row">
                 <h1>User</h1>
-                <img class="size-7" src={avatar} alt="profile picture"/>
+                <img class="size-7" src={avatar} alt="profile"/>
               </div>
             </div>
           </li>
