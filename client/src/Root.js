@@ -33,8 +33,9 @@ export default function Root(){
     setSelectedCategories(selectedCategories => [...selectedCategories, e.target.innerText]);
   }
 
-  function removeSelectedCategory(){
-    setSelectedCategories((cat) => cat.filter((_, index) => index !== 0));
+  function removeSelectedCategory(e){
+    let i = selectedCategories.indexOf(e.target.innerText);
+    setSelectedCategories((cat) => cat.filter((_, index) => index !== i));
   }
 
   function showCategories(){
