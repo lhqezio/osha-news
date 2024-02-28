@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 (async () => {
   await mongoose.connect(dbUrl).
-    catch(console.log);
+    catch(console.error);
 })();
 
 // Article
