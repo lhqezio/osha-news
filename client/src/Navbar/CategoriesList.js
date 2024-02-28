@@ -1,9 +1,4 @@
 import {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import ShortScroll from '../Article/ShortScroll';
-import home from '../images/home.png';
-import search from '../images/search.png';
-import avatar from '../images/avatar.png';
 
 export default function CategoryList(props){
   const [hidden, setHidden] = useState(true);
