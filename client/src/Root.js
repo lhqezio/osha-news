@@ -30,7 +30,12 @@ export default function Root(){
   );  
 
   function addSelectedCategory(e){
-    setSelectedCategories();
+    setSelectedCategories(selectedCategories => [...selectedCategories, e.target.innerText]);
+  }
+
+  function removeSelectedCategory(e){
+    let i = selectedCategories.indexOf(e.target.innerText);
+    setSelectedCategories((cat) => cat.filter((_, index) => index !== i));
   }
 
   function showCategories(){
@@ -67,12 +72,20 @@ export default function Root(){
         </ul>
       </nav>
       <div class="relative">
-        <button type="button" class="border-2 rounded-md bg-gray-200 mx-2 p-2"
-          onClick={showCategories}>Categories</button>
+        <div class="flex flex-row">
+          <button type="button" class="border-2 rounded-md bg-gray-200 mx-2 p-2"
+            onClick={showCategories}>Categories</button>
+          <ul class="flex flex-row">
+            {selectedCategories.map(cat =>
+              <li><button onClick={removeSelectedCategory} type="button"
+                class="border-2 rounded-md bg-gray-200 mx-2 p-2">{cat}</button></li>
+            )}
+          </ul>
+        </div>
         <ul class={ hidden ? 'hidden' : 
-          'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-gray-200' } >
+          'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-gray-200 z-10' } >
           {categories.map(cat =>
-            <li>{cat}</li>
+            <li><button onClick={addSelectedCategory} type="button">{cat}</button></li>
           )}
         </ul>
       </div>
