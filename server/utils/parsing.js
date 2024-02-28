@@ -21,6 +21,4 @@ const parseData = async () => {
   }
 };
 
-(async () => {
-  await parseData();
-})();
+(async () => await parseData())();
