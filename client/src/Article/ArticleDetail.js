@@ -19,7 +19,7 @@ export default function Article({setUpdateScroll}) {
   );
 
   function fetchArticles() {
-    fetch('http://localhost:3001/article/random').
+    fetch('article/random').
       then(
         (resp)=>{
           if(!resp.ok){
