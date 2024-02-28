@@ -77,9 +77,6 @@ module.exports.searchAllArticles = async (req, res) => {
     const page = req.body.page ? req.body.page : req.query.page;
     const amount = req.body.amount ? req.body.amount : req.query.amount;
 
-    console.log(category);
-    console.log(search);
-
     // Make sure that one of search or category is present
     if (!(search || category)) {
       res.status(400).json({ 'error' : 'missing search value' });

@@ -71,7 +71,7 @@ module.exports.getRandomArticle = async (filter, amount) => {
  * @returns articles that match the query and in the range of pagination page number
  */
 module.exports.getSearchedArticles = async (filter, category, page, amount) => {
-  if (!category) {
+  if (!category || category !== null) {
     category = [/^/];
   }
   const articles = await ArticleModel.aggregate(
