@@ -1,5 +1,5 @@
-import {useState, useEffect, useRef} from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import ShortScroll from './Article/ShortScroll';
 import home from './images/home.png';
 import search from './images/search.png';

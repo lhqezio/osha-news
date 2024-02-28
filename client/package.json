@@ -26,37 +26,17 @@
       "react-app/jest"
     ],
     "rules": {
-      "no-console": [
-        "warn",
-        {
-          "allow": [
-            "error"
-          ]
-        }
-      ],
-      "one-var": [
-        "warn",
-        "never"
-      ],
+      "one-var": ["warn", "never"],
       "no-undef": "warn",
       "prefer-const": "warn",
       "no-extra-parens": "warn",
       "block-scoped-var": "warn",
-      "curly": [
-        "warn",
-        "multi-line"
-      ],
+      "curly": ["warn", "multi-line"],
       "no-await-in-loop": "warn",
-      "no-cond-assign": [
-        "error",
-        "always"
-      ],
+      "no-cond-assign": ["error", "always"],
       "no-debugger": "warn",
       "default-case": "warn",
-      "dot-location": [
-        "warn",
-        "object"
-      ],
+      "dot-location": ["warn", "object"],
       "eqeqeq": "warn",
       "no-alert": "warn",
       "no-eq-null": "warn",
@@ -66,54 +46,20 @@
       "no-loop-func": "warn",
       "no-multi-str": "warn",
       "no-self-compare": "warn",
-      "strict": [
-        "warn",
-        "global"
-      ],
+      "strict": ["warn", "global"],
       "no-lonely-if": "warn",
-      "array-bracket-spacing": [
-        "error",
-        "never"
-      ],
-      "array-bracket-newline": [
-        "error",
-        "consistent"
-      ],
-      "indent": [
-        "error",
-        2
-      ],
-      "comma-spacing": [
-        "error",
-        {
-          "before": false,
-          "after": true
-        }
-      ],
-      "comma-style": [
-        "error",
-        "last"
-      ],
-      "brace-style": [
-        "error"
-      ],
-      "max-len": [
-        "error",
-        100
-      ],
+      "array-bracket-spacing": ["error", "never"],
+      "array-bracket-newline": ["error", "consistent"],
+      "indent": ["error", 2],
+      "camelcase": "error",
+      "comma-spacing": ["error", { "before": false, "after": true }],
+      "comma-style": ["error", "last"],
+      "brace-style": ["error"],
+      "max-len": ["error", 100],
       "no-inline-comments": "error",
-      "jsx-quotes": [
-        "error",
-        "prefer-double"
-      ],
       "no-tabs": "error",
-      "quotes": [
-        "error",
-        "single",
-        {
-          "allowTemplateLiterals": true
-        }
-      ],
+      "quotes": ["error", "single", {"allowTemplateLiterals": true}],
+      "jsx-quotes": ["error", "prefer-double"],
       "space-infix-ops": "error",
       "space-unary-ops": "error",
       "semi": "error",

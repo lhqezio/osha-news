@@ -30,6 +30,7 @@ export default function Article({setUpdateScroll}) {
       ).
       then(
         (json)=> {
+          setFetchErrMsg('');
           setArticles(json);
         }
       ).catch (
@@ -39,7 +40,7 @@ export default function Article({setUpdateScroll}) {
       );
   }
   return (
-    articles !== null && inView ? 
+    articles !== null && inView && fetchErrMsg === null ? 
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
@@ -64,7 +65,9 @@ export default function Article({setUpdateScroll}) {
         </div>
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
-        Loading...
+        {
+          fetchErrMsg !== null ? <div>{fetchErrMsg}</div> : <div>Loading...</div>
+        }
       </section>
   );
 }
