@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 export default function Article({setUpdateScroll}) {
-  const [fetchErrMsg, setFetchErrMsg] = useState();
+  const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
 
@@ -40,12 +40,12 @@ export default function Article({setUpdateScroll}) {
       );
   }
   return (
-    articles !== null && inView && fetchErrMsg === null ? 
+    articles !== null && inView && fetchErrMsg === '' ? 
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
         className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
-        'my-30'} >
+        'my-30 snap-always'} >
         <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
           <div className="text-4xl font-serif">
             {articles[0].headline}
@@ -66,7 +66,7 @@ export default function Article({setUpdateScroll}) {
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
         {
-          fetchErrMsg !== null ? <div>{fetchErrMsg}</div> : <div>Loading...</div>
+          fetchErrMsg !== '' ? <div>{fetchErrMsg}</div> : <div>Loading...</div>
         }
       </section>
   );
