@@ -88,6 +88,22 @@ describe('/article/random', () => {
     expect(res.type).toEqual('application/json');
   });
 
+  test('GET Internal error', async () => {
+    // Mock article data
+    jest.spyOn(db, 'getRandomArticle').
+      mockImplementationOnce(() => {
+        throw new Error('Sample error for testing.');
+      });
+
+    // Act
+    const res = await request(app).get('/article/random');
+
+    // Assert
+    expect(res.body).toEqual({'error': 'Internal Error.'});
+    expect(res.statusCode).toBe(500);
+    expect(res.type).toEqual('application/json');
+  });
+
   test('POST get one random article', async () => {
     // Mock article data
     jest.spyOn(db, 'getRandomArticle').
@@ -99,6 +115,22 @@ describe('/article/random', () => {
     // Assert
     expect(res.body).toEqual([sample.article1]);
     expect(res.statusCode).toBe(200);
+    expect(res.type).toEqual('application/json');
+  });
+
+  test('POST Internal error', async () => {
+    // Mock article data
+    jest.spyOn(db, 'getRandomArticle').
+      mockImplementationOnce(() => {
+        throw new Error('Sample error for testing.');
+      });
+
+    // Act
+    const res = await request(app).post('/article/random');
+
+    // Assert
+    expect(res.body).toEqual({'error': 'Internal Error.'});
+    expect(res.statusCode).toBe(500);
     expect(res.type).toEqual('application/json');
   });
 });
