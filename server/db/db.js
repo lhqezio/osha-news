@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 (async () => {
   await mongoose.connect(dbUrl).
-    catch(console.log);
+    catch(console.error);
 })();
 
 // Article
@@ -18,21 +18,21 @@ const articleSchema = mongoose.Schema({
   image: String
 });
 
-const ArticleModel = new mongoose.model('newsArticles', articleSchema);
+module.exports.ArticleModel = new mongoose.model('newsArticles', articleSchema);
 
 /**
   * Add many rows of news data
   * @param articles list article to add to newsArticles
   */
 module.exports.createManyNewsArticles = async (articles) => {
-  await ArticleModel.insertMany(articles);
+  await this.ArticleModel.insertMany(articles);
 };
 
 /**
  * Get one article
  */
 module.exports.getOneArticle = async () => {
-  const article = await ArticleModel.findOne();
+  const article = await this.ArticleModel.findOne();
   return article;
 };
 
@@ -41,7 +41,7 @@ module.exports.getOneArticle = async () => {
  * @returns List of active catecories
  */
 module.exports.getCategories = async () => {
-  const categories = await ArticleModel.distinct('category');
+  const categories = await this.ArticleModel.distinct('category');
   return categories;
 };
 
@@ -52,7 +52,7 @@ module.exports.getCategories = async () => {
  * @returns random article
  */
 module.exports.getRandomArticle = async (filter, amount) => {
-  const articles = await ArticleModel.aggregate(
+  const articles = await this.ArticleModel.aggregate(
     [
       { $match: filter },
       { $sample: { size: amount } }
@@ -74,7 +74,7 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   if (!category || category !== null) {
     category = [/^/];
   }
-  const articles = await ArticleModel.aggregate(
+  const articles = await this.ArticleModel.aggregate(
     [
       { 
         $match: { $and: [
@@ -99,6 +99,6 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
  * @returns amount of element deleted
  */
 module.exports.emptyDatabase = async () => {
-  const newsArticleResult = await ArticleModel.deleteMany();
+  const newsArticleResult = await this.ArticleModel.deleteMany();
   return newsArticleResult.deletedCount;
 };

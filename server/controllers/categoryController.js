@@ -5,6 +5,6 @@ module.exports.getAllCategories = async (req, res) => {
     const categories = await getCategories();
     res.status(200).json(categories);
   } catch (err) {
-    res.status(500).json({'error': err});
+    res.status(500).json({'error': 'Internal Error.'});
   }
 };
