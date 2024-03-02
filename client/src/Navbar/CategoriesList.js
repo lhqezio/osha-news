@@ -26,7 +26,6 @@ export default function CategoryList(props){
   //on button press shows or hides the list
   function showCategories(){
     if (hidden === true){
-      console.log('is true');
       setHidden(false);
     }else{
       setHidden(true);
@@ -35,7 +34,9 @@ export default function CategoryList(props){
   
   //use the handler functions
   function addCategory(e){
-    props.addSelectedCategory(e.target.innerText);
+    if (!props.selectedCategories.includes(e.target.innerText)){
+      props.addSelectedCategory(e.target.innerText);
+    } 
   }
 
   function removeCategory(e){
