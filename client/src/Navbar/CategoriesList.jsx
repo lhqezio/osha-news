@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import x from '../images/x_icon.png';
 
 export default function CategoryList(props){
@@ -18,7 +18,7 @@ export default function CategoryList(props){
         then ((json)=>{
           setCategories(json);
         }).
-        catch ((err)=>{
+        catch (()=>{
           console.error('Server Error Occured');
         });
     }, []
@@ -46,26 +46,28 @@ export default function CategoryList(props){
   }
 
   return (
-    <div class="relative">
-      <div class="flex flex-row">
-        <button type="button" class="text-xs border-2 rounded-md mx-2 p-2"
+    <div className="relative">
+      <div className="flex flex-row">
+        <button type="button" className="text-xs border-2 rounded-md mx-2 p-2"
           onClick={showCategories}>Categories</button>
-        <ul class="flex flex-row">
-          {props.selectedCategories.map(cat =>
-            <li>
+        <ul className="flex flex-row">
+          {props.selectedCategories.map((cat, i) =>
+            <li key={i}>
               <button onClick={removeCategory} type="button"
-                class="flex flex-row border-2 rounded-md bg-white text-xs mx-2 p-2">
+                className="flex flex-row border-2 rounded-md bg-white text-xs mx-2 p-2">
                 <p>{cat}</p>
-                <img class="size-4 p-1 rounded-md" src={x} alt="search icon"/>
+                <img className="size-4 p-1 rounded-md" src={x} alt="search icon"/>
               </button>
             </li>
           )}
         </ul>
       </div>
-      <ul class={ hidden ? 'hidden' : 
+      <ul className={ hidden ? 'hidden' : 
         'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-white z-10' } >
-        {categories.map(cat =>
-          <li><button onClick={addCategory} type="button">{cat}</button></li>
+        {categories.map((cat, i) =>
+          <li key={i}>
+            <button onClick={addCategory} type="button">{cat}</button>
+          </li>
         )}
       </ul>
     </div>

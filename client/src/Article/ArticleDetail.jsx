@@ -40,7 +40,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
           setArticles(json);
         }
       ).catch (
-        (err)=>{
+        ()=>{
           setFetchErrMsg('server fetching error');
         }
       );
@@ -76,7 +76,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
           setArticles(newArray);
         }
       ).catch (
-        (err)=>{
+        ()=>{
           setFetchErrMsg('server fetching error BOB');
         }
       );      
