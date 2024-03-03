@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
 
-export default function Article({setUpdateScroll}) {
+export default function Article({setUpdateScroll, selectedCategories}) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
@@ -15,30 +15,66 @@ export default function Article({setUpdateScroll}) {
           setUpdateScroll(true); 
         }
       }
-    }, [inView, articles, setUpdateScroll]
+    }, [inView, articles, setUpdateScroll, selectedCategories]
   );
 
   function fetchArticles() {
-    fetch('article/random').
-      then(
-        (resp)=>{
-          if(!resp.ok){
-            setFetchErrMsg('Connection issue occured');
-          } else {
-            return resp.json();
+    if (selectedCategories.length === 0){
+      fetch('article/random').
+        then(
+          (resp)=>{
+            if(!resp.ok){
+              setFetchErrMsg('Connection issue occured');
+            } else {
+              return resp.json();
+            }
           }
-        }
-      ).
-      then(
-        (json)=> {
-          setFetchErrMsg('');
-          setArticles(json);
-        }
-      ).catch (
-        (err)=>{
-          setFetchErrMsg('server fetching error');
-        }
-      );
+        ).
+        then(
+          (json)=> {
+            setFetchErrMsg('');
+            setArticles(json);
+          }
+        ).catch (
+          (err)=>{
+            setFetchErrMsg('server fetching error');
+          }
+        );
+    } else {
+      const params = {
+        category: selectedCategories
+      };
+      const requestBody = JSON.stringify(params);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: requestBody
+      };
+      fetch('article/search', options).
+        then(
+          (resp)=>{
+            if(!resp.ok){
+              setFetchErrMsg('Connection issue occured');
+            } else {
+              return resp.json();
+            }
+          }
+        ).
+        then(
+          (json)=> {
+            setFetchErrMsg('');
+            const random = Math.floor((Math.random() * 10));
+            const newArray = [json.result[random]];
+            setArticles(newArray);
+          }
+        ).catch (
+          (err)=>{
+            setFetchErrMsg('server fetching error BOB');
+          }
+        );      
+    }
   }
   return (
     articles !== null && inView && fetchErrMsg === '' ? 
