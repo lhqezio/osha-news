@@ -1,0 +1,109 @@
+image: node:18.18-bullseye-slim
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+stages:
+  - lint
+  - build
+  - tests
+  - deploy
+
+default:
+  cache:
+    key:
+      files:
+        - ./client/package-lock.json
+        - ./server/package-lock.json
+    paths:
+      - server/.npm/
+      - client/.npm/
+  before_script:
+    - cd server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline && cd ..
+
+lint-server:
+  stage: lint
+  rules:
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
+  script:
+    - cd server && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+  allow_failure: false
+
+lint-client:
+  stage: lint
+  rules:
+    - changes: 
+      - client/**
+      - ".gitlab-ci.yml"
+  script:
+    - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+  allow_failure: false
+
+build-frontend:
+  stage: build
+  cache: 
+    key: 
+      prefix: 'frontend'
+      files:
+        - 'client/package-lock.json'
+    paths:
+      - 'client/node_modules/'
+  script:
+    - cd client && npm install && npm run build
+  only: 
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths: 
+      - client/build
+      - client/node_modules
+
+build-backend:
+  stage: build
+  cache:
+    key:
+      prefix: 'backend'
+      files:
+        - 'server/package-lock.json'
+    paths:
+      - 'server/node_modules'
+  script:
+    - cd server && npm install
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - server/node_modules
+
+test-server:
+  stage: tests
+  rules:
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
+  script: cd server && npm test
+
+deploy-azure:
+  stage: deploy
+  image:  mcr.microsoft.com/azure-cli
+  dependencies:
+    - build-frontend
+    - build-backend
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - apk update
+    - apk add zip
+    - "az login --allow-no-subscriptions --service-principal -u $AZ_SP_ID -p $AZ_SP_SECRET --tenant $AZ_TENANT"
+    - az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings WEBSITE_RUN_FROM_PACKAGE=$WEBSITE_RUN_FROM_PACKAGE
+    - az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings ATLAS_URI=$ATLAS_URI
+    - az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZURE_SAS=$AZURE_SAS
+    - az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZ_SP_ID=$AZ_SP_ID
+    - az webapp config appsettings set --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --settings AZ_SP_SECRET=$AZ_SP_SECRET
+  script:
+    - "zip -r deploy.zip client/build server ./package.json"
+    - "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP_NAME --name $APP_NAME --src deploy.zip"
