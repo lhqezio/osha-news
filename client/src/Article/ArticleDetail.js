@@ -65,7 +65,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
         then(
           (json)=> {
             setFetchErrMsg('');
-            const random = Math.floor((Math.random() * 10));
+            const random = Math.floor(Math.random() * 10);
             const newArray = [json.result[random]];
             setArticles(newArray);
           }
