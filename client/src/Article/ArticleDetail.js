@@ -10,7 +10,12 @@ export default function Article({setUpdateScroll, selectedCategories}) {
   useEffect(
     ()=>{
       if(inView && articles === null) {
-        fetchArticles();
+        if (selectedCategories.length === 0){
+          fetchRandomArticles();
+        }else{
+          fetchArticleByCategory(selectedCategories);
+        }
+        
         if(setUpdateScroll !== undefined) {
           setUpdateScroll(true); 
         }
@@ -18,64 +23,67 @@ export default function Article({setUpdateScroll, selectedCategories}) {
     }, [inView, articles, setUpdateScroll, selectedCategories]
   );
 
-  function fetchArticles() {
-    if (selectedCategories.length === 0){
-      fetch('article/random').
-        then(
-          (resp)=>{
-            if(!resp.ok){
-              setFetchErrMsg('Connection issue occured');
-            } else {
-              return resp.json();
-            }
+  function fetchRandomArticles() {
+    console.log('normal');
+    fetch('article/random').
+      then(
+        (resp)=>{
+          if(!resp.ok){
+            setFetchErrMsg('Connection issue occured');
+          } else {
+            return resp.json();
           }
-        ).
-        then(
-          (json)=> {
-            setFetchErrMsg('');
-            setArticles(json);
-          }
-        ).catch (
-          (err)=>{
-            setFetchErrMsg('server fetching error');
-          }
-        );
-    } else {
-      const params = {
-        category: selectedCategories
-      };
-      const requestBody = JSON.stringify(params);
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: requestBody
-      };
-      fetch('article/search', options).
-        then(
-          (resp)=>{
-            if(!resp.ok){
-              setFetchErrMsg('Connection issue occured');
-            } else {
-              return resp.json();
-            }
-          }
-        ).
-        then(
-          (json)=> {
-            setFetchErrMsg('');
-            const random = Math.floor(Math.random() * 10);
-            const newArray = [json.result[random]];
-            setArticles(newArray);
-          }
-        ).catch (
-          (err)=>{
-            setFetchErrMsg('server fetching error BOB');
-          }
-        );      
-    }
+        }
+      ).
+      then(
+        (json)=> {
+          setFetchErrMsg('');
+          setArticles(json);
+        }
+      ).catch (
+        (err)=>{
+          setFetchErrMsg('server fetching error');
+        }
+      );
   }
+
+  function fetchArticleByCategory(categories){
+    console.log('category');
+    const params = {
+      category: categories
+    };
+    const requestBody = JSON.stringify(params);
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: requestBody
+    };
+    fetch('article/search', options).
+      then(
+        (resp)=>{
+          if(!resp.ok){
+            setFetchErrMsg('Connection issue occured');
+          } else {
+            return resp.json();
+          }
+        }
+      ).
+      then(
+        (json)=> {
+          setFetchErrMsg('');
+          const random = Math.floor(Math.random() * 10);
+          const newArray = [json.result[random]];
+          setArticles(newArray);
+        }
+      ).catch (
+        (err)=>{
+          setFetchErrMsg('server fetching error BOB');
+        }
+      );      
+  }
+
   return (
     articles !== null && inView && fetchErrMsg === '' ? 
       <section
