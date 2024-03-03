@@ -40,7 +40,7 @@ lint-client:
       - client/**
       - ".gitlab-ci.yml"
   script:
-    - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+    - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs,jsx .
   allow_failure: false
 
 build-frontend:

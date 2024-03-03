@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Article from './ArticleDetail';
 
 export default function ShortScroll({selectedCategories}) {
@@ -6,14 +6,14 @@ export default function ShortScroll({selectedCategories}) {
   const[updateScroll, setUpdateScroll] = useState(false);
   const[articleElems, setArticleElems] = useState(
     [
-      <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories}/>
+      <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories} key={0}/>
     ]
   );
 
   if(updateScroll) {
     const newArr = articleElems.concat(
       [
-        <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories}/>
+        <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories} key={0}/>
       ]
     );
     setArticleElems(newArr);
@@ -27,9 +27,7 @@ export default function ShortScroll({selectedCategories}) {
       
       {
         articleElems.map(
-          (elem) => {
-            return elem;
-          }
+          (elem) => elem
         )
       }
     </div>
