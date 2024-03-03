@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import ShortScroll from './Article/ShortScroll';
 import NavBar from './Navbar/Navbar';
 import CategoriesList from './Navbar/CategoriesList';
@@ -18,7 +18,7 @@ export default function Root(){
   return (
     <div>
       <NavBar/>
-      <CategoriesList addSelectedCategory={addSelectedCategory} 
+      <CategoriesList addSelectedCategory={addSelectedCategory}
         removeSelectedCategory={removeSelectedCategory}
         selectedCategories={selectedCategories}/>
       <div>
