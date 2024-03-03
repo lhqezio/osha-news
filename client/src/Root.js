@@ -22,7 +22,7 @@ export default function Root(){
         removeSelectedCategory={removeSelectedCategory}
         selectedCategories={selectedCategories}/>
       <div>
-        <ShortScroll/>
+        <ShortScroll selectedCategories={selectedCategories}/>
       </div>
     </div>
   );

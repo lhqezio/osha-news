@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import Article from './ArticleDetail';
 
-export default function ShortScroll(props) {
+export default function ShortScroll({selectedCategories}) {
 
   const[updateScroll, setUpdateScroll] = useState(false);
   const[articleElems, setArticleElems] = useState(
     [
-      <Article />,
-      <Article />,
-      <Article setUpdateScroll={setUpdateScroll}/>
+      <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories}/>
     ]
   );
 
   if(updateScroll) {
     const newArr = articleElems.concat(
       [
-        <Article />,
-        <Article />,
-        <Article setUpdateScroll={setUpdateScroll}/>
+        <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories}/>
       ]
     );
     setArticleElems(newArr);

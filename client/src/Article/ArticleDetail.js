@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
 
-export default function Article({setUpdateScroll}) {
+export default function Article({setUpdateScroll, selectedCategories}) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
@@ -10,15 +10,20 @@ export default function Article({setUpdateScroll}) {
   useEffect(
     ()=>{
       if(inView && articles === null) {
-        fetchArticles();
+        if (selectedCategories.length === 0){
+          fetchRandomArticles();
+        }else{
+          fetchArticleByCategory(selectedCategories);
+        }
+        
         if(setUpdateScroll !== undefined) {
           setUpdateScroll(true); 
         }
       }
-    }, [inView, articles, setUpdateScroll]
+    }, [inView, articles, setUpdateScroll, selectedCategories]
   );
 
-  function fetchArticles() {
+  function fetchRandomArticles() {
     fetch('article/random').
       then(
         (resp)=>{
@@ -40,6 +45,43 @@ export default function Article({setUpdateScroll}) {
         }
       );
   }
+
+  function fetchArticleByCategory(categories){
+    const params = {
+      category: categories
+    };
+    const requestBody = JSON.stringify(params);
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: requestBody
+    };
+    fetch('article/search', options).
+      then(
+        (resp)=>{
+          if(!resp.ok){
+            setFetchErrMsg('Connection issue occured');
+          } else {
+            return resp.json();
+          }
+        }
+      ).
+      then(
+        (json)=> {
+          setFetchErrMsg('');
+          const random = Math.floor(Math.random() * 10);
+          const newArray = [json.result[random]];
+          setArticles(newArray);
+        }
+      ).catch (
+        (err)=>{
+          setFetchErrMsg('server fetching error BOB');
+        }
+      );      
+  }
+
   return (
     articles !== null && inView && fetchErrMsg === '' ? 
       <section
