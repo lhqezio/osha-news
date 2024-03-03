@@ -72,7 +72,7 @@ module.exports.getRandomArticle = async (req, res) => {
 module.exports.searchAllArticles = async (req, res) => {
   try{
     // Get all values from param first and then from query if it doesnt exist
-    const category = req.param.category;
+    const category = req.body.category;
     const search = req.param.search ? req.param.search : req.query.search;
     const page = req.param.page ? req.param.page : req.query.page;
     const amount = req.param.amount ? req.param.amount : req.query.amount;
@@ -111,8 +111,13 @@ module.exports.searchAllArticles = async (req, res) => {
     }
 
     // create case insensitive regex search
-    const regex = new RegExp(search, 'i');
-
+    let regex;
+    if (search === undefined){
+      regex = new RegExp('[\\s\\S]*');
+    }else{
+      regex = new RegExp(search, 'i');
+    }
+    
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
     const parsedResults = results[0].data;
     
