@@ -24,7 +24,6 @@ export default function Article({setUpdateScroll, selectedCategories}) {
   );
 
   function fetchRandomArticles() {
-    console.log('normal');
     fetch('article/random').
       then(
         (resp)=>{
@@ -48,7 +47,6 @@ export default function Article({setUpdateScroll, selectedCategories}) {
   }
 
   function fetchArticleByCategory(categories){
-    console.log('category');
     const params = {
       category: categories
     };
