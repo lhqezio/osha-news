@@ -16,11 +16,12 @@
     }
   },
   "plugins": ["react", "react-hooks"],
+  "ignorePatterns": ["**/build"],
   "rules": {
     "react/prop-types": [0],
     "react/react-in-jsx-scope": [0],
     "arrow-body-style": ["warn"],
-    "no-console": ["warn", "error"],
+    "no-console": ["warn", {"allow": ["error"]}],
     "one-var": ["warn", "never"],
     "no-undef": "warn",
     "prefer-const": "warn",

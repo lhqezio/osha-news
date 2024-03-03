@@ -27,9 +27,7 @@ export default function ShortScroll({selectedCategories}) {
       
       {
         articleElems.map(
-          (elem) => {
-            return elem;
-          }
+          (elem) => elem
         )
       }
     </div>
