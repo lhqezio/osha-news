@@ -11,7 +11,7 @@ export default function Navbar(){
           <div class="flex flex-row justify-items-start">
             <Link to={`/`}><img class="size-7 p-1" src={home} alt="home icon"/></Link>
             <img class="size-7 p-1 rounded-md" src={search} alt="search icon"/>
-            <input class="border my-px" type="text" value="Search"/>
+            <input class="border my-px" type="text"/>
           </div>
         </li>
         <li class="inline w-1/3 flex justify-items-end">

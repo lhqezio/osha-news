@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import x from '../images/x_icon.png';
 
 export default function CategoryList(props){
   const [hidden, setHidden] = useState(true);
@@ -34,7 +35,8 @@ export default function CategoryList(props){
   
   //use the handler functions
   function addCategory(e){
-    if (!props.selectedCategories.includes(e.target.innerText)){
+    if (!props.selectedCategories.includes(e.target.innerText) && 
+      props.selectedCategories.length !== 5){
       props.addSelectedCategory(e.target.innerText);
     } 
   }
@@ -46,17 +48,22 @@ export default function CategoryList(props){
   return (
     <div class="relative">
       <div class="flex flex-row">
-        <button type="button" class="border-2 rounded-md bg-gray-200 mx-2 p-2"
+        <button type="button" class="text-xs border-2 rounded-md mx-2 p-2"
           onClick={showCategories}>Categories</button>
         <ul class="flex flex-row">
           {props.selectedCategories.map(cat =>
-            <li><button onClick={removeCategory} type="button"
-              class="border-2 rounded-md bg-gray-200 mx-2 p-2">{cat}</button></li>
+            <li>
+              <button onClick={removeCategory} type="button"
+                class="flex flex-row border-2 rounded-md bg-white text-xs mx-2 p-2">
+                <p>{cat}</p>
+                <img class="size-4 p-1 rounded-md" src={x} alt="search icon"/>
+              </button>
+            </li>
           )}
         </ul>
       </div>
       <ul class={ hidden ? 'hidden' : 
-        'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-gray-200 z-10' } >
+        'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-white z-10' } >
         {categories.map(cat =>
           <li><button onClick={addCategory} type="button">{cat}</button></li>
         )}
