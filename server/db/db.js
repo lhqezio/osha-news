@@ -18,7 +18,7 @@ const articleSchema = mongoose.Schema({
   image: String
 });
 
-module.exports.ArticleModel = new mongoose.model('newsArticles', articleSchema);
+module.exports.ArticleModel = new mongoose.model('newsarticles', articleSchema);
 
 /**
   * Add many rows of news data
