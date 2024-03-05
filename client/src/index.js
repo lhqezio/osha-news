@@ -6,6 +6,10 @@ import ErrorPage from './error-page';
 import './index.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+// Linter doesn't like the process since it is run from server it doesn't understand process
+// eslint-disable-next-line no-undef
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -16,7 +20,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <GoogleOAuthProvider 
-      clientId="188911443827-ahcd0t98f0dev6tbph62k3suf0jnlrg7.apps.googleusercontent.com">
+      clientId={ clientId }>
       <RouterProvider router={router} />
     </GoogleOAuthProvider>
   </React.StrictMode>
