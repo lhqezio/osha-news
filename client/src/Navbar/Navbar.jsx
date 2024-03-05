@@ -2,8 +2,28 @@ import { Link } from 'react-router-dom';
 import home from '../images/home.png';
 import search from '../images/search.png';
 import avatar from '../images/avatar.png';
+import { useState } from 'react';
+import SearchBox from './SearchBox';
 
 export default function Navbar(){
+  const defaultSearchValue = '';
+  const[searchTerm, setSearchTerm] = useState(defaultSearchValue);
+  const [showSearchBox, setShowSearchBox] = useState(false);
+  const [searchResult, setSearchResult] = useState(null);
+
+  function showSearch(){
+    setShowSearchBox(true);
+  }
+
+  function handleSearchChange(e){
+    setSearchTerm(e.target.value);
+  }
+
+  function hideSearchBox(){
+    setShowSearchBox(false);
+    setSearchTerm(defaultSearchValue);
+  }
+
   return (
     <nav className="py-1">
       <ul className="flex flex-row justify-between">
@@ -11,10 +31,14 @@ export default function Navbar(){
           <div className="flex flex-row justify-items-start">
             <Link to={`/`}><img className="size-7 p-1" src={home} alt="home icon"/></Link>
             <img className="size-7 p-1 rounded-md" src={search} alt="search icon"/>
-            <input className="border my-px" type="text"/>
+            <input className="border rounded-sm border-black my-px" type="text" value={searchTerm}
+              onChange={handleSearchChange}
+              onFocus={showSearch}
+              onBlur={hideSearchBox}
+            />
           </div>
         </li>
-        <li className="inline w-1/3 flex justify-items-end">
+        <li className="w-1/3 flex justify-items-end">
           <h1 className="text-center w-full">OSHA News</h1>
         </li>
         <li className="inline w-1/3">
@@ -26,6 +50,9 @@ export default function Navbar(){
           </div>
         </li>
       </ul>
+      <SearchBox show={showSearchBox} set={setSearchResult} 
+        searchResult={searchResult}> </SearchBox>
     </nav>
   );
 }
+
