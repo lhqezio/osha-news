@@ -113,7 +113,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
         {
-          fetchErrMsg !== '' ? <div className="text-red-600">{fetchErrMsg}</div> : 
+          fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />
         }
       </section>

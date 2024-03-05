@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import x from '../images/x_icon.png';
 
 export default function CategoryList(props){
   const [hidden, setHidden] = useState(true);
@@ -48,22 +47,27 @@ export default function CategoryList(props){
   return (
     <div className="relative">
       <div className="flex flex-row">
-        <button type="button" className="text-xs border-2 rounded-md mx-2 p-2"
-          onClick={showCategories}>Categories</button>
+        <button type="button" 
+          className="text-xs font-bold border border-black rounded-xl mx-2 p-2"
+          onClick={showCategories}>FILTER</button>
         <ul className="flex flex-row">
           {props.selectedCategories.map((cat, i) =>
             <li key={i}>
               <button onClick={removeCategory} type="button"
-                className="flex flex-row border-2 rounded-md bg-white text-xs mx-2 p-2">
+                className={
+                  'flex flex-row border border-black rounded-xl' + 
+                ' text-xs mx-2 p-2 font-bold'
+                }
+              >
                 <p>{cat}</p>
-                <img className="size-4 p-1 rounded-md" src={x} alt="search icon"/>
               </button>
             </li>
           )}
         </ul>
       </div>
       <ul className={ hidden ? 'hidden' : 
-        'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-white z-10' } >
+        'block border rounded-md mt-1 mx-2 p-2' +
+        ' overflow-auto w-80 h-52 absolute bg-white md:bg-opacity-90 z-10 font-bold' } >
         {categories.map((cat, i) =>
           <li key={i}>
             <button onClick={addCategory} type="button">{cat}</button>
