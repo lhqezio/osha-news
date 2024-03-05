@@ -1,4 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
+const db = require('../db/db');
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 
@@ -12,5 +13,11 @@ module.exports.login = async (req, res) => {
 
   const payload = ticket.getPayload();
 
-  res.json(payload);
+  if (payload.email_verified) {
+    db.upsertUserAccount(payload);
+    res.status(200).json({ confirmation : 'User verified' });
+    return;
+  }
+
+  res.status(403).json({ confirmation : 'User not validated' });
 };

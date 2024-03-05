@@ -25,22 +25,22 @@ const userSchema = mongoose.Schema({
   image: String
 });
 
-module.exports.ArticleModel = new mongoose.model('newsarticles', articleSchema);
-module.exports.UserModel = new mongoose.model('users', userSchema);
+const ArticleModel = new mongoose.model('newsarticles', articleSchema);
+const UserModel = new mongoose.model('users', userSchema);
 
 /**
   * Add many rows of news data
   * @param articles list article to add to newsArticles
   */
 module.exports.createManyNewsArticles = async (articles) => {
-  await this.ArticleModel.insertMany(articles);
+  await ArticleModel.insertMany(articles);
 };
 
 /**
  * Get one article
  */
 module.exports.getOneArticle = async () => {
-  const article = await this.ArticleModel.findOne();
+  const article = await ArticleModel.findOne();
   return article;
 };
 
@@ -49,7 +49,7 @@ module.exports.getOneArticle = async () => {
  * @returns List of active catecories
  */
 module.exports.getCategories = async () => {
-  const categories = await this.ArticleModel.distinct('category');
+  const categories = await ArticleModel.distinct('category');
   return categories;
 };
 
@@ -60,7 +60,7 @@ module.exports.getCategories = async () => {
  * @returns random article
  */
 module.exports.getRandomArticle = async (filter, amount) => {
-  const articles = await this.ArticleModel.aggregate(
+  const articles = await ArticleModel.aggregate(
     [
       { $match: filter },
       { $sample: { size: amount } }
@@ -82,7 +82,7 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   if (!category || category === null) {
     category = [/^/];
   }
-  const articles = await this.ArticleModel.aggregate(
+  const articles = await ArticleModel.aggregate(
     [
       { 
         $match: { $and: [
@@ -100,6 +100,17 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   return articles;
 };
 
+module.exports.upsertUserAccount = async (user) => {
+  const newUser = new UserModel({email: user.email, name: user.name, image: user.picture});
+
+  const userExists = await UserModel.find({ email: user.email }).exec();
+
+  if (!userExists) {
+    newUser.save().catch(console.log);
+  }
+
+};
+
 // Utils
 /**
  * Remove from the Database using filter.
@@ -107,6 +118,6 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
  * @returns amount of element deleted
  */
 module.exports.emptyDatabase = async () => {
-  const newsArticleResult = await this.ArticleModel.deleteMany();
+  const newsArticleResult = await ArticleModel.deleteMany();
   return newsArticleResult.deletedCount;
 };
