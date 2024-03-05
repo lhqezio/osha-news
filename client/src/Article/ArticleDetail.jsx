@@ -37,7 +37,11 @@ export default function Article({setUpdateScroll, selectedCategories}) {
       then(
         (json)=> {
           setFetchErrMsg('');
-          setArticles(json);
+          if(json[0] === undefined){
+            setFetchErrMsg('This is not supposed to happen, please contact the site administrator');
+          } else {
+            setArticles(json);
+          }
         }
       ).catch (
         ()=>{
@@ -83,7 +87,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
   }
 
   return (
-    articles !== null && inView && fetchErrMsg === '' ? 
+    articles !== null && articles[0] !== undefined  && inView && fetchErrMsg === '' ? 
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
@@ -109,7 +113,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
         {
-          fetchErrMsg !== '' ? <div>{fetchErrMsg}</div> : 
+          fetchErrMsg !== '' ? <div className="text-red-600">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />
         }
       </section>
