@@ -5,6 +5,12 @@ import avatar from '../images/avatar.png';
 import { GoogleLogin } from '@react-oauth/google';
 
 export default function Navbar(){
+
+  const handleLogin = response => {
+    console.log(response);
+  };
+
+
   return (
     <nav className="py-1">
       <ul className="flex flex-row justify-between">
@@ -24,9 +30,7 @@ export default function Navbar(){
               <h1>User</h1>
               <img className="size-7" src={avatar} alt="profile"/>
               <GoogleLogin
-                onSuccess={credentialResponse => {
-                  console.log(credentialResponse);
-                }}
+                onSuccess={handleLogin}
           
                 onError={() => {
                   console.log('Login Failed');
