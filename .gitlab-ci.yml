@@ -45,6 +45,12 @@ lint-client:
 
 build-frontend:
   stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - changes: 
+      - client/**
+      - ".gitlab-ci.yml"
   cache: 
     key: 
       prefix: 'frontend'
@@ -64,6 +70,12 @@ build-frontend:
 
 build-backend:
   stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
   cache:
     key:
       prefix: 'backend'
