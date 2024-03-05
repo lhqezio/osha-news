@@ -13,4 +13,8 @@ app.use('/article', articleRoute);
 const categoryRoute = require('./routes/categoryRoute');
 app.use('/categories', categoryRoute);
 
+// User route
+const userRoute = require('./routes/userRoute');
+app.use('/users', userRoute);
+
 module.exports = app;
