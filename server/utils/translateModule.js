@@ -34,11 +34,11 @@ module.exports.translate = async (text, to, from = 'en') => {
     }],
     responseType: 'json'
   });
-  return res.data[0].translations[0];
+  return res.data[0].translations[0].text;
 };
 
 /**
- * Translate text to desired language using Azure API
+ * Translate article to desired language using Azure API
  * @param {Object} article article object to translate
  * @param {String} to target language eg. fr, es
  * @param {String} from original language (defaults to 'en')
@@ -53,9 +53,9 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
   return {
     _id: article._id,
     link: article.link,
-    headline: textRes[0].text,
-    category: textRes[1].text,
-    text: textRes[2].text,
+    headline: textRes[0],
+    category: textRes[1],
+    text: textRes[2],
     author: article.author,
     date: article.date,
     image: article.image,
@@ -65,15 +65,29 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
 };
 
 /**
- * Translate text to desired language using Azure API
- * @param {Array} articles article object to translate
+ * Translate articles to desired language using Azure API
+ * @param {Array} articles array of articles object to translate
  * @param {String} to target language eg. fr, es
  * @param {String} from original language (defaults to 'en')
- * @returns translated article
+ * @returns translated articles
  */
 module.exports.translateMultipleArticle = async (articles, to, from = 'en') => {
   const newArticles = await Promise.all(articles.map(async (article) => {
     return await this.translateOneArticle(article, to, from);
   }));
   return newArticles;
+};
+
+/**
+ * Translate categories to desired language using Azure API
+ * @param {Array} categories categories to translate
+ * @param {String} to target language eg. fr, es
+ * @param {String} from original language (defaults to 'en')
+ * @returns translated categories
+ */
+module.exports.translateCategories = async (categories, to, from = 'en') => {
+  const newCategories = await Promise.all(categories.map(async (category) => {
+    return await this.translate(category, to, from);
+  }));
+  return newCategories;
 };
