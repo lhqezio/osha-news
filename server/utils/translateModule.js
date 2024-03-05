@@ -59,6 +59,7 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
     author: article.author,
     date: article.date,
     image: article.image,
+    lang: to,
     __v: article.__v,
   };
 };

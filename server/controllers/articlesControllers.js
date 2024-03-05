@@ -12,8 +12,12 @@ module.exports.getOneArticle = async (req, res) => {
     const article = await getOneArticle();
 
     if (req.query.lang) {
-      const newArticle = await translateOneArticle(article, req.query.lang);
-      res.status(200).json(newArticle);
+      try {
+        const newArticle = await translateOneArticle(article, req.query.lang);
+        res.status(200).json(newArticle);
+      } catch (_) {
+        res.status(200).json(article);
+      }
       return;
     }
 
@@ -59,8 +63,12 @@ module.exports.getRandomArticle = async (req, res) => {
     );
 
     if (req.query.lang) {
-      const newArticle = await translateMultipleArticle(articles, req.query.lang);
-      res.status(200).json(newArticle);
+      try {
+        const newArticle = await translateMultipleArticle(articles, req.query.lang);
+        res.status(200).json(newArticle);
+      } catch (_) {
+        res.status(200).json(articles);
+      }
       return;
     }
 
@@ -133,6 +141,20 @@ module.exports.searchAllArticles = async (req, res) => {
     
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
     const parsedResults = results[0].data;
+
+    if (req.query.lang) {
+      try {
+        const newResult = await translateMultipleArticle(parsedResults, req.query.lang);
+        res.status(200).json(
+          { 'search' : search, 'result' : newResult }
+        );
+      } catch (_) {
+        res.status(200).json(
+          { 'search' : search, 'result' : parsedResults }
+        );
+      }
+      return;
+    }
     
     // returns values found if more than 1 value exists
     res.status(200).json(
