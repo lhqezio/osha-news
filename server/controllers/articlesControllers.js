@@ -1,5 +1,5 @@
 const { getOneArticle, getRandomArticle, getSearchedArticles } = require('../db/db');
-const { translateArticle } = require('../utils/translateModule');
+const { translateOneArticle, translateMultipleArticle } = require('../utils/translateModule');
 
 /**
  * Express Controller
@@ -12,7 +12,7 @@ module.exports.getOneArticle = async (req, res) => {
     const article = await getOneArticle();
 
     if (req.query.lang) {
-      const newArticle = await translateArticle(article, req.query.lang);
+      const newArticle = await translateOneArticle(article, req.query.lang);
       res.status(200).json(newArticle);
       return;
     }
@@ -57,6 +57,12 @@ module.exports.getRandomArticle = async (req, res) => {
       filter,
       amount
     );
+
+    if (req.query.lang) {
+      const newArticle = await translateMultipleArticle(articles, req.query.lang);
+      res.status(200).json(newArticle);
+      return;
+    }
 
     res.status(200).json(articles);
   } catch (err) {

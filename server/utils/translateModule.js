@@ -44,7 +44,7 @@ module.exports.translate = async (text, to, from = 'en') => {
  * @param {String} from original language (defaults to 'en')
  * @returns translated article
  */
-module.exports.translateArticle = async (article, to, from = 'en') => {
+module.exports.translateOneArticle = async (article, to, from = 'en') => {
   const headline = await this.translate(article.headline, to, from);
   const category = await this.translate(article.category, to, from);
   const text = await this.translate(article.text, to, from);
@@ -59,4 +59,18 @@ module.exports.translateArticle = async (article, to, from = 'en') => {
     image: article.image,
     __v: article.__v,
   };
+};
+
+/**
+ * Translate text to desired language using Azure API
+ * @param {Array} articles article object to translate
+ * @param {String} to target language eg. fr, es
+ * @param {String} from original language (defaults to 'en')
+ * @returns translated article
+ */
+module.exports.translateMultipleArticle = async (articles, to, from = 'en') => {
+  const newArticles = await Promise.all(articles.map(async (article) => {
+    return await this.translateOneArticle(article, to, from);
+  }));
+  return newArticles;
 };
