@@ -22,7 +22,7 @@ module.exports.getOneArticle = async (req, res) => {
     }
 
     res.status(200).json(article);
-  } catch (err) {
+  } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
   }
 };
@@ -73,7 +73,7 @@ module.exports.getRandomArticle = async (req, res) => {
     }
 
     res.status(200).json(articles);
-  } catch (err) {
+  } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
   }
 };
@@ -160,7 +160,7 @@ module.exports.searchAllArticles = async (req, res) => {
     res.status(200).json(
       { 'search' : search, 'result' : parsedResults }
     );
-  } catch (err) {
+  } catch (_) {
     res.status(500).json({ 'error' : 'Internal Error' });
   }
 };
