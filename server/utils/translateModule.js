@@ -6,6 +6,13 @@ const key = process.env.AZURE_TRANSLATE_KEY;
 const endpoint = 'https://api.cognitive.microsofttranslator.com';
 const location = 'canadacentral';
 
+/**
+ * Translate text to desired language using Azure API
+ * @param {String} text to translate
+ * @param {String} to target language eg. fr, es
+ * @param {String} from original language (defaults to 'en')
+ * @returns Object { text: 'translated text', to: 'language tranlated to' }
+ */
 module.exports.translate = async (text, to, from = 'en') => {
   const res = await axios({
     baseURL: endpoint,
@@ -28,4 +35,28 @@ module.exports.translate = async (text, to, from = 'en') => {
     responseType: 'json'
   });
   return res.data[0].translations[0];
+};
+
+/**
+ * Translate text to desired language using Azure API
+ * @param {Object} article article object to translate
+ * @param {String} to target language eg. fr, es
+ * @param {String} from original language (defaults to 'en')
+ * @returns translated article
+ */
+module.exports.translateArticle = async (article, to, from = 'en') => {
+  const headline = await this.translate(article.headline, to, from);
+  const category = await this.translate(article.category, to, from);
+  const text = await this.translate(article.text, to, from);
+  return {
+    _id: article._id,
+    link: article.link,
+    headline: headline.text,
+    category: category.text,
+    text: text.text,
+    author: article.author,
+    date: article.date,
+    image: article.image,
+    __v: article.__v,
+  };
 };

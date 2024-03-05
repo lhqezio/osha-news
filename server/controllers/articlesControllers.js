@@ -1,4 +1,5 @@
 const { getOneArticle, getRandomArticle, getSearchedArticles } = require('../db/db');
+const { translateArticle } = require('../utils/translateModule');
 
 /**
  * Express Controller
@@ -9,6 +10,12 @@ const { getOneArticle, getRandomArticle, getSearchedArticles } = require('../db/
 module.exports.getOneArticle = async (req, res) => {
   try {
     const article = await getOneArticle();
+
+    if (req.query.lang) {
+      const newArticle = await translateArticle(article, req.query.lang);
+      res.status(200).json(newArticle);
+      return;
+    }
 
     res.status(200).json(article);
   } catch (err) {
