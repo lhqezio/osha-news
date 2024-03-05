@@ -18,7 +18,15 @@ const articleSchema = mongoose.Schema({
   image: String
 });
 
+// User
+const userSchema = mongoose.Schema({
+  email: String,
+  name: String,
+  image: String
+});
+
 module.exports.ArticleModel = new mongoose.model('newsarticles', articleSchema);
+module.exports.UserModel = new mongoose.model('users', userSchema);
 
 /**
   * Add many rows of news data
