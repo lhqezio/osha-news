@@ -45,15 +45,17 @@ module.exports.translate = async (text, to, from = 'en') => {
  * @returns translated article
  */
 module.exports.translateOneArticle = async (article, to, from = 'en') => {
-  const headline = await this.translate(article.headline, to, from);
-  const category = await this.translate(article.category, to, from);
-  const text = await this.translate(article.text, to, from);
+  const textReq = [article.headline, article.category, article.text];
+  const textRes = await Promise.all(textReq.map(async (text) => {
+    return await this.translate(text, to, from);
+  }));
+  
   return {
     _id: article._id,
     link: article.link,
-    headline: headline.text,
-    category: category.text,
-    text: text.text,
+    headline: textRes[0].text,
+    category: textRes[1].text,
+    text: textRes[2].text,
     author: article.author,
     date: article.date,
     image: article.image,
