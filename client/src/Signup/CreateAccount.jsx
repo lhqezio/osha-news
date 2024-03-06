@@ -14,13 +14,28 @@ export default function CreateAccount(){
   };
 
   return (
-    <GoogleLogin
-      onSuccess={handleLogin}
-  
-      onError={() => {
-      // do something
-      }}
-  
-    />
+    <div>
+      <h1>Sign Up to OSHA News!</h1>
+      <form>
+        <label htmlFor="name">Name: </label>
+        <input name="name" type="text"></input>
+        <label htmlFor="email">Email: </label>
+        <input name="email" type="email"></input>
+        <label htmlFor="password">Password: </label>
+        <input name="password" type="password"></input>
+        <label htmlFor="confirm-password">Confirm Password: </label>
+        <input name="confirm-password" type="password"></input>
+      </form>
+      <h3>OR</h3>
+      <GoogleLogin
+        onSuccess={handleLogin}
+    
+        onError={() => {
+        // do something
+        }}
+    
+      />
+    </div>
+
   );
 }
