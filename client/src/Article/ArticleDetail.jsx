@@ -3,7 +3,11 @@ import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
 import { useTranslation } from 'react-i18next';
 
-export default function Article({setUpdateScroll, selectedCategories}) {
+export default function Article({
+  setUpdateScroll, 
+  selectedCategories,
+  currentLang
+}) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
@@ -22,7 +26,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
     }
 
     function fetchRandomArticles() {
-      fetch(`article/random`).
+      fetch(`article/random?lang=${currentLang}`).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -51,7 +55,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
         },
         body: requestBody
       };
-      fetch(`article/search`, options).
+      fetch(`article/search?lang=${currentLang}`, options).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -69,7 +73,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
           setFetchErrMsg(t('error.fetch'));
         });      
     }
-  }, [inView, articles, setUpdateScroll, selectedCategories, t]);
+  }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang]);
 
   return (
     articles !== null && inView && fetchErrMsg === '' ? 

@@ -2,13 +2,18 @@ import React, {useState, useEffect} from 'react';
 import x from '../images/x_icon.png';
 import { useTranslation } from 'react-i18next';
 
-export default function CategoryList(props){
+export default function CategoryList({ 
+  currentLang, 
+  selectedCategories, 
+  addSelectedCategory, 
+  removeSelectedCategory 
+}){
   const [hidden, setHidden] = useState(true);
   const [categories, setCategories] = useState([]);
   const { t } = useTranslation();
 
   useEffect(()=>{
-    fetch('/categories').
+    fetch(`/categories?lang=${currentLang}`).
       then((resp)=>{
         if(!resp.ok) {
           console.error('Error occured');
@@ -22,7 +27,7 @@ export default function CategoryList(props){
       catch (()=>{
         console.error('Server Error Occured');
       });
-  }, []);  
+  }, [currentLang]);  
 
   //on button press shows or hides the list
   function showCategories(){
@@ -35,14 +40,14 @@ export default function CategoryList(props){
   
   //use the handler functions
   function addCategory(e){
-    if (!props.selectedCategories.includes(e.target.innerText) && 
-      props.selectedCategories.length !== 5){
-      props.addSelectedCategory(e.target.innerText);
+    if (!selectedCategories.includes(e.target.innerText) && 
+      selectedCategories.length !== 5){
+      addSelectedCategory(e.target.innerText);
     } 
   }
 
   function removeCategory(e){
-    props.removeSelectedCategory(e.target.innerText);
+    removeSelectedCategory(e.target.innerText);
   }
 
   return (
@@ -51,7 +56,7 @@ export default function CategoryList(props){
         <button type="button" className="text-xs border-2 rounded-md mx-2 p-2"
           onClick={showCategories}>{t('home.categories')}</button>
         <ul className="flex flex-row">
-          {props.selectedCategories.map((cat, i) =>
+          {selectedCategories.map((cat, i) =>
             <li key={i}>
               <button onClick={removeCategory} type="button"
                 className="flex flex-row border-2 rounded-md bg-white text-xs mx-2 p-2">
