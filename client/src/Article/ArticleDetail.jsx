@@ -9,80 +9,67 @@ export default function Article({setUpdateScroll, selectedCategories}) {
   const [ref, inView] = useInView();
   const { t } = useTranslation();
 
-  useEffect(
-    ()=>{
-      if(inView && articles === null) {
-        if (selectedCategories.length === 0){
-          fetchRandomArticles();
-        }else{
-          fetchArticleByCategory(selectedCategories);
-        }
-        
-        if(setUpdateScroll !== undefined) {
-          setUpdateScroll(true); 
-        }
+  useEffect(() => {
+    if(inView && articles === null) {
+      if (selectedCategories.length === 0){
+        fetchRandomArticles();
+      }else{
+        fetchArticleByCategory(selectedCategories);
       }
-    }, [inView, articles, setUpdateScroll, selectedCategories]
-  );
+      if(setUpdateScroll !== undefined) {
+        setUpdateScroll(true); 
+      }
+    }
 
-  function fetchRandomArticles() {
-    fetch('article/random').
-      then(
-        (resp)=>{
+    function fetchRandomArticles() {
+      fetch(`article/random`).
+        then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
           } else {
             return resp.json();
           }
-        }
-      ).
-      then(
-        (json)=> {
+        }).
+        then((json) => {
           setFetchErrMsg('');
           setArticles(json);
-        }
-      ).catch (
-        ()=>{
+        }).
+        catch (() => {
           setFetchErrMsg(t('error.fetch'));
-        }
-      );
-  }
+        });
+    }
 
-  function fetchArticleByCategory(categories){
-    const params = {
-      category: categories
-    };
-    const requestBody = JSON.stringify(params);
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: requestBody
-    };
-    fetch('article/search', options).
-      then(
-        (resp)=>{
+    function fetchArticleByCategory(categories){
+      const params = {
+        category: categories
+      };
+      const requestBody = JSON.stringify(params);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: requestBody
+      };
+      fetch(`article/search`, options).
+        then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
           } else {
             return resp.json();
           }
-        }
-      ).
-      then(
-        (json)=> {
+        }).
+        then((json) => {
           setFetchErrMsg('');
           const random = Math.floor(Math.random() * 10);
           const newArray = [json.result[random]];
           setArticles(newArray);
-        }
-      ).catch (
-        ()=>{
+        }).
+        catch (() => {
           setFetchErrMsg(t('error.fetch'));
-        }
-      );      
-  }
+        });      
+    }
+  }, [inView, articles, setUpdateScroll, selectedCategories, t]);
 
   return (
     articles !== null && inView && fetchErrMsg === '' ? 

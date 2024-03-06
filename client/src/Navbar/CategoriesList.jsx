@@ -7,24 +7,22 @@ export default function CategoryList(props){
   const [categories, setCategories] = useState([]);
   const { t } = useTranslation();
 
-  useEffect(
-    ()=>{
-      fetch('/categories').
-        then((resp)=>{
-          if(!resp.ok) {
-            console.error('Error occured');
-          }else {
-            return resp.json();
-          }
-        }).
-        then ((json)=>{
-          setCategories(json);
-        }).
-        catch (()=>{
-          console.error('Server Error Occured');
-        });
-    }, []
-  );  
+  useEffect(()=>{
+    fetch('/categories').
+      then((resp)=>{
+        if(!resp.ok) {
+          console.error('Error occured');
+        }else {
+          return resp.json();
+        }
+      }).
+      then ((json)=>{
+        setCategories(json);
+      }).
+      catch (()=>{
+        console.error('Server Error Occured');
+      });
+  }, []);  
 
   //on button press shows or hides the list
   function showCategories(){

@@ -4,18 +4,14 @@ import Article from './ArticleDetail';
 export default function ShortScroll({selectedCategories}) {
 
   const[updateScroll, setUpdateScroll] = useState(false);
-  const[articleElems, setArticleElems] = useState(
-    [
-      <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories} key={0}/>
-    ]
-  );
+  const[articleElems, setArticleElems] = useState([
+    <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories} key={0}/>
+  ]);
 
   if(updateScroll) {
-    const newArr = articleElems.concat(
-      [
-        <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories} key={0}/>
-      ]
-    );
+    const newArr = articleElems.concat([
+      <Article setUpdateScroll={setUpdateScroll} selectedCategories={selectedCategories} key={0}/>
+    ]);
     setArticleElems(newArr);
     setUpdateScroll(false);
   }
