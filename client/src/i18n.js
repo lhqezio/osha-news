@@ -10,7 +10,7 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
-        homeText: {
+        home: {
           title: 'OSHA News',
           categories: 'Categories',
           user: 'User'
@@ -20,45 +20,45 @@ i18n.use(initReactI18next).init({
         },
         error: {
           error: 'Error!',
-          fetch: 'server fetching error',
+          fetch: 'Server fetching error',
           connection: 'Connection issue occured',
-          unexpected: 'Unexpected error has occurred.'
+          unexpected: 'Unexpected error has occurred'
         }
       }
     },
     fr: {
       translation: {
-        homeText: {
+        home: {
           title: 'OSHA News',
-          categories: 'Categories',
-          user: 'User'
+          categories: 'Catégories',
+          user: 'Utilisateur'
         },
         article: {
-          moreInfo: 'Read More'
+          moreInfo: 'En savoir plus'
         },
         error: {
-          error: 'Error!',
-          fetch: 'server fetching error',
-          connection: 'Connection issue occured',
-          unexpected: 'Unexpected error has occurred.'
+          error: 'Erreur!',
+          fetch: 'Erreur de récupération du serveur',
+          connection: 'Un problème de connexion est survenu',
+          unexpected: `Une erreur inattendue s'est produite`
         }
       }
     },
     es: {
       translation: {
-        homeText: {
+        home: {
           title: 'OSHA News',
-          categories: 'Categories',
-          user: 'User'
+          categories: 'Categorías',
+          user: 'Usuario'
         },
         article: {
-          moreInfo: 'Read More'
+          moreInfo: 'Leer más'
         },
         error: {
           error: 'Error!',
-          fetch: 'server fetching error',
-          connection: 'Connection issue occured',
-          unexpected: 'Unexpected error has occurred.'
+          fetch: 'Error al recuperar el servidor',
+          connection: 'Ocurrió un problema de conexión',
+          unexpected: 'Se ha producido un error inesperado'
         }
       }
     }

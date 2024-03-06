@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
+import { useTranslation } from 'react-i18next';
 
 export default function Article({setUpdateScroll, selectedCategories}) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
+  const { t } = useTranslation();
 
   useEffect(
     ()=>{
@@ -28,7 +30,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
       then(
         (resp)=>{
           if(!resp.ok){
-            setFetchErrMsg('Connection issue occured');
+            setFetchErrMsg(t('error.connection'));
           } else {
             return resp.json();
           }
@@ -41,7 +43,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
         }
       ).catch (
         ()=>{
-          setFetchErrMsg('server fetching error');
+          setFetchErrMsg(t('error.fetch'));
         }
       );
   }
@@ -62,7 +64,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
       then(
         (resp)=>{
           if(!resp.ok){
-            setFetchErrMsg('Connection issue occured');
+            setFetchErrMsg(t('error.connection'));
           } else {
             return resp.json();
           }
@@ -77,7 +79,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
         }
       ).catch (
         ()=>{
-          setFetchErrMsg('server fetching error BOB');
+          setFetchErrMsg(t('error.fetch'));
         }
       );      
   }
@@ -103,7 +105,7 @@ export default function Article({setUpdateScroll, selectedCategories}) {
             {articles[0].date}
           </div>
           <div>
-            <a className="text-blue-600" href={`${articles[0].link}`}>Read More</a>
+            <a className="text-blue-600" href={`${articles[0].link}`}>{t('article.moreInfo')}</a>
           </div>
         </div>
       </section> :

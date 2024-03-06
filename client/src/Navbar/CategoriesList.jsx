@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import x from '../images/x_icon.png';
+import { useTranslation } from 'react-i18next';
 
 export default function CategoryList(props){
   const [hidden, setHidden] = useState(true);
   const [categories, setCategories] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(
     ()=>{
@@ -49,7 +51,7 @@ export default function CategoryList(props){
     <div className="relative">
       <div className="flex flex-row">
         <button type="button" className="text-xs border-2 rounded-md mx-2 p-2"
-          onClick={showCategories}>Categories</button>
+          onClick={showCategories}>{t('home.categories')}</button>
         <ul className="flex flex-row">
           {props.selectedCategories.map((cat, i) =>
             <li key={i}>

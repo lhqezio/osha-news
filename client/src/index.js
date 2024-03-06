@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import Root from './Root';
 import ErrorPage from './error-page';
 import './index.css';
+import './i18n';
 
 const router = createBrowserRouter([
   {
