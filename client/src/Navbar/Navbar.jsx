@@ -6,6 +6,7 @@ import { GoogleLogin } from '@react-oauth/google';
 
 export default function Navbar(){
 
+  // put this code in the account creation page with the GoogleLogin element
   const handleLogin = response => {
     fetch('http://localhost:3001/users/login', {
       method : 'POST',
@@ -42,7 +43,7 @@ export default function Navbar(){
                 onSuccess={handleLogin}
           
                 onError={() => {
-                  console.log('Login Failed');
+                  // do something
                 }}
           
               />
