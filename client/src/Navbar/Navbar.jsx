@@ -4,13 +4,22 @@ import search from '../images/search.png';
 import avatar from '../images/avatar.png';
 import { useTranslation } from 'react-i18next';
 import LANGUAGE from '../constants/lang';
+import { useEffect, useState } from 'react';
 
 export default function Navbar(){
   const { i18n, t } = useTranslation();
+  const [lang, setLang] = useState(
+    localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en'
+  );
+
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [i18n, lang]);
 
   const onChangeLang = (e) => {
     const langCode = e.target.value;
-    i18n.changeLanguage(langCode);
+    setLang(langCode);
+    localStorage.setItem('lang', langCode);
   };
 
   return (
@@ -32,7 +41,7 @@ export default function Navbar(){
               <div>
                 <select 
                   name="selectLanguage"
-                  defaultValue={i18n.language}
+                  defaultValue={lang}
                   onChange={onChangeLang}
                 >
                   {LANGUAGE.map(({key, displayName}) => 
