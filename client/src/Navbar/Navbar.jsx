@@ -2,24 +2,8 @@ import { Link } from 'react-router-dom';
 import home from '../images/home.png';
 import search from '../images/search.png';
 import avatar from '../images/avatar.png';
-import { GoogleLogin } from '@react-oauth/google';
 
 export default function Navbar(){
-
-  // put this code in the account creation page with the GoogleLogin element
-  const handleLogin = response => {
-    fetch('http://localhost:3001/users/login', {
-      method : 'POST',
-      body: JSON.stringify({
-        'token' : response.credential
-      }),
-      headers: {
-        'Content-Type' : 'application/json'
-      }
-    });
-  };
-  
-
 
   return (
     <nav className="py-1">
@@ -39,14 +23,6 @@ export default function Navbar(){
             <div className="flex flex-row">
               <h1>User</h1>
               <img className="size-7" src={avatar} alt="profile"/>
-              <GoogleLogin
-                onSuccess={handleLogin}
-          
-                onError={() => {
-                  // do something
-                }}
-          
-              />
             </div>
           </div>
         </li>
