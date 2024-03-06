@@ -105,7 +105,7 @@ module.exports.upsertUserAccount = async (user) => {
 
   const userExists = await UserModel.find({ email: user.email }).exec();
 
-  if (!userExists) {
+  if (userExists.length === 0) {                                                    
     newUser.save().catch(console.log);
   }
 
