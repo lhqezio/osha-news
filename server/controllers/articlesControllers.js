@@ -11,7 +11,7 @@ module.exports.getOneArticle = async (req, res) => {
   try {
     const article = await getOneArticle();
 
-    if (req.query.lang) {
+    if (req.query.lang && req.query.lang !== 'en') {
       try {
         const newArticle = await translateOneArticle(article, req.query.lang);
         res.status(200).json(newArticle);
@@ -62,7 +62,7 @@ module.exports.getRandomArticle = async (req, res) => {
       amount
     );
 
-    if (req.query.lang) {
+    if (req.query.lang && req.query.lang !== 'en') {
       try {
         const newArticle = await translateMultipleArticle(articles, req.query.lang);
         res.status(200).json(newArticle);
@@ -142,7 +142,7 @@ module.exports.searchAllArticles = async (req, res) => {
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
     const parsedResults = results[0].data;
 
-    if (req.query.lang) {
+    if (req.query.lang && req.query.lang !== 'en') {
       try {
         const newResult = await translateMultipleArticle(parsedResults, req.query.lang);
         res.status(200).json(
