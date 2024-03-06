@@ -16,7 +16,7 @@ export default function Root(){
   }
 
   return (
-    <div>
+    <div className="px-8">
       <NavBar/>
       <CategoriesList addSelectedCategory={addSelectedCategory}
         removeSelectedCategory={removeSelectedCategory}

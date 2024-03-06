@@ -1,8 +1,10 @@
 export default function SearchBox(props) {
   return (
     <ul className={ !props.show ? 'hidden' : 
-      'block border rounded-md mt-1 mx-2 p-2' +
-        ' overflow-auto w-80 h-52 absolute bg-white md:bg-opacity-90 z-10 font-bold' } >
+      'block rounded-md mt-4 mx-auto p-2 border border-gray-400' +
+        ' overflow-auto w-[70vw] h-[70vh] absolute bg-white md:bg-opacity-95 z-20 font-bold' +
+        ' top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+    } >
       
     </ul>
   );
