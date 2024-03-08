@@ -5,8 +5,12 @@ import { useClickAway } from '@uidotdev/usehooks';
 export default function CategoryList(props){
   const [hidden, setHidden] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [closeByClickedAway, setCloseByClickedAway] = useState(false);
   const ref = useClickAway(() => {
-    setHidden(true);
+    if(!hidden) {
+      setHidden(true);
+      setCloseByClickedAway(true);
+    }
   });
 
   useEffect(
@@ -30,7 +34,10 @@ export default function CategoryList(props){
 
   //on button press shows or hides the list
   function showCategories(){
-    setHidden(false);
+    if(!closeByClickedAway) {
+      setHidden(false);
+    }
+    setCloseByClickedAway(false);
   }
   
   //use the handler functions
@@ -54,7 +61,7 @@ export default function CategoryList(props){
         <ul className="flex flex-row">
           {props.selectedCategories.map((cat, i) =>
             <li key={i}>
-              <button onClick={removeCategory} type="button" ref={ref}
+              <button onClick={removeCategory} type="button"
                 className={
                   'flex flex-row border border-gray-400 rounded-xl' + 
                 ' text-xs mx-2 p-2 font-bold'
