@@ -1,4 +1,5 @@
 const { getOneArticle, getRandomArticle, getSearchedArticles } = require('../db/db');
+const { translateOneArticle, translateMultipleArticle } = require('../utils/translateModule');
 
 /**
  * Express Controller
@@ -10,8 +11,18 @@ module.exports.getOneArticle = async (req, res) => {
   try {
     const article = await getOneArticle();
 
+    if (req.query.lang && req.query.lang !== 'en') {
+      try {
+        const newArticle = await translateOneArticle(article, req.query.lang);
+        res.status(200).json(newArticle);
+      } catch (_) {
+        res.status(200).json(article);
+      }
+      return;
+    }
+
     res.status(200).json(article);
-  } catch (err) {
+  } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
   }
 };
@@ -51,8 +62,18 @@ module.exports.getRandomArticle = async (req, res) => {
       amount
     );
 
+    if (req.query.lang && req.query.lang !== 'en') {
+      try {
+        const newArticle = await translateMultipleArticle(articles, req.query.lang);
+        res.status(200).json(newArticle);
+      } catch (_) {
+        res.status(200).json(articles);
+      }
+      return;
+    }
+
     res.status(200).json(articles);
-  } catch (err) {
+  } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
   }
 };
@@ -120,12 +141,26 @@ module.exports.searchAllArticles = async (req, res) => {
     
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
     const parsedResults = results[0].data;
+
+    if (req.query.lang && req.query.lang !== 'en') {
+      try {
+        const newResult = await translateMultipleArticle(parsedResults, req.query.lang);
+        res.status(200).json(
+          { 'search' : search, 'result' : newResult }
+        );
+      } catch (_) {
+        res.status(200).json(
+          { 'search' : search, 'result' : parsedResults }
+        );
+      }
+      return;
+    }
     
     // returns values found if more than 1 value exists
     res.status(200).json(
       { 'search' : search, 'result' : parsedResults }
     );
-  } catch (err) {
+  } catch (_) {
     res.status(500).json({ 'error' : 'Internal Error' });
   }
 };
