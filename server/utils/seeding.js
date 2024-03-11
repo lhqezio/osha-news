@@ -18,7 +18,8 @@ const seeding = async () => {
         'text': article.short_description,
         'authors': article.authors,
         'date': article.date,
-        'image': 'https://azuretest2142443.blob.core.windows.net/helloblob/news%20image.webp'
+        'image': 'https://azuretest2142443.blob.core.windows.net/helloblob/news%20image.webp',
+        'lang': 'en'
       };
     });
 

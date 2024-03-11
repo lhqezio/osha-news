@@ -5,6 +5,7 @@ import Root from './Root';
 import PostArticle from './Post/Post.jsx';
 import ErrorPage from './error-page';
 import './index.css';
+import './i18n';
 
 const router = createBrowserRouter([
   {

@@ -1,89 +1,88 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
+import { useTranslation } from 'react-i18next';
 
-export default function Article({setUpdateScroll, selectedCategories}) {
+export default function Article({
+  setUpdateScroll, 
+  selectedCategories,
+  currentLang
+}) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
+  const { t } = useTranslation();
 
-  useEffect(
-    ()=>{
-      if(inView && articles === null) {
-        if (selectedCategories.length === 0){
-          fetchRandomArticles();
-        }else{
-          fetchArticleByCategory(selectedCategories);
-        }
-        
-        if(setUpdateScroll !== undefined) {
-          setUpdateScroll(true); 
-        }
+  useEffect(() => {
+    if(inView && articles === null) {
+      if (selectedCategories.length === 0){
+        fetchRandomArticles();
+      }else{
+        fetchArticleByCategory(selectedCategories);
       }
-    }, [inView, articles, setUpdateScroll, selectedCategories]
-  );
+      if(setUpdateScroll !== undefined) {
+        setUpdateScroll(true); 
+      }
+    }
 
-  function fetchRandomArticles() {
-    fetch('article/random').
-      then(
-        (resp)=>{
+    function fetchRandomArticles() {
+      fetch(`article/random?lang=${currentLang}`).
+        then((resp) => {
           if(!resp.ok){
-            setFetchErrMsg('Connection issue occured');
+            setFetchErrMsg(t('error.connection'));
           } else {
             return resp.json();
           }
-        }
-      ).
-      then(
-        (json)=> {
+        }).
+        then((json) => {
           setFetchErrMsg('');
-          setArticles(json);
+          if(json[0] === undefined){
+            setFetchErrMsg(t('error.unexpected'));
+          } else {
+            setArticles(json);
+          }
         }
-      ).catch (
-        ()=>{
-          setFetchErrMsg('server fetching error');
-        }
-      );
-  }
+        ).catch (
+          ()=>{
+            setFetchErrMsg(t('error.fetch'));
+          }
+        );
+    }
 
-  function fetchArticleByCategory(categories){
-    const params = {
-      category: categories
-    };
-    const requestBody = JSON.stringify(params);
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: requestBody
-    };
-    fetch('article/search', options).
-      then(
-        (resp)=>{
+    function fetchArticleByCategory(categories){
+      const params = {
+        category: categories
+      };
+      const requestBody = JSON.stringify(params);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: requestBody
+      };
+      fetch(`article/search?lang=${currentLang}`, options).
+        then((resp) => {
           if(!resp.ok){
-            setFetchErrMsg('Connection issue occured');
+            setFetchErrMsg(t('error.connection'));
           } else {
             return resp.json();
           }
-        }
-      ).
-      then(
-        (json)=> {
+        }).
+        then((json) => {
           setFetchErrMsg('');
           const random = Math.floor(Math.random() * 10);
           const newArray = [json.result[random]];
           setArticles(newArray);
-        }
-      ).catch (
-        ()=>{
-          setFetchErrMsg('server fetching error BOB');
-        }
-      );      
-  }
+        }).
+        catch (() => {
+          setFetchErrMsg(t('error.fetch'));
+        });      
+    }
+  }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang]);
 
   return (
-    articles !== null && inView && fetchErrMsg === '' ? 
+    articles !== null && articles[0] !== undefined  && inView && fetchErrMsg === '' ? 
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
@@ -103,13 +102,13 @@ export default function Article({setUpdateScroll, selectedCategories}) {
             {articles[0].date}
           </div>
           <div>
-            <a className="text-blue-600" href={`${articles[0].link}`}>Read More</a>
+            <a className="text-blue-600" href={`${articles[0].link}`}>{t('article.moreInfo')}</a>
           </div>
         </div>
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
         {
-          fetchErrMsg !== '' ? <div>{fetchErrMsg}</div> : 
+          fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />
         }
       </section>
