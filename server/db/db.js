@@ -101,14 +101,18 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   return articles;
 };
 
-module.exports.upsertUserAccount = async (user) => {
-  const newUser = new UserModel({
-    email: user.email, name: user.name, posts: [], image: user.picture
-  });
-
+/**
+ * Add a user to database only if they don't already exist
+ * @param user user info from authentication 
+ */
+module.exports.addNewUser = async (user) => {
+  // Check if the user already exists using email
   const userExists = await UserModel.find({ email: user.email }).exec();
 
-  if (userExists.length === 0) {                                                    
+  if (userExists.length === 0) { 
+    const newUser = new UserModel({
+      email: user.email, name: user.name, posts: [], image: user.picture
+    });                                                   
     await newUser.save();
   }
 

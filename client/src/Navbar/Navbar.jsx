@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import home from '../images/home.png';
 import search from '../images/search.png';
-import avatar from '../images/avatar.png';
+// import avatar from '../images/avatar.png';
 import { useTranslation } from 'react-i18next';
 import LANGUAGE from '../constants/lang';
 
@@ -30,7 +30,6 @@ export default function Navbar({currentLang, setCurrentLang}) {
         <li className="inline w-1/3">
           <div className="grid grid-rows-1 justify-items-end">
             <div className="flex flex-row">
-              <Link to={`/signup`}><h1>Login/Signup</h1></Link>
               <div>
                 <select 
                   name="selectLanguage"
@@ -44,8 +43,7 @@ export default function Navbar({currentLang, setCurrentLang}) {
                   )}
                 </select>
               </div>
-              <h1>{t('home.user')}</h1>
-              <img className="size-7" src={avatar} alt="profile"/>
+              <Link to={`/signup`}><h1>Login/Signup</h1></Link>
             </div>
           </div>
         </li>
