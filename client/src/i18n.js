@@ -23,6 +23,9 @@ i18n.use(initReactI18next).init({
           fetch: 'Server fetching error',
           connection: 'Connection issue occured',
           unexpected: 'Unexpected error has occurred, Contact the administrator'
+        },
+        search: {
+          found: 'ARTICLE(S) FOUND'
         }
       }
     },
@@ -41,6 +44,9 @@ i18n.use(initReactI18next).init({
           fetch: 'Erreur de récupération du serveur',
           connection: 'Un problème de connexion est survenu',
           unexpected: `Une erreur inattendue s'est produite`
+        },
+        search: {
+          found: 'ARTICLE(S) TROUVÉ(S)'
         }
       }
     },
@@ -48,7 +54,7 @@ i18n.use(initReactI18next).init({
       translation: {
         home: {
           title: 'OSHA News',
-          categories: 'Categorías',
+          categories: 'FILTRA',
           user: 'Usuario'
         },
         article: {
@@ -59,6 +65,9 @@ i18n.use(initReactI18next).init({
           fetch: 'Error al recuperar el servidor',
           connection: 'Ocurrió un problema de conexión',
           unexpected: 'Se ha producido un error inesperado'
+        },
+        search: {
+          found: 'ARTÍCULO(S) ENCONTRADO(S)'
         }
       }
     }

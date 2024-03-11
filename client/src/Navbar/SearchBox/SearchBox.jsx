@@ -39,12 +39,18 @@ export default function SearchBox(props) {
       'flex rounded-md mt-4 mx-auto border border-gray-400' +
         ' overflow-auto w-[70vw] h-[70vh] absolute bg-white md:bg-opacity-95 z-20 font-bold' +
         ' top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 '
-    } >
+    } 
+    onMouseDown={
+      (e)=>{
+        e.preventDefault();
+      }
+    }
+    >
       <div className="w-[50vw] border-r border-gray-400 p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
           {fetchErrMsg !== '' ? fetchErrMsg : 
             loading ? 'LOADING...' : 
-              articleResults.length + ' ARTICLE(S) FOUND'}
+              articleResults.length + ` ${t('search.found')}`}
         </p>
         {articleResults !== null && !loading && 
           <ArticleResults articles = {articleResults}/>}

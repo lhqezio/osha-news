@@ -52,7 +52,8 @@ export default function Navbar({currentLang, setCurrentLang}){
           <div className="grid grid-rows-1 justify-items-end">
             <div className="flex flex-row">
               <div>
-                <select 
+                <select
+                  className="mr-2"
                   name="selectLanguage"
                   defaultValue={currentLang}
                   onChange={onChangeLang}
