@@ -1,8 +1,13 @@
 import { GoogleLogin } from '@react-oauth/google';
+import home from '../images/home.png';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function CreateAccount(){
+  const [user, setUser] = useState('');
+
   const handleLogin = response => {
-    fetch('http://localhost:3001/users/login', {
+    fetch('/users/login', {
       method : 'POST',
       body: JSON.stringify({
         'token' : response.credential
@@ -10,11 +15,15 @@ export default function CreateAccount(){
       headers: {
         'Content-Type' : 'application/json'
       }
-    });
+    }).
+      then((response) => response.json()).
+      then((userData) => setUser(userData.currentUser));
   };
 
   return (
     <div>
+      <Link to={`/`}><img className="size-7 p-1" src={home} alt="home icon"/></Link>
+
       <h1>Sign Up to OSHA News!</h1>
       <form>
         <label htmlFor="name">Name: </label>
@@ -35,6 +44,7 @@ export default function CreateAccount(){
         }}
     
       />
+      <h4>User: {user}</h4>
     </div>
 
   );

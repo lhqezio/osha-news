@@ -22,6 +22,7 @@ const articleSchema = mongoose.Schema({
 const userSchema = mongoose.Schema({
   email: String,
   name: String,
+  posts: Array,
   image: String
 });
 
@@ -101,7 +102,9 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
 };
 
 module.exports.upsertUserAccount = async (user) => {
-  const newUser = new UserModel({email: user.email, name: user.name, image: user.picture});
+  const newUser = new UserModel({
+    email: user.email, name: user.name, posts: [], image: user.picture
+  });
 
   const userExists = await UserModel.find({ email: user.email }).exec();
 

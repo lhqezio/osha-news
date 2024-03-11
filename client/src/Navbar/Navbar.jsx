@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import home from '../images/home.png';
 import search from '../images/search.png';
-import avatar from '../images/avatar.png';
+// import avatar from '../images/avatar.png';
 
 export default function Navbar(){
 
@@ -21,8 +21,7 @@ export default function Navbar(){
         <li className="inline w-1/3">
           <div className="grid grid-rows-1 justify-items-end">
             <div className="flex flex-row">
-              <h1>User</h1>
-              <img className="size-7" src={avatar} alt="profile"/>
+              <Link to={`/signup`}><h1>Login/Signup</h1></Link>
             </div>
           </div>
         </li>
