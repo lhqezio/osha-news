@@ -6,6 +6,7 @@ export default function SearchBox(props) {
   const [loading, setLoading] = useState(true);
   useEffect(()=>{
     setLoading(true);
+    setArticleResult(null);
     
   }, [props.searchTerm]);
 

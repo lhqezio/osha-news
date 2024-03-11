@@ -26,7 +26,7 @@ export default function Root(){
 
   return (
     <div className="px-8">
-      <NavBar/>
+      <NavBar currentLang={currentLang} setCurrentLang = {setCurrentLang}/>
       <CategoriesList 
         addSelectedCategory={addSelectedCategory}
         removeSelectedCategory={removeSelectedCategory}

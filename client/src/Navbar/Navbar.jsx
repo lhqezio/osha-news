@@ -1,7 +1,7 @@
 import search from '../images/search.png';
 import avatar from '../images/avatar.png';
 import { useState } from 'react';
-import SearchBox from './SearchBox';
+import SearchBox from './SearchBox/SearchBox';
 import { useTranslation } from 'react-i18next';
 import LANGUAGE from '../constants/lang';
 
@@ -47,7 +47,7 @@ export default function Navbar({currentLang, setCurrentLang}){
           </div>
         </li>
         <li className="w-1/3 flex justify-items-end">
-          <a href="/" className="text-xl text-center w-full">t('home.title')</a>
+          <a href="/" className="text-xl text-center w-full">{t('home.title')}</a>
         </li>
         <li className="inline w-1/3">
           <div className="grid grid-rows-1 justify-items-end">

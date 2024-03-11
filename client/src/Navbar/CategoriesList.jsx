@@ -62,7 +62,7 @@ export default function CategoryList({
       <div className="flex flex-row">
         <button type="button" 
           className="text-xs font-bold border border-gray-400 rounded-xl mb-4 p-2"
-          onClick={showCategories}>t('home.categories')</button>
+          onClick={showCategories}>{t('home.categories')}</button>
         <ul className="flex flex-row">
           {selectedCategories.map((cat, i) =>
             <li key={i}>

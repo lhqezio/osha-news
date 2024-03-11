@@ -12,7 +12,7 @@ i18n.use(initReactI18next).init({
       translation: {
         home: {
           title: 'OSHA News',
-          categories: 'Categories',
+          categories: 'FILTER',
           user: 'User'
         },
         article: {
@@ -22,7 +22,7 @@ i18n.use(initReactI18next).init({
           error: 'Error!',
           fetch: 'Server fetching error',
           connection: 'Connection issue occured',
-          unexpected: 'Unexpected error has occurred'
+          unexpected: 'Unexpected error has occurred, Contact the administrator'
         }
       }
     },
@@ -30,7 +30,7 @@ i18n.use(initReactI18next).init({
       translation: {
         home: {
           title: 'OSHA News',
-          categories: 'Catégories',
+          categories: 'FILTRE',
           user: 'Utilisateur'
         },
         article: {

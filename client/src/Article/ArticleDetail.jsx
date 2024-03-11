@@ -37,17 +37,17 @@ export default function Article({
         then((json) => {
           setFetchErrMsg('');
           if(json[0] === undefined){
-            setFetchErrMsg('This is not supposed to happen, please contact the site administrator');
+            setFetchErrMsg(t('error.unexpected'));
           } else {
             setArticles(json);
           }
         }
-      ).catch (
-        ()=>{
-          setFetchErrMsg('server fetching error');
-        }
-      );
-  }
+        ).catch (
+          ()=>{
+            setFetchErrMsg(t('error.fetch'));
+          }
+        );
+    }
 
     function fetchArticleByCategory(categories){
       const params = {
