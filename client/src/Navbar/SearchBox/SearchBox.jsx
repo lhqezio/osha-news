@@ -1,14 +1,40 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 export default function SearchBox(props) {
 
-  const [articleResults, setArticleResult] = useState(null);
+  const [articleResults, setArticleResults] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [fetchErrMsg, setFetchErrMsg] = useState('');
+  const { t } = useTranslation();
+
   useEffect(()=>{
+    setFetchErrMsg('');
     setLoading(true);
-    setArticleResult(null);
+    fetch(`/article/search?search=${props.searchTerm}&page=2&amount=2`).
+      then((resp) => {
+        if(!resp.ok){
+          setFetchErrMsg(t('error.connection'));
+        } else {
+          return resp.json();
+        }
+      }).
+      then((json) => {
+        if(json[0] === undefined){
+          setFetchErrMsg(t('error.unexpected'));
+        } else {
+          setFetchErrMsg('');
+          setArticleResults(json);
+        }
+      }
+      ).catch (
+        ()=>{
+          setFetchErrMsg(t('error.fetch'));
+        }
+      );
     
-  }, [props.searchTerm]);
+  }, [props.searchTerm, t]);
 
   return (
     <div className={ !props.show ? 'hidden' : 
@@ -18,7 +44,9 @@ export default function SearchBox(props) {
     } >
       <div className="grow-[3] border-r border-gray-400 p-8">
         <p className="font-semibold text-sm">
-          {loading ? 'LOADING...' : articleResults.length + 'ARTICLE(S) FOUND'}
+          {fetchErrMsg !== '' ? fetchErrMsg : 
+            loading ? 'LOADING...' : 
+              articleResults.length + 'ARTICLE(S) FOUND'}
         </p>
       </div>
       <div className="grow p-8">

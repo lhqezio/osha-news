@@ -10,7 +10,6 @@ export default function Navbar({currentLang, setCurrentLang}){
   const defaultSearchValue = '';
   const[searchTerm, setSearchTerm] = useState(defaultSearchValue);
   const [showSearchBox, setShowSearchBox] = useState(false);
-  const [searchResult, setSearchResult] = useState(null);
 
 
   function handleSearchChange(e){
@@ -71,8 +70,7 @@ export default function Navbar({currentLang, setCurrentLang}){
           </div>
         </li>
       </ul>
-      <SearchBox show={showSearchBox} set={setSearchResult} 
-        searchResult={searchResult}> </SearchBox>
+      <SearchBox show={showSearchBox} searchTerm={searchTerm}> </SearchBox>
     </nav>
   );
 }

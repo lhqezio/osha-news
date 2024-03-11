@@ -39,6 +39,7 @@ export default function Article({
           if(json[0] === undefined){
             setFetchErrMsg(t('error.unexpected'));
           } else {
+            setFetchErrMsg('');
             setArticles(json);
           }
         }
