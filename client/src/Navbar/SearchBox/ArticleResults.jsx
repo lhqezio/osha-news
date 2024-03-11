@@ -14,7 +14,11 @@ function ArticleResult({article}){
   return(
     <div className="my-6">
       <p className="font-semibold text-sm">{article.category}</p>
-      <p className="text-xl font-serif font-normal my-1">{article.headline}</p>
+      <a className="text-xl font-serif font-normal my-1 cursor-pointer hover:text-gray-500"
+        href={article.link}
+      >
+        {article.headline}
+      </a>
       {article.authors.trim() !== '' &&
       <p className="text-sm font-sans font-normal">{` by ${article.authors}`}</p> }      
     </div>

@@ -12,7 +12,7 @@ export default function Navbar({currentLang, setCurrentLang}){
   const [showSearchBox, setShowSearchBox] = useState(false);
 
 
-  function handleSearchChange(e){
+  function handleShowSearchBox(e){
     setSearchTerm(e.target.value);
     if(e.target.value.trim() !== defaultSearchValue) {
       setShowSearchBox(true);
@@ -29,7 +29,6 @@ export default function Navbar({currentLang, setCurrentLang}){
 
   function hideSearchBox(){
     setShowSearchBox(false);
-    setSearchTerm(defaultSearchValue);
   }
 
   return (
@@ -37,23 +36,24 @@ export default function Navbar({currentLang, setCurrentLang}){
       <ul className="flex flex-row justify-between">
         <li className="inline w-1/3">
           <div className="flex flex-row justify-items-start">
-            <img className="size-6 p-1 rounded-md" src={search} alt="search icon"/>
-            <input className="border rounded-sm border-gray-400 my-px" 
+            <img className="size-6 my-1 mr-2" src={search} alt="search icon"/>
+            <input className="border rounded-sm border-gray-400 p-1 font-light" 
               type="text" value={searchTerm}
-              onChange={handleSearchChange}
+              onChange={handleShowSearchBox}
               onBlur={hideSearchBox}
+              onFocus={handleShowSearchBox}
             />
           </div>
         </li>
         <li className="w-1/3 flex justify-items-end">
-          <a href="/" className="text-xl text-center w-full">{t('home.title')}</a>
+          <a href="/" className="text-xl text-center w-full my-1">{t('home.title')}</a>
         </li>
         <li className="inline w-1/3">
           <div className="grid grid-rows-1 justify-items-end">
             <div className="flex flex-row">
               <div>
                 <select
-                  className="mr-2"
+                  className="mr-2 my-1"
                   name="selectLanguage"
                   defaultValue={currentLang}
                   onChange={onChangeLang}
@@ -65,8 +65,8 @@ export default function Navbar({currentLang, setCurrentLang}){
                   )}
                 </select>
               </div>
-              <h1>{t('home.user')}</h1>
-              <img className="size-7" src={avatar} alt="profile"/>
+              <h1 className="my-1">{t('home.user')}</h1>
+              <img className="size-7 my-1" src={avatar} alt="profile"/>
             </div>
           </div>
         </li>
