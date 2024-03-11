@@ -45,6 +45,10 @@ lint-client:
 
 build-frontend:
   stage: build
+  rules:
+    - changes: 
+      - client/**
+      - ".gitlab-ci.yml"
   cache: 
     key: 
       prefix: 'frontend'
@@ -64,6 +68,10 @@ build-frontend:
 
 build-backend:
   stage: build
+  rules:
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
   cache:
     key:
       prefix: 'backend'
