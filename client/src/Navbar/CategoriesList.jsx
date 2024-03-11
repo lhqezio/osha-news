@@ -69,7 +69,7 @@ export default function CategoryList({
               <button onClick={removeCategory} type="button"
                 className={
                   'flex flex-row border border-gray-400 rounded-xl' + 
-                ' text-xs mx-2 p-2 font-bold'
+                ' text-sm mx-2 p-2 font-bold'
                 }
               >
                 <p>{cat}</p>
