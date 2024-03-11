@@ -1,18 +1,8 @@
 #!/usr/bin/env node
 const app = require('../app');
-const DB = require('../db/db');
 const PORT = process.env.PORT || 3001;
 
 (async () => {
-  try {
-    const db = new DB();
-    await db.connect('news');
-    app.set('db', db);
-  } catch (e) {
-    console.error(e);
-    console.dir(e);
-    process.exit();
-  }
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}! http://localhost:${PORT}`);
   });

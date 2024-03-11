@@ -40,11 +40,15 @@ lint-client:
       - client/**
       - ".gitlab-ci.yml"
   script:
-    - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs .
+    - cd client && ./node_modules/eslint/bin/eslint.js --ext js,mjs,cjs,jsx .
   allow_failure: false
 
 build-frontend:
   stage: build
+  rules:
+    - changes: 
+      - client/**
+      - ".gitlab-ci.yml"
   cache: 
     key: 
       prefix: 'frontend'
@@ -64,6 +68,10 @@ build-frontend:
 
 build-backend:
   stage: build
+  rules:
+    - changes: 
+      - server/**
+      - ".gitlab-ci.yml"
   cache:
     key:
       prefix: 'backend'
