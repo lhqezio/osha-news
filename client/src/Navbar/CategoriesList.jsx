@@ -1,11 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
+import { useTranslation } from 'react-i18next';
 
-
-export default function CategoryList(props){
+export default function CategoryList({ 
+  currentLang, 
+  selectedCategories, 
+  addSelectedCategory, 
+  removeSelectedCategory 
+}){
   const [hidden, setHidden] = useState(true);
   const [categories, setCategories] = useState([]);
   const [closeByClickedAway, setCloseByClickedAway] = useState(false);
+  const { t } = useTranslation();
+  
   const ref = useClickAway(() => {
     if(!hidden) {
       setHidden(true);
@@ -13,24 +20,22 @@ export default function CategoryList(props){
     }
   });
 
-  useEffect(
-    ()=>{
-      fetch('/categories').
-        then((resp)=>{
-          if(!resp.ok) {
-            console.error('Error occured');
-          }else {
-            return resp.json();
-          }
-        }).
-        then ((json)=>{
-          setCategories(json);
-        }).
-        catch (()=>{
-          console.error('Server Error Occured');
-        });
-    }, []
-  );  
+  useEffect(()=>{
+    fetch(`/categories?lang=${currentLang}`).
+      then((resp)=>{
+        if(!resp.ok) {
+          console.error('Error occured');
+        }else {
+          return resp.json();
+        }
+      }).
+      then ((json)=>{
+        setCategories(json);
+      }).
+      catch (()=>{
+        console.error('Server Error Occured');
+      });
+  }, [currentLang]);  
 
   //on button press shows or hides the list
   function showCategories(){
@@ -42,14 +47,14 @@ export default function CategoryList(props){
   
   //use the handler functions
   function addCategory(e){
-    if (!props.selectedCategories.includes(e.target.innerText) && 
-      props.selectedCategories.length !== 5){
-      props.addSelectedCategory(e.target.innerText);
+    if (!selectedCategories.includes(e.target.innerText) && 
+      selectedCategories.length !== 5){
+      addSelectedCategory(e.target.innerText);
     } 
   }
 
   function removeCategory(e){
-    props.removeSelectedCategory(e.target.innerText);
+    removeSelectedCategory(e.target.innerText);
   }
 
   return (
@@ -57,9 +62,9 @@ export default function CategoryList(props){
       <div className="flex flex-row">
         <button type="button" 
           className="text-xs font-bold border border-gray-400 rounded-xl mb-4 p-2"
-          onClick={showCategories}>FILTER</button>
+          onClick={showCategories}>t('home.categories')</button>
         <ul className="flex flex-row">
-          {props.selectedCategories.map((cat, i) =>
+          {selectedCategories.map((cat, i) =>
             <li key={i}>
               <button onClick={removeCategory} type="button"
                 className={
