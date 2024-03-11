@@ -12,7 +12,7 @@ export default function Navbar(){
 
   function handleSearchChange(e){
     setSearchTerm(e.target.value);
-    if(e.target.value !== defaultSearchValue) {
+    if(e.target.value.trim() !== defaultSearchValue) {
       setShowSearchBox(true);
     } else {
       setShowSearchBox(false);
