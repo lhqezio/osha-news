@@ -17,6 +17,10 @@ const categoryRoute = require('./routes/categoryRoute');
 app.use('/categories', categoryRoute);
 
 // User route
+const authenticateRoute = require('./routes/authenticationRoute');
+app.use('/authenticate', authenticateRoute);
+
+// User route
 const userRoute = require('./routes/userRoute');
 app.use('/users', userRoute);
 

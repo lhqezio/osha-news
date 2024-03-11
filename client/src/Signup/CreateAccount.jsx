@@ -1,13 +1,20 @@
 import { GoogleLogin } from '@react-oauth/google';
 import home from '../images/home.png';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function CreateAccount(){
   const [user, setUser] = useState('');
+  const [tryLogin, setTryLogin] = useState(false);
+
+  useEffect(() => {
+    fetch('/users/login').
+      then((response) => response.json()).
+      then((user) => setUser(user.currentUser));
+  }, [tryLogin]);
 
   const handleLogin = response => {
-    fetch('/users/login', {
+    fetch('/authenticate', {
       method : 'POST',
       body: JSON.stringify({
         'token' : response.credential
@@ -17,7 +24,7 @@ export default function CreateAccount(){
       }
     }).
       then((response) => response.json()).
-      then((userData) => setUser(userData.currentUser));
+      then((data) => setTryLogin(data.confirmation));
   };
 
   return (
@@ -38,7 +45,6 @@ export default function CreateAccount(){
       <h3>OR</h3>
       <GoogleLogin
         onSuccess={handleLogin}
-    
         onError={() => {
         // do something
         }}

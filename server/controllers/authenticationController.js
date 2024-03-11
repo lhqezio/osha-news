@@ -3,10 +3,8 @@ const db = require('../db/db');
 
 const clientId = process.env.GOOGLE_CLIENT_ID;
 
-module.exports.login = async (req, res) => {
+module.exports.authenticate = async (req, res) => {
   const client = new OAuth2Client(clientId);
-
-  console.log(req.session.userId);
 
   const ticket = await client.verifyIdToken({
     idToken: req.body.token,
@@ -18,10 +16,11 @@ module.exports.login = async (req, res) => {
   if (payload.email_verified) {
     db.upsertUserAccount(payload);
     req.session.userId = payload.email;
-    res.status(200).json({ confirmation : 'User verified', currentUser : payload.email });
+    console.log('AUTH: ' + req.session.userId);
+    res.status(200).json({ confirmation : true });
     return;
   }
 
 
-  res.status(403).json({ confirmation : 'User not validated' });
+  res.status(403).json({ confirmation : false });
 };
