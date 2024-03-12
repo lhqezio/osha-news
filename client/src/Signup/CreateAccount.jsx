@@ -1,5 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
-import home from '../images/home.png';
+import home from '../images/home.svg';
 import { Link } from 'react-router-dom';
 
 
