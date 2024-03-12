@@ -36,7 +36,10 @@ export default function PostArticle(){
     }, []
   );  
   
-  
+  /*
+  post fetch formdata
+  yyyy-mm-dd
+  */
   function postData(){
     const formData = new FormData(form.current);
     if (formData) {
@@ -46,14 +49,14 @@ export default function PostArticle(){
       }).then(
         (resp)=>{
           if (resp.ok){
-            setErrorMsg("New Article Added");
+            setErrorMsg('New Article Added');
           }else {
-            setErrorMsg("Respone Error Occured");
+            setErrorMsg('Respone Error Occured');
           }
         }
-      )
+      );
     } else {
-      setErrorMsg("Missing Fields from form")
+      setErrorMsg('Missing Fields from form');
     }
   }
   
@@ -61,6 +64,7 @@ export default function PostArticle(){
     <div>
       <Navbar/>
       <div className="w-screen h-screen">
+        <p>{ errorMsg }</p>
         <form className="flex flex-col border m-auto absolute inset-1/4" ref={ form }>
           <feildset className="flex flex-col p-3">
             <legend>Upload Article</legend>
