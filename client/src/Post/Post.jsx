@@ -1,6 +1,6 @@
 // import { Link } from 'react-router-dom';
 import React, {useState, useEffect, useRef} from 'react';
-import Navbar from '../Navbar/Navbar.jsx';
+// import Navbar from '../Navbar/Navbar.jsx';
 
 /*
 keep in mind
@@ -62,7 +62,6 @@ export default function PostArticle(){
   
   return (
     <div>
-      <Navbar/>
       <div className="w-screen h-screen">
         <p>{ errorMsg }</p>
         <form className="flex flex-col border m-auto absolute inset-1/4" ref={ form }>

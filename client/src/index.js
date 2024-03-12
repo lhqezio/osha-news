@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './Root';
 import PostArticle from './Post/Post.jsx';
+import Navbar from './Navbar/Navbar.jsx';
 import ErrorPage from './error-page';
 import './index.css';
 import './i18n';
@@ -10,13 +11,18 @@ import './i18n';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <Navbar />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: '/post',
-    element: <PostArticle />,
-    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/',
+        element: <Root />,
+      },
+      {
+        path: '/post',
+        element: <PostArticle />,
+      },
+    ],
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
