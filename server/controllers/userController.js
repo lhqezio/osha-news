@@ -12,3 +12,8 @@ module.exports.login = async (req, res) => {
     res.send({ 'email' : user[0].email });
   }
 };
+
+module.exports.logout = async (req, res) => {
+  await req.session.destroy();
+  res.status(200).json({ 'message' : 'Logout Successful' });
+};

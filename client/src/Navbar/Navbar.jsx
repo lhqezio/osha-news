@@ -30,6 +30,15 @@ export default function Navbar({currentLang, setCurrentLang}) {
       });
   }, [dispatch]);
 
+  const logout = () => {
+    fetch('/users/logout', { method: 'DELETE' }).
+      then((response) => response.json()).
+      then((data) => console.log(data)).
+      then(() => {
+        dispatch({ type: actionTypes.SET_LOGOUT });
+      });
+  };
+
   const LOGIN_STATUS = useSelector((state) => state.value);
 
   if (!LOGIN_STATUS){
@@ -100,7 +109,7 @@ export default function Navbar({currentLang, setCurrentLang}) {
                   </select>
                 </div>
                 <div>{user}</div>
-                <Link to={`/signup`}><h1>Logout</h1></Link>
+                <button onClick={logout}>Logout</button>
               </div>
             </div>
           </li>
