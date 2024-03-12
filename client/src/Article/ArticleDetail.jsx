@@ -36,11 +36,18 @@ export default function Article({
         }).
         then((json) => {
           setFetchErrMsg('');
-          setArticles(json);
-        }).
-        catch (() => {
-          setFetchErrMsg(t('error.fetch'));
-        });
+          if(json[0] === undefined){
+            setFetchErrMsg(t('error.unexpected'));
+          } else {
+            setFetchErrMsg('');
+            setArticles(json);
+          }
+        }
+        ).catch (
+          ()=>{
+            setFetchErrMsg(t('error.fetch'));
+          }
+        );
     }
 
     function fetchArticleByCategory(categories){
@@ -76,7 +83,7 @@ export default function Article({
   }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang]);
 
   return (
-    articles !== null && inView && fetchErrMsg === '' ? 
+    articles !== null && articles[0] !== undefined  && inView && fetchErrMsg === '' ? 
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
@@ -102,7 +109,7 @@ export default function Article({
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
         {
-          fetchErrMsg !== '' ? <div>{fetchErrMsg}</div> : 
+          fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />
         }
       </section>

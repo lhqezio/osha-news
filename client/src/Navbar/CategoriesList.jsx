@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import x from '../images/x_icon.png';
+import { useClickAway } from '@uidotdev/usehooks';
 import { useTranslation } from 'react-i18next';
 
 export default function CategoryList({ 
@@ -10,7 +10,15 @@ export default function CategoryList({
 }){
   const [hidden, setHidden] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [closeByClickedAway, setCloseByClickedAway] = useState(false);
   const { t } = useTranslation();
+  
+  const ref = useClickAway(() => {
+    if(!hidden) {
+      setHidden(true);
+      setCloseByClickedAway(true);
+    }
+  });
 
   useEffect(()=>{
     fetch(`/categories?lang=${currentLang}`).
@@ -31,11 +39,10 @@ export default function CategoryList({
 
   //on button press shows or hides the list
   function showCategories(){
-    if (hidden === true){
+    if(!closeByClickedAway) {
       setHidden(false);
-    }else{
-      setHidden(true);
     }
+    setCloseByClickedAway(false);
   }
   
   //use the handler functions
@@ -53,22 +60,27 @@ export default function CategoryList({
   return (
     <div className="relative">
       <div className="flex flex-row">
-        <button type="button" className="text-xs border-2 rounded-md mx-2 p-2"
+        <button type="button" 
+          className="text-sm font-bold border border-gray-400 rounded-xl mb-4 p-2 mr-2"
           onClick={showCategories}>{t('home.categories')}</button>
         <ul className="flex flex-row">
           {selectedCategories.map((cat, i) =>
             <li key={i}>
               <button onClick={removeCategory} type="button"
-                className="flex flex-row border-2 rounded-md bg-white text-xs mx-2 p-2">
+                className={
+                  'flex flex-row border border-gray-400 rounded-xl' + 
+                ' text-sm mx-2 p-2 font-bold'
+                }
+              >
                 <p>{cat}</p>
-                <img className="size-4 p-1 rounded-md" src={x} alt="search icon"/>
               </button>
             </li>
           )}
         </ul>
       </div>
-      <ul className={ hidden ? 'hidden' : 
-        'block border rounded-md mx-2 p-2 overflow-auto w-80 h-52 absolute bg-white z-10' } >
+      <ul ref={ref} className={ hidden ? 'hidden' : 
+        'block border rounded-md p-2 -mt-2' +
+        ' overflow-auto w-80 h-52 absolute bg-white md:bg-opacity-95 z-10 font-bold' } >
         {categories.map((cat, i) =>
           <li key={i}>
             <button onClick={addCategory} type="button">{cat}</button>
