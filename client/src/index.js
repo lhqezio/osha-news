@@ -7,6 +7,7 @@ import Navbar from './Navbar/Navbar.jsx';
 import ErrorPage from './error-page';
 import './index.css';
 import './i18n';
+import Profile from './Profile/Profile.jsx';
 
 const router = createBrowserRouter([
   {
@@ -22,11 +23,17 @@ const router = createBrowserRouter([
         path: '/post',
         element: <PostArticle />,
       },
+      {
+        path: '/profile/:id',
+        element: < Profile />
+      }
     ],
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <div className="px-8">
+      <RouterProvider router={router} />
+    </div>
   </React.StrictMode>
 );
