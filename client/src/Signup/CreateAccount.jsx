@@ -16,7 +16,7 @@ export default function CreateAccount(){
         'Content-Type' : 'application/json'
       }
     }).
-      then((response) => response.json());
+      then(() => window.location = '/');
   };
 
   return (

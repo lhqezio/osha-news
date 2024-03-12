@@ -30,10 +30,8 @@ export default function Navbar({currentLang, setCurrentLang}) {
       });
   }, [dispatch]);
 
-  const logout = () => {
+  const logoutUser = () => {
     fetch('/users/logout', { method: 'DELETE' }).
-      then((response) => response.json()).
-      then((data) => console.log(data)).
       then(() => {
         dispatch({ type: actionTypes.SET_LOGOUT });
       });
@@ -109,7 +107,7 @@ export default function Navbar({currentLang, setCurrentLang}) {
                   </select>
                 </div>
                 <div>{user}</div>
-                <button onClick={logout}>Logout</button>
+                <button onClick={logoutUser}>Logout</button>
               </div>
             </div>
           </li>
