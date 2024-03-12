@@ -10,7 +10,8 @@ export default function CreateAccount(){
   useEffect(() => {
     fetch('/users/login').
       then((response) => response.json()).
-      then((user) => setUser(user.currentUser));
+      then((user) => setUser(user.email)).
+      finally(() => setTryLogin(false));
   }, [tryLogin]);
 
   const handleLogin = response => {

@@ -107,7 +107,7 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
  */
 module.exports.addNewUser = async (user) => {
   // Check if the user already exists using email
-  const userExists = await UserModel.find({ email: user.email }).exec();
+  const userExists = await UserModel.find({ email: user.email });
 
   if (userExists.length === 0) { 
     const newUser = new UserModel({
@@ -115,7 +115,11 @@ module.exports.addNewUser = async (user) => {
     });                                                   
     await newUser.save();
   }
+};
 
+module.exports.getUser = async (email) => {
+  const user = await UserModel.find({ email : email });
+  return user;
 };
 
 // Utils
