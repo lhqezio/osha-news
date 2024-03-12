@@ -6,6 +6,8 @@ import ErrorPage from './error-page';
 import './index.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import CreateAccount from './Signup/CreateAccount';
+import { Provider } from 'react-redux';
+import { store } from './userStore';
 
 // Linter doesn't like the process since it is run from server it doesn't understand process
 // eslint-disable-next-line no-undef
@@ -28,7 +30,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <GoogleOAuthProvider 
       clientId={ clientId }>
-      <RouterProvider router={router} />
+      <Provider store={store}><RouterProvider router={router} /></Provider>
     </GoogleOAuthProvider>
   </React.StrictMode>
 );

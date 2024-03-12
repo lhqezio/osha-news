@@ -4,9 +4,14 @@ import search from '../images/search.png';
 // import avatar from '../images/avatar.png';
 import { useTranslation } from 'react-i18next';
 import LANGUAGE from '../constants/lang';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { actionTypes } from '../userStore';
+import { useState } from 'react';
 
 export default function Navbar({currentLang, setCurrentLang}) {
   const { t } = useTranslation();
+  const [user, setUser] = useState('');
 
   const onChangeLang = (e) => {
     const langCode = e.target.value;
@@ -14,40 +19,93 @@ export default function Navbar({currentLang, setCurrentLang}) {
     localStorage.setItem('lang', langCode);
   };
 
-  return (
-    <nav className="py-1">
-      <ul className="flex flex-row justify-between">
-        <li className="inline w-1/3">
-          <div className="flex flex-row justify-items-start">
-            <Link to={`/`}><img className="size-7 p-1" src={home} alt="home icon"/></Link>
-            <img className="size-7 p-1 rounded-md" src={search} alt="search icon"/>
-            <input className="border my-px" type="text"/>
-          </div>
-        </li>
-        <li className="inline w-1/3 flex justify-items-end">
-          <h1 className="text-center w-full">{t('home.title')}</h1>
-        </li>
-        <li className="inline w-1/3">
-          <div className="grid grid-rows-1 justify-items-end">
-            <div className="flex flex-row">
-              <div>
-                <select 
-                  name="selectLanguage"
-                  defaultValue={currentLang}
-                  onChange={onChangeLang}
-                >
-                  {LANGUAGE.map(({key, displayName}) => 
-                    <option key={key} value={key}>
-                      {displayName}
-                    </option>
-                  )}
-                </select>
-              </div>
-              <Link to={`/signup`}><h1>Login/Signup</h1></Link>
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    fetch('/users/login').
+      then((response) => response.json()).
+      then((user) => setUser(user.email)).
+      then(() => {
+        dispatch({ type: actionTypes.SET_LOGIN });
+      });
+  }, [dispatch]);
+
+  const LOGIN_STATUS = useSelector((state) => state.value);
+
+  if (!LOGIN_STATUS){
+    return (
+      <nav className="py-1">
+        <ul className="flex flex-row justify-between">
+          <li className="inline w-1/3">
+            <div className="flex flex-row justify-items-start">
+              <Link to={`/`}><img className="size-7 p-1" src={home} alt="home icon"/></Link>
+              <img className="size-7 p-1 rounded-md" src={search} alt="search icon"/>
+              <input className="border my-px" type="text"/>
             </div>
-          </div>
-        </li>
-      </ul>
-    </nav>
-  );
+          </li>
+          <li className="inline w-1/3 flex justify-items-end">
+            <h1 className="text-center w-full">{t('home.title')}</h1>
+          </li>
+          <li className="inline w-1/3">
+            <div className="grid grid-rows-1 justify-items-end">
+              <div className="flex flex-row">
+                <div>
+                  <select 
+                    name="selectLanguage"
+                    defaultValue={currentLang}
+                    onChange={onChangeLang}
+                  >
+                    {LANGUAGE.map(({key, displayName}) => 
+                      <option key={key} value={key}>
+                        {displayName}
+                      </option>
+                    )}
+                  </select>
+                </div>
+                <Link to={`/signup`}><h1>Login</h1></Link>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    );
+  } else {
+    return (
+      <nav className="py-1">
+        <ul className="flex flex-row justify-between">
+          <li className="inline w-1/3">
+            <div className="flex flex-row justify-items-start">
+              <Link to={`/`}><img className="size-7 p-1" src={home} alt="home icon"/></Link>
+              <img className="size-7 p-1 rounded-md" src={search} alt="search icon"/>
+              <input className="border my-px" type="text"/>
+            </div>
+          </li>
+          <li className="inline w-1/3 flex justify-items-end">
+            <h1 className="text-center w-full">{t('home.title')}</h1>
+          </li>
+          <li className="inline w-1/3">
+            <div className="grid grid-rows-1 justify-items-end">
+              <div className="flex flex-row">
+                <div>
+                  <select 
+                    name="selectLanguage"
+                    defaultValue={currentLang}
+                    onChange={onChangeLang}
+                  >
+                    {LANGUAGE.map(({key, displayName}) => 
+                      <option key={key} value={key}>
+                        {displayName}
+                      </option>
+                    )}
+                  </select>
+                </div>
+                <div>{user}</div>
+                <Link to={`/signup`}><h1>Logout</h1></Link>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    );
+  }
 }
