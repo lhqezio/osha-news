@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ShortScroll from './Article/ShortScroll';
-import NavBar from './Navbar/Navbar';
+// import NavBar from './Navbar/Navbar';
 import CategoriesList from './Navbar/CategoriesList';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 
 export default function Root(){
-  const { i18n } = useTranslation();
+  // const { i18n } = useTranslation();
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [currentLang, setCurrentLang] = useState(
-    localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en'
-  );
+  // const [currentLang, setCurrentLang] = useState(
+  //   localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en'
+  // );
 
-  useEffect(() => {
-    i18n.changeLanguage(currentLang);
-  }, [i18n, currentLang]);
+  // useEffect(() => {
+  //   i18n.changeLanguage(currentLang);
+  // }, [i18n, currentLang]);
 
   function addSelectedCategory(categoryName){
     setSelectedCategories(selectedCategories => [...selectedCategories, categoryName]);
@@ -25,18 +25,15 @@ export default function Root(){
   }
 
   return (
-    <div className="px-8">
-      <NavBar currentLang={currentLang} setCurrentLang = {setCurrentLang}/>
+    <div>
       <CategoriesList 
         addSelectedCategory={addSelectedCategory}
         removeSelectedCategory={removeSelectedCategory}
         selectedCategories={selectedCategories}
-        currentLang={currentLang}
       />
       <div>
         <ShortScroll 
           selectedCategories={selectedCategories}
-          currentLang={currentLang}
         />
       </div>
     </div>
