@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar({currentLang, setCurrentLang}){
   const { t } = useTranslation();
-  const [user, setUser] = useState('');
   const defaultSearchValue = '';
   const[searchTerm, setSearchTerm] = useState(defaultSearchValue);
-  const [showSearchBox, setShowSearchBox] = useState(false);
+  const [showSearchBox, setShowSearchBox] = useState(false);  
+  const [user, setUser] = useState('');
+  const [userIcon, setUserIcon] = useState('');
 
 
   function handleShowSearchBox(e){
@@ -30,13 +31,15 @@ export default function Navbar({currentLang, setCurrentLang}){
     localStorage.setItem('lang', langCode);
   };
 
-
   const dispatch = useDispatch();
   
   useEffect(() => {
     fetch('/users/login').
       then((response) => response.json()).
-      then((user) => setUser(user.email)).
+      then((user) => {
+        setUser(user.name);
+        setUserIcon(user.image);
+      }).
       then(() => {
         dispatch({ type: actionTypes.SET_LOGIN });
       });
@@ -134,6 +137,7 @@ export default function Navbar({currentLang, setCurrentLang}){
                   </select>
                 </div>
                 <div>{user}</div>
+                <img className="size-7" src={userIcon}></img>
                 <button onClick={logoutUser}>Logout</button>
               </div>
             </div>

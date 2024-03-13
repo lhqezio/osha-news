@@ -1,5 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
-const { addNewUser } = require('../db/db');
+const { addNewGoogleUser, getUser, addNewUser } = require('../db/db');
 
 // id used by google authentication
 const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -10,7 +10,7 @@ const clientId = process.env.GOOGLE_CLIENT_ID;
  * @param res response made by api
  * @param req.body.token token that is being authenticated 
  */
-module.exports.authenticate = async (req, res) => {
+module.exports.authenticateGoogle = async (req, res) => {
   const client = new OAuth2Client(clientId);
 
   const ticket = await client.verifyIdToken({
@@ -21,10 +21,38 @@ module.exports.authenticate = async (req, res) => {
   const payload = ticket.getPayload();
 
   if (payload.email_verified) {
-    addNewUser(payload);
+    addNewGoogleUser(payload);
     req.session.userId = payload.email;
     res.status(200).json({ confirmation : true });
     return;
   }
   res.status(401).json({ confirmation : false });
+};
+
+/**
+ * Authenticate through our database
+ */
+module.exports.authenticate = async (req, res) => {
+  const email = req.body.email;
+
+  const user = getUser(email);
+  if (user[0]){
+    res.status(400).json({ 'message' : 'User already exists with that email' });
+    return;
+  }
+  const name = req.body.name;
+  const image = req.body.image;
+  const password = req.body.password;
+
+  console.log(name);
+
+  addNewUser({
+    name : name,
+    email : email,
+    posts : [],
+    image : image,
+    password : password
+  });
+
+  res.status(200).json({ 'confirmation' : true });
 };

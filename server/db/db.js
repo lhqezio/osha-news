@@ -18,16 +18,8 @@ const articleSchema = mongoose.Schema({
   image: String
 });
 
-// User
-const userSchema = mongoose.Schema({
-  email: String,
-  name: String,
-  posts: Array,
-  image: String
-});
-
 const ArticleModel = new mongoose.model('newsarticles', articleSchema);
-const UserModel = new mongoose.model('users', userSchema);
+
 
 /**
   * Add many rows of news data
@@ -101,24 +93,61 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   return articles;
 };
 
+// Google User
+const googleUserSchema = mongoose.Schema({
+  email: String,
+  name: String,
+  posts: Array,
+  image: String
+});
+
+const GoogleUserModel = new mongoose.model('google-users', googleUserSchema);
+
 /**
  * Add a user to database only if they don't already exist
  * @param user user info from authentication 
  */
-module.exports.addNewUser = async (user) => {
+module.exports.addNewGoogleUser = async (user) => {
   // Check if the user already exists using email
-  const userExists = await UserModel.find({ email: user.email });
+  const userExists = await GoogleUserModel.find({ email: user.email });
 
   if (userExists.length === 0) { 
-    const newUser = new UserModel({
+    const newUser = new GoogleUserModel({
       email: user.email, name: user.name, posts: [], image: user.picture
     });                                                   
     await newUser.save();
   }
 };
 
+module.exports.getGoogleUser = async (email) => {
+  const user = await GoogleUserModel.find({ email : email });
+  return user;
+};
+
+// OSHA users
+const userSchema = mongoose.Schema({
+  email: String,
+  name: String,
+  posts: Array,
+  image: String,
+  password: String
+});
+const UserModel = new mongoose.model('users', userSchema);
+
+module.exports.addNewUser = async (user) => {
+  // Check if the user already exists using email
+  const userExists = await UserModel.find({ email: user.email });
+
+  if (userExists.length === 0) { 
+    const newUser = new UserModel({
+      email: user.email, name: user.name, posts: [], image: user.picture, password: user.password
+    });                                                   
+    await newUser.save();
+  }
+};
+
 module.exports.getUser = async (email) => {
-  const user = await UserModel.find({ email : email });
+  const user = await GoogleUserModel.find({ email : email });
   return user;
 };
 
