@@ -1,14 +1,12 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const bodyParser = require('body-parser');
 
 const app = express();
 
 app.use(express.static('../client/build'));
 app.use(express.json());
 app.use(session({secret: 'secretfornow'}));
-app.use(bodyParser.json());
 
 // Article route
 const articleRoute = require('./routes/articlesRoute');
@@ -26,8 +24,7 @@ app.use('/authenticate', authenticateRoute);
 const userRoute = require('./routes/userRoute');
 app.use('/users', userRoute);
 
-app.use('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-});
+// Required to make React Router Dom works correctly
+app.get('*', (req, res) => res.sendFile(path.resolve('..', 'client', 'build', 'index.html')));
 
 module.exports = app;

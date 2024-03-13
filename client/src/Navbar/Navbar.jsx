@@ -15,7 +15,6 @@ export default function Navbar({currentLang, setCurrentLang}){
   const [user, setUser] = useState('');
   const [userIcon, setUserIcon] = useState('');
 
-
   function handleShowSearchBox(e){
     setSearchTerm(e.target.value);
     if(e.target.value.trim() !== defaultSearchValue) {
