@@ -64,23 +64,40 @@ export default function PostArticle(){
     <div>
       <div className="w-screen h-screen">
         <p>{ errorMsg }</p>
-        <form className="flex flex-col border m-auto absolute inset-1/4" ref={ form }>
-          <feildset className="flex flex-col p-3">
-            <legend>Upload Article</legend>
-            <label htmlFor="article-name" className="text-xl m-1">Article Headline:</label>
-            <input type="text" name="article-name" className="border w-1/4 m-1"/>
-            <label htmlFor="short-description" className="text-xl m-1">Article Description:</label>
-            <textarea id="w3review" name="w3review" rows="4" cols="50" className="border w-3/4 m-1">
-            </textarea>
-            <label htmlFor="category" className="text-xl m-1">Category:</label>
-            <select name="category" className="border w-1/4 m-1">
-              {categories.map((cat, i) =>
-                <option key={i} value={cat}>{cat}</option>
-              )}
-            </select>
-            <label htmlFor="file" className="text-xl m-1">Upload image</label>
-            <input type="file" id="avatar" name="file" className="w-1/3 m-1"></input>  
-            <button type="button" onClick={postData} className="w-1/5 m-1 text-left">Submit</button>
+        <form ref={ form } 
+          className="flex flex-col border-2 border-gray-300
+          m-auto absolute inset-1/4 rounded shadow-lg" >
+          <feildset className="flex flex-col justify-between h-full">
+            <legend className="text-2xl m-2">Upload Article</legend>
+            <div>
+              <label htmlFor="article-name" className="text-xl m-2">Article Headline:</label>
+              <input type="text" name="article-name" className="border w-2/4 m-1"/>
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="short-description" className="text-xl m-2">
+                Article Description:
+              </label>
+              <textarea name="w3review" rows="4" cols="50" className="border w-3/4 m-2">
+              </textarea>
+            </div>
+            <div>
+              <label htmlFor="category" className="text-xl m-2">Category:</label>
+              <select name="category" className="border w-1/4">
+                {categories.map((cat, i) =>
+                  <option key={i} value={cat}>{cat}</option>
+                )}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="file" className="text-xl m-2 block w-full text-sm text-gray-900"
+              >Upload image</label>
+              <input type="file" id="avatar" name="file" 
+                className="w-1/3 m-2 block text-sm text-gray-900 border border-gray-300 
+                rounded cursor-pointer bg-gray-100 "></input>  
+            </div>
+            <button type="button" onClick={postData} 
+              className="w-full 
+              text-center text-white border p-1 bg-blue-500 rounded">Submit</button>
           </feildset>
         </form>
       </div>
