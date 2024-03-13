@@ -15,11 +15,12 @@ import { store } from './userStore';
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 import './i18n';
 import Profile from './Profile/Profile.jsx';
+import Navbar from './Navbar/Navbar.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <Navbar />,
     errorElement: <ErrorPage />,
     children: [
       {
