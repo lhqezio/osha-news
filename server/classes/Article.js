@@ -1,3 +1,6 @@
+/**
+ * Class representing an Article
+ */
 class Article {
   _id;
   link;
@@ -8,6 +11,17 @@ class Article {
   date;
   image;
 
+  /**
+   * Article Constructor
+   * @param {string | null} id Id of the article
+   * @param {string} link Link to the full news article
+   * @param {string} headline Title of the article
+   * @param {string} category Category of the article
+   * @param {string} text Article text
+   * @param {string} authors Name of the authors
+   * @param {string} date Date in format YYYY-MM-DD
+   * @param {string} image Link to the image
+   */
   constructor(
     id, 
     link, 
@@ -64,6 +78,27 @@ class Article {
     }
   }
 
+  /**
+   * Get this article without an id
+   * @returns Article object with no id
+   */
+  getArticleNoId() {
+    return {
+      link: this.link,
+      headline: this.headline,
+      category: this.category,
+      text: this.text,
+      authors: this.authors,
+      date: this.date,
+      image: this.image
+    };
+  }
+
+  /**\
+   * Creates an Article with an existing article
+   * @returns Article
+   * @throws Error invalid article
+   */
   static createArticle(article) {
     if (this.isArticle(article)) {
       return new Article(
@@ -81,6 +116,11 @@ class Article {
     }
   }
 
+  /**
+   * Ceck if an object is an article
+   * @param {Article} obj Article
+   * @returns Boolean
+   */
   static isArticle(obj) {
     if (!(typeof obj._id === 'string' || obj._id === null)) {
       console.log(0);
