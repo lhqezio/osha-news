@@ -164,3 +164,32 @@ module.exports.searchAllArticles = async (req, res) => {
     res.status(500).json({ 'error' : 'Internal Error' });
   }
 };
+
+/**
+ * Translate a list of articles
+ * @param req Request made by api
+ * @param res Response sent by api
+ * @param req.body.articles List of articles to translate
+ * @param req.query.lang Language to translate to 
+ */
+module.exports.translateArticles = async (req, res) => {
+  const lang = req.query.lang;
+  if (!lang) {
+    res.status(400).json({'error': 'No language provided.'});
+    return;
+  }
+  
+  const articles = req.body.articles;
+  if (!articles) {
+    res.status(400).json({'error': 'Did not provide a list of articles.'});
+    return;
+  }
+  // TODO: ADD check to check if req.body.articles are article
+
+  try {
+    const translatedArticles = await translateMultipleArticle(articles, lang);
+    res.status(200).json({articles: translatedArticles});
+  } catch (_) {
+    res.status(500).json({'error': 'Internal Error.'});
+  }
+};
