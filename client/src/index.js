@@ -6,7 +6,7 @@ import PostArticle from './Post/Post.jsx';
 import ErrorPage from './error-page';
 import './index.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import CreateAccount from './Signup/CreateAccount';
+import Login from './Signup/Login.jsx';
 import { Provider } from 'react-redux';
 import { store } from './userStore';
 
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
         element: < Profile />
       },
       {
-        path: '/signup',
-        element: <CreateAccount />,
+        path: '/login',
+        element: <Login />,
       }
     ],
   }

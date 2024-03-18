@@ -75,7 +75,7 @@ export default function Navbar({currentLang, setCurrentLang}){
               </div>
             </li>
             <li className="w-1/3 flex justify-items-end">
-              <a href="/" className="text-xl text-center w-full my-1">{t('home.title')}</a>
+              <Link to="/" className="text-xl text-center w-full my-1">{t('home.title')}</Link>
             </li>
             <li className="inline w-1/3">
               <div className="grid grid-rows-1 justify-items-end">
@@ -94,7 +94,7 @@ export default function Navbar({currentLang, setCurrentLang}){
                       )}
                     </select>
                   </div>
-                  <Link to={`/signup`}><h1>Login</h1></Link>
+                  <Link to={`/login`}><h1>Login</h1></Link>
                 </div>
               </div>
             </li>
