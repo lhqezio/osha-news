@@ -82,21 +82,21 @@ module.exports.getRandomArticle = async (req, res) => {
  * Search method that searches through articles through different methods
  * @param req Request made by api
  * @param res Response sent by api
- * @param req.param.category List of category
- * @param req.param.search Search query
+ * @param req.body.category List of category
+ * @param req.body.search Search query
  * @param req.query.search Search query
- * @param req.param.page Page number
+ * @param req.body.page Page number
  * @param req.query.page Page number
- * @param req.param.amount Amount of article in one page
+ * @param req.body.amount Amount of article in one page
  * @param req.query.amount Amount of article in one page
  */
 module.exports.searchAllArticles = async (req, res) => {
   try{
     // Get all values from param first and then from query if it doesnt exist
     const category = req.body.category;
-    const search = req.param.search ? req.param.search : req.query.search;
-    const page = req.param.page ? req.param.page : req.query.page;
-    const amount = req.param.amount ? req.param.amount : req.query.amount;
+    const search = req.body.search ? req.body.search : req.query.search;
+    const page = req.body.page ? req.body.page : req.query.page;
+    const amount = req.body.amount ? req.body.amount : req.query.amount;
 
     // Make sure that one of search or category is present
     if (!(search || category)) {
