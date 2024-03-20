@@ -33,6 +33,30 @@ module.exports.logout = async (req, res) => {
  * 
  */
 module.exports.searchUsers = async (req, res) => {
-  const users = await searchUsers(req.query.name, 1, 20);
+  const name = req.query.name;
+  const page = req.query.page;
+  const amount = req.query.amount;
+
+  // set base page to 1 and amount to 10
+  let pageBase = 1;
+  let amountBase = 10;
+  
+  // Attempt to parse page num to int, will default to 1 if value is NaN or <=0
+  if (page){
+    const temp = parseInt(page);
+    if (temp > 0) {
+      pageBase = temp;
+    }
+  }
+      
+  // Attempt to parse amount num to int, will default to 10 if value is NaN or <=0
+  if (amount){
+    const temp = parseInt(amount);
+    if (temp > 0) {
+      amountBase = temp;
+    }
+  }
+
+  const users = await searchUsers(name, pageBase, amountBase);
   res.send(users);
 };
