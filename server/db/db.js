@@ -119,16 +119,23 @@ module.exports.addNewGoogleUser = async (user) => {
   }
 };
 
-module.exports.getGoogleUser = async (email) => {
-  const user = await GoogleUserModel.find({ email : email });
-  return user;
-};
-
+/**
+ * get a user from the database by email
+ * @param email email to search
+ * @returns user found
+ */
 module.exports.getUser = async (email) => {
   const user = await GoogleUserModel.find({ email : email });
   return user;
 };
 
+/**
+ * Search for users by name using regex
+ * @param filter search parameter filter 
+ * @param page page number pagination 
+ * @param amount amount of results per page pagination
+ * @returns users found with pagination params
+ */
 module.exports.searchUsers = async (filter, page, amount) => {
   const users = await GoogleUserModel.aggregate(
     [
