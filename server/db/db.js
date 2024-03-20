@@ -124,31 +124,25 @@ module.exports.getGoogleUser = async (email) => {
   return user;
 };
 
-// OSHA users
-const userSchema = mongoose.Schema({
-  email: String,
-  name: String,
-  posts: Array,
-  image: String,
-  password: String
-});
-const UserModel = new mongoose.model('users', userSchema);
-
-module.exports.addNewUser = async (user) => {
-  // Check if the user already exists using email
-  const userExists = await UserModel.find({ email: user.email });
-
-  if (userExists.length === 0) { 
-    const newUser = new UserModel({
-      email: user.email, name: user.name, posts: [], image: user.picture, password: user.password
-    });                                                   
-    await newUser.save();
-  }
-};
-
 module.exports.getUser = async (email) => {
   const user = await GoogleUserModel.find({ email : email });
   return user;
+};
+
+module.exports.searchUsers = async (filter, page, amount) => {
+  const users = await GoogleUserModel.aggregate(
+    [
+      { 
+        $match: { name: { $regex : filter }},  
+      },
+      { 
+        $facet: 
+        { data: [{ $skip: (page - 1) * amount }, { $limit: amount }]} 
+      }
+    ]
+  );
+
+  return users;
 };
 
 // Utils

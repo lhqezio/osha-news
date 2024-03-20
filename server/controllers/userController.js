@@ -1,4 +1,4 @@
-const { getUser } = require('../db/db');
+const { getUser, searchUsers } = require('../db/db');
 
 /**
  * Login user and send info to front-end
@@ -27,4 +27,12 @@ module.exports.login = async (req, res) => {
 module.exports.logout = async (req, res) => {
   await req.session.destroy();
   res.status(200).json({ 'message' : 'Logout Successful' });
+};
+
+/**
+ * 
+ */
+module.exports.searchUsers = async (req, res) => {
+  const users = await searchUsers(req.query.name, 1, 20);
+  res.send(users);
 };
