@@ -30,7 +30,12 @@ module.exports.logout = async (req, res) => {
 };
 
 /**
- * 
+ * Search users by name
+ * @param req request made by api
+ * @param res response sent by api
+ * @param req.query.name name used in search
+ * @param req.query.page page number to search
+ * @param req.qeury.amount amount of searches per call
  */
 module.exports.searchUsers = async (req, res) => {
   const name = req.query.name;
