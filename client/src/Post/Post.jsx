@@ -1,16 +1,18 @@
 // import { Link } from 'react-router-dom';
 import React, {useState, useEffect, useRef} from 'react';
+// import Article from '../../../server/classes/Article.js';
 // import Navbar from '../Navbar/Navbar.jsx';
 
 /*
 keep in mind
 author and date are set using current dat and current user logged in
-add image upload 
-link
-headline
-text
-image
-category
+link;
+headline;
+category;
+text;
+authors;
+date;
+image;
 */ 
 export default function PostArticle(){
   const [errorMsg, setErrorMsg] = useState('');
@@ -22,7 +24,7 @@ export default function PostArticle(){
       fetch('/categories').
         then((resp)=>{
           if(!resp.ok) {
-            console.error('Error occured');
+            setErrorMsg('Error occured');
           }else {
             return resp.json();
           }
@@ -31,7 +33,7 @@ export default function PostArticle(){
           setCategories(json);
         }).
         catch (()=>{
-          console.error('Server Error Occured');
+          setErrorMsg('Server Error Occured');
         });
     }, []
   );  
@@ -45,7 +47,7 @@ export default function PostArticle(){
     if (formData) {
       fetch('/article/add', {
         method: 'POST',
-        body: formData
+        body: formdata
       }).then(
         (resp)=>{
           if (resp.ok){
@@ -69,17 +71,32 @@ export default function PostArticle(){
           m-auto absolute inset-1/4 rounded shadow-lg" >
           <feildset className="flex flex-col justify-between h-full">
             <legend className="text-2xl m-2">Upload Article</legend>
+            {/* headline */}
             <div>
-              <label htmlFor="article-name" className="text-xl m-2">Article Headline:</label>
-              <input type="text" name="article-name" className="border w-2/4 m-1"/>
+              <label htmlFor="headline" className="text-xl m-2">Article Headline:</label>
+              <input type="text" name="headline" className="border w-2/4 m-1"/>
             </div>
+            {/* description */}
             <div className="flex flex-col">
-              <label htmlFor="short-description" className="text-xl m-2">
+              <label htmlFor="descript" className="text-xl m-2">
                 Article Description:
               </label>
-              <textarea name="w3review" rows="4" cols="50" className="border w-3/4 m-2">
+              <textarea name="descript" rows="4" cols="50" className="border w-3/4 m-2">
               </textarea>
             </div>
+            {/* date */}
+            <div>
+              <label htmlFor="date" className="text-xl m-2">Date:</label>
+              <input type="date" name="date" className="border w-2/4 m-1" 
+                min="2018-01-01" max="2018-12-31" />
+            </div>
+            {/* url */}
+            <div className="flex flex-col">
+              <label htmlFor="url" className="text-xl m-2">Url of original post:</label>
+              <input type="url" name="url" className="border w-4/5 m-2" 
+                placeholder="https://example.com" size="30"/>
+            </div>
+            {/* category */}
             <div>
               <label htmlFor="category" className="text-xl m-2">Category:</label>
               <select name="category" className="border w-1/4">
