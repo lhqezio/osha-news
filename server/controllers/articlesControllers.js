@@ -1,5 +1,14 @@
-const { getOneArticle, getRandomArticle, getSearchedArticles } = require('../db/db');
-const { translateOneArticle, translateMultipleArticle } = require('../utils/translateModule');
+const Article = require('../classes/Article');
+const { 
+  getOneArticle, 
+  getRandomArticle, 
+  getSearchedArticles,
+  createNewsArticle
+} = require('../db/db');
+const { 
+  translateOneArticle, 
+  translateMultipleArticle 
+} = require('../utils/translateModule');
 
 /**
  * Express Controller
@@ -162,5 +171,64 @@ module.exports.searchAllArticles = async (req, res) => {
     );
   } catch (_) {
     res.status(500).json({ 'error' : 'Internal Error' });
+  }
+};
+
+/**
+ * Translate a list of articles
+ * @param req Request made by api
+ * @param res Response sent by api
+ * @param req.body.articles List of articles to translate
+ * @param req.query.lang Language to translate to 
+ */
+module.exports.translateArticles = async (req, res) => {
+  const lang = req.query.lang;
+  if (!lang) {
+    res.status(400).json({'error': 'No language provided.'});
+    return;
+  }
+  
+  const articles = req.body.articles;
+  if (!articles) {
+    res.status(400).json({'error': 'Did not provide a list of articles.'});
+    return;
+  }
+  // TODO: ADD check to check if req.body.articles are article
+
+  try {
+    const translatedArticles = await translateMultipleArticle(articles, lang);
+    res.status(200).json({articles: translatedArticles});
+  } catch (_) {
+    res.status(500).json({'error': 'Internal Error.'});
+  }
+};
+
+/**
+ * Insert One article to the database
+ * @param {*} req Request made by api
+ * @param {*} res Response made by api
+ * @param {Article} req.body.article Article to insert
+ */
+module.exports.addArticle = async (req, res) => {
+  try {
+    if (req.body.article) {
+      const article = Article.createArticle(req.body.article);
+      try {
+        const newArticle = await createNewsArticle(article.getArticleNoId());
+        res.status(201).json({
+          'status': 'Added article',
+          'article': newArticle
+        });
+      } catch (_) {
+        res.status(500).json({'error' : 'Internal Error'});
+      }
+    } else {
+      res.status(400).json({'error': 'No article provided in body'});
+    }
+  } catch (err) {
+    res.status(400).json({
+      'error': 'Article does not follow the right format.',
+      'message': err.message
+    });
   }
 };

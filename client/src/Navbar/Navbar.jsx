@@ -8,13 +8,20 @@ import { actionTypes } from '../userStore';
 import { Link } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 
-export default function Navbar({currentLang, setCurrentLang}){
-  const { t } = useTranslation();
+export default function Navbar(){
+  const { i18n, t } = useTranslation();
   const defaultSearchValue = '';
   const[searchTerm, setSearchTerm] = useState(defaultSearchValue);
   const [showSearchBox, setShowSearchBox] = useState(false);  
   const [user, setUser] = useState('');
   const [userIcon, setUserIcon] = useState('');
+  const [currentLang, setCurrentLang] = useState(
+    localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en'
+  );
+
+  useEffect(() => {
+    i18n.changeLanguage(currentLang);
+  }, [i18n, currentLang]);
 
   function handleShowSearchBox(e){
     setSearchTerm(e.target.value);
@@ -94,7 +101,7 @@ export default function Navbar({currentLang, setCurrentLang}){
                       )}
                     </select>
                   </div>
-                  <Link to={`/login`}><h1>Login</h1></Link>
+                  <Link to={`/login`}><h1>{t('home.login')}</h1></Link>
                 </div>
               </div>
             </li>
@@ -102,7 +109,7 @@ export default function Navbar({currentLang, setCurrentLang}){
           <SearchBox show={showSearchBox} searchTerm={searchTerm}> </SearchBox>
         </nav>
         <div>
-          <Outlet />
+          <Outlet context={[currentLang]}/>
         </div>
       </div>
     );
@@ -144,7 +151,7 @@ export default function Navbar({currentLang, setCurrentLang}){
                   </div>
                   <div>{user}</div>
                   <img className="size-7" src={userIcon}></img>
-                  <button onClick={logoutUser}>Logout</button>
+                  <button onClick={logoutUser}>{t('home.logout')}</button>
                 </div>
               </div>
             </li>
@@ -152,7 +159,7 @@ export default function Navbar({currentLang, setCurrentLang}){
           <SearchBox show={showSearchBox} searchTerm={searchTerm}> </SearchBox>
         </nav>
         <div>
-          <Outlet />
+          <Outlet context={[currentLang]}/>
         </div>
       </div>
     );

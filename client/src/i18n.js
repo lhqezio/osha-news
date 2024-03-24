@@ -13,7 +13,9 @@ i18n.use(initReactI18next).init({
         home: {
           title: 'OSHA News',
           categories: 'FILTER',
-          user: 'User'
+          user: 'User',
+          login: 'Login',
+          logout: 'Logout'
         },
         article: {
           moreInfo: 'Read More'
@@ -34,7 +36,9 @@ i18n.use(initReactI18next).init({
         home: {
           title: 'OSHA News',
           categories: 'FILTRE',
-          user: 'Utilisateur'
+          user: 'Utilisateur',
+          login: 'Se Connecter',
+          logout: 'Se Déconnecter'
         },
         article: {
           moreInfo: 'En savoir plus'
@@ -55,7 +59,9 @@ i18n.use(initReactI18next).init({
         home: {
           title: 'OSHA News',
           categories: 'FILTRA',
-          user: 'Usuario'
+          user: 'Usuario',
+          login: 'Acceso',
+          logout: 'Cerrar Sesión'
         },
         article: {
           moreInfo: 'Leer más'
