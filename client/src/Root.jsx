@@ -2,18 +2,12 @@ import { useState } from 'react';
 import ShortScroll from './Article/ShortScroll';
 // import NavBar from './Navbar/Navbar';
 import CategoriesList from './Navbar/CategoriesList';
+import { useOutletContext } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
 
 export default function Root(){
-  // const { i18n } = useTranslation();
   const [selectedCategories, setSelectedCategories] = useState([]);
-  // const [currentLang, setCurrentLang] = useState(
-  //   localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en'
-  // );
-
-  // useEffect(() => {
-  //   i18n.changeLanguage(currentLang);
-  // }, [i18n, currentLang]);
+  const [currentLang] = useOutletContext();
 
   function addSelectedCategory(categoryName){
     setSelectedCategories(selectedCategories => [...selectedCategories, categoryName]);
@@ -34,6 +28,7 @@ export default function Root(){
       <div>
         <ShortScroll 
           selectedCategories={selectedCategories}
+          currentLang={currentLang}
         />
       </div>
     </div>
