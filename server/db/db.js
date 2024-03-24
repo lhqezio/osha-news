@@ -18,14 +18,15 @@ const articleSchema = mongoose.Schema({
   image: String
 });
 
-module.exports.ArticleModel = new mongoose.model('newsarticles', articleSchema);
+const ArticleModel = new mongoose.model('newsarticles', articleSchema);
+
 
 /**
   * Add many rows of news data
   * @param articles list article to add to newsArticles
   */
 module.exports.createManyNewsArticles = async (articles) => {
-  await this.ArticleModel.insertMany(articles);
+  await ArticleModel.insertMany(articles);
 };
 
 /**
@@ -42,7 +43,7 @@ module.exports.createNewsArticle = async (article) => {
  * Get one article
  */
 module.exports.getOneArticle = async () => {
-  const article = await this.ArticleModel.findOne();
+  const article = await ArticleModel.findOne();
   return article;
 };
 
@@ -51,7 +52,7 @@ module.exports.getOneArticle = async () => {
  * @returns List of active catecories
  */
 module.exports.getCategories = async () => {
-  const categories = await this.ArticleModel.distinct('category');
+  const categories = await ArticleModel.distinct('category');
   return categories;
 };
 
@@ -62,7 +63,7 @@ module.exports.getCategories = async () => {
  * @returns random article
  */
 module.exports.getRandomArticle = async (filter, amount) => {
-  const articles = await this.ArticleModel.aggregate(
+  const articles = await ArticleModel.aggregate(
     [
       { $match: filter },
       { $sample: { size: amount } }
@@ -84,7 +85,7 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   if (!category || category === null) {
     category = [/^/];
   }
-  const articles = await this.ArticleModel.aggregate(
+  const articles = await ArticleModel.aggregate(
     [
       { 
         $match: { $and: [
@@ -102,6 +103,64 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   return articles;
 };
 
+// Google User
+const googleUserSchema = mongoose.Schema({
+  email: String,
+  name: String,
+  posts: Array,
+  image: String
+});
+
+const GoogleUserModel = new mongoose.model('google-users', googleUserSchema);
+
+/**
+ * Add a user to database only if they don't already exist
+ * @param user user info from authentication 
+ */
+module.exports.addNewGoogleUser = async (user) => {
+  // Check if the user already exists using email
+  const userExists = await GoogleUserModel.find({ email: user.email });
+
+  if (userExists.length === 0) { 
+    const newUser = new GoogleUserModel({
+      email: user.email, name: user.name, posts: [], image: user.picture
+    });                                                   
+    await newUser.save();
+  }
+};
+
+module.exports.getGoogleUser = async (email) => {
+  const user = await GoogleUserModel.find({ email : email });
+  return user;
+};
+
+// OSHA users
+const userSchema = mongoose.Schema({
+  email: String,
+  name: String,
+  posts: Array,
+  image: String,
+  password: String
+});
+const UserModel = new mongoose.model('users', userSchema);
+
+module.exports.addNewUser = async (user) => {
+  // Check if the user already exists using email
+  const userExists = await UserModel.find({ email: user.email });
+
+  if (userExists.length === 0) { 
+    const newUser = new UserModel({
+      email: user.email, name: user.name, posts: [], image: user.picture, password: user.password
+    });                                                   
+    await newUser.save();
+  }
+};
+
+module.exports.getUser = async (email) => {
+  const user = await GoogleUserModel.find({ email : email });
+  return user;
+};
+
 // Utils
 /**
  * Remove from the Database using filter.
@@ -109,6 +168,6 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
  * @returns amount of element deleted
  */
 module.exports.emptyDatabase = async () => {
-  const newsArticleResult = await this.ArticleModel.deleteMany();
+  const newsArticleResult = await ArticleModel.deleteMany();
   return newsArticleResult.deletedCount;
 };
