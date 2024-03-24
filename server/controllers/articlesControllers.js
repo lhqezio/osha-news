@@ -211,8 +211,17 @@ module.exports.translateArticles = async (req, res) => {
  */
 module.exports.addArticle = async (req, res) => {
   try {
-    if (req.body.article) {
-      const article = Article.createArticle(req.body.article);
+    const article = new Article(
+      null,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.body.authors,
+      req.body.date,
+      req.body.image
+    );
+    if (article) {
       try {
         const newArticle = await createNewsArticle(article.getArticleNoId());
         res.status(201).json({
