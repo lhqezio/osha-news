@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ArticleResults from './ArticleResults';
+import UserResults from './UserResults';
 export default function SearchBox(props) {
 
   const [articleResults, setArticleResults] = useState(null);
+  const [userResults, setUserResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const { t } = useTranslation();
@@ -12,24 +14,36 @@ export default function SearchBox(props) {
     if(props.searchTerm.trim() !== '') {
       setFetchErrMsg('');
       setLoading(true);
-      fetch(`/article/search?search=${props.searchTerm}&page=1&amount=15`).
-        then((resp) => {
-          if(!resp.ok){
-            setFetchErrMsg(t('error.connection'));
-          } else {
-            return resp.json();
-          }
-        }).
-        then((json) => {
+      ///
+      Promise.all([
+        fetch(`/article/search?search=${props.searchTerm}&page=1&amount=15`).
+          then((resp) => {
+            if(!resp.ok){
+              setFetchErrMsg(t('error.connection'));
+            } else {
+              return resp.json();
+            }
+          }),
+        fetch(`users/search?name=${props.searchTerm}`).
+          then((resp) => {
+            if(!resp.ok){
+              setFetchErrMsg(t('error.connection'));
+            } else {
+              return resp.json();
+            }
+          }),
+      ]).
+        then(([articles, users]) => {
           setFetchErrMsg('');
-          setArticleResults(json.result);
+          setArticleResults(articles.result);
+          setUserResults(users[0].data);
           setLoading(false);
-        }
-        ).catch (
+        }).catch(
           ()=>{
             setFetchErrMsg(t('error.fetch'));
           }
         );
+      
     }
     
   }, [props.searchTerm, t]);
@@ -56,7 +70,8 @@ export default function SearchBox(props) {
           <ArticleResults articles = {articleResults}/>}
       </div>
       <div className="grow p-8 overflow-y-scroll">
-
+        {userResults !== null && !loading &&
+        <UserResults users= {userResults} />}
       </div>
     </div>
   );
