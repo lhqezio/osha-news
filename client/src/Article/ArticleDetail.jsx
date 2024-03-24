@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
+import Comment from './Comment';
 import { useTranslation } from 'react-i18next';
 
 export default function Article({
@@ -88,7 +89,7 @@ export default function Article({
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
         className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
-        'my-30 snap-always'} >
+        'my-30 snap-always flex flex-col'} >
         <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
           <div className="text-4xl font-serif">
             {articles[0].headline}
@@ -105,6 +106,9 @@ export default function Article({
           <div>
             <a className="text-blue-600" href={`${articles[0].link}`}>{t('article.moreInfo')}</a>
           </div>
+        </div>
+        <div className="flex items-end self-end h-full">
+          <Comment/>
         </div>
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">

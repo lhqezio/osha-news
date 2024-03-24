@@ -91,21 +91,21 @@ module.exports.getRandomArticle = async (req, res) => {
  * Search method that searches through articles through different methods
  * @param req Request made by api
  * @param res Response sent by api
- * @param req.param.category List of category
- * @param req.param.search Search query
+ * @param req.body.category List of category
+ * @param req.body.search Search query
  * @param req.query.search Search query
- * @param req.param.page Page number
+ * @param req.body.page Page number
  * @param req.query.page Page number
- * @param req.param.amount Amount of article in one page
+ * @param req.body.amount Amount of article in one page
  * @param req.query.amount Amount of article in one page
  */
 module.exports.searchAllArticles = async (req, res) => {
   try{
     // Get all values from param first and then from query if it doesnt exist
     const category = req.body.category;
-    const search = req.param.search ? req.param.search : req.query.search;
-    const page = req.param.page ? req.param.page : req.query.page;
-    const amount = req.param.amount ? req.param.amount : req.query.amount;
+    const search = req.body.search ? req.body.search : req.query.search;
+    const page = req.body.page ? req.body.page : req.query.page;
+    const amount = req.body.amount ? req.body.amount : req.query.amount;
 
     // Make sure that one of search or category is present
     if (!(search || category)) {
@@ -175,6 +175,35 @@ module.exports.searchAllArticles = async (req, res) => {
 };
 
 /**
+ * Translate a list of articles
+ * @param req Request made by api
+ * @param res Response sent by api
+ * @param req.body.articles List of articles to translate
+ * @param req.query.lang Language to translate to 
+ */
+module.exports.translateArticles = async (req, res) => {
+  const lang = req.query.lang;
+  if (!lang) {
+    res.status(400).json({'error': 'No language provided.'});
+    return;
+  }
+  
+  const articles = req.body.articles;
+  if (!articles) {
+    res.status(400).json({'error': 'Did not provide a list of articles.'});
+    return;
+  }
+  // TODO: ADD check to check if req.body.articles are article
+
+  try {
+    const translatedArticles = await translateMultipleArticle(articles, lang);
+    res.status(200).json({articles: translatedArticles});
+  } catch (_) {
+    res.status(500).json({'error': 'Internal Error.'});
+  }
+};
+
+/**
  * Insert One article to the database
  * @param {*} req Request made by api
  * @param {*} res Response made by api
@@ -182,8 +211,17 @@ module.exports.searchAllArticles = async (req, res) => {
  */
 module.exports.addArticle = async (req, res) => {
   try {
-    if (req.body.article) {
-      const article = Article.createArticle(req.body.article);
+    const article = new Article(
+      null,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.body.authors,
+      req.body.date,
+      req.body.image
+    );
+    if (article) {
       try {
         const newArticle = await createNewsArticle(article.getArticleNoId());
         res.status(201).json({
