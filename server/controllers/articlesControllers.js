@@ -1,5 +1,14 @@
-const { getOneArticle, getRandomArticle, getSearchedArticles } = require('../db/db');
-const { translateOneArticle, translateMultipleArticle } = require('../utils/translateModule');
+const Article = require('../classes/Article');
+const { 
+  getOneArticle, 
+  getRandomArticle, 
+  getSearchedArticles,
+  createNewsArticle
+} = require('../db/db');
+const { 
+  translateOneArticle, 
+  translateMultipleArticle 
+} = require('../utils/translateModule');
 
 /**
  * Express Controller
@@ -191,5 +200,35 @@ module.exports.translateArticles = async (req, res) => {
     res.status(200).json({articles: translatedArticles});
   } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
+  }
+};
+
+/**
+ * Insert One article to the database
+ * @param {*} req Request made by api
+ * @param {*} res Response made by api
+ * @param {Article} req.body.article Article to insert
+ */
+module.exports.addArticle = async (req, res) => {
+  try {
+    if (req.body.article) {
+      const article = Article.createArticle(req.body.article);
+      try {
+        const newArticle = await createNewsArticle(article.getArticleNoId());
+        res.status(201).json({
+          'status': 'Added article',
+          'article': newArticle
+        });
+      } catch (_) {
+        res.status(500).json({'error' : 'Internal Error'});
+      }
+    } else {
+      res.status(400).json({'error': 'No article provided in body'});
+    }
+  } catch (err) {
+    res.status(400).json({
+      'error': 'Article does not follow the right format.',
+      'message': err.message
+    });
   }
 };
