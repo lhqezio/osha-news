@@ -14,7 +14,6 @@ export default function SearchBox(props) {
     if(props.searchTerm.trim() !== '') {
       setFetchErrMsg('');
       setLoading(true);
-      ///
       Promise.all([
         fetch(`/article/search?search=${props.searchTerm}&page=1&amount=15`).
           then((resp) => {
