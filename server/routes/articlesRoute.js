@@ -5,7 +5,7 @@ const {
   getOneArticle, 
   getRandomArticle, 
   searchAllArticles,
-  translateArticles 
+  translateArticles,
   addArticle
 } = require('../controllers/articlesControllers');
 
