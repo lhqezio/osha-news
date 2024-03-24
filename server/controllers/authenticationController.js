@@ -44,8 +44,6 @@ module.exports.authenticate = async (req, res) => {
   const image = req.body.image;
   const password = req.body.password;
 
-  console.log(name);
-
   addNewUser({
     name : name,
     email : email,

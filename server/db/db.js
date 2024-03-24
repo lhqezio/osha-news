@@ -104,14 +104,14 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
 };
 
 // Google User
-const googleUserSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   email: String,
   name: String,
   posts: Array,
   image: String
 });
 
-const GoogleUserModel = new mongoose.model('google-users', googleUserSchema);
+const UserModel = new mongoose.model('users', userSchema);
 
 /**
  * Add a user to database only if they don't already exist
@@ -119,10 +119,10 @@ const GoogleUserModel = new mongoose.model('google-users', googleUserSchema);
  */
 module.exports.addNewGoogleUser = async (user) => {
   // Check if the user already exists using email
-  const userExists = await GoogleUserModel.find({ email: user.email });
+  const userExists = await UserModel.find({ email: user.email });
 
   if (userExists.length === 0) { 
-    const newUser = new GoogleUserModel({
+    const newUser = new UserModel({
       email: user.email, name: user.name, posts: [], image: user.picture
     });                                                   
     await newUser.save();
@@ -135,7 +135,7 @@ module.exports.addNewGoogleUser = async (user) => {
  * @returns user found
  */
 module.exports.getUser = async (email) => {
-  const user = await GoogleUserModel.find({ email : email });
+  const user = await UserModel.find({ email : email });
   return user;
 };
 
@@ -147,7 +147,7 @@ module.exports.getUser = async (email) => {
  * @returns users found with pagination params
  */
 module.exports.searchUsers = async (filter, page, amount) => {
-  const users = await GoogleUserModel.aggregate(
+  const users = await UserModel.aggregate(
     [
       { 
         $match: { name: { $regex : filter }},  
