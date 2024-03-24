@@ -183,14 +183,14 @@ module.exports.searchAllArticles = async (req, res) => {
 module.exports.addArticle = async (req, res) => {
   try {
     const article = new Article(
-        null,
-        req.body.link,
-        req.body.headline,
-        req.body.category,
-        req.body.text,
-        req.body.authors,
-        req.body.date,
-        req.body.image
+      null,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.body.authors,
+      req.body.date,
+      req.body.image
     );
     if (article) {
       try {
