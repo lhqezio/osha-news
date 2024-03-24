@@ -1,6 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
 const { addNewGoogleUser, getUser, addNewUser } = require('../db/db');
-const { User } = require('../classes/User');
 
 // id used by google authentication
 const clientId = process.env.GOOGLE_CLIENT_ID;
