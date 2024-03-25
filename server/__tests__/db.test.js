@@ -18,14 +18,14 @@ jest.mock('../db/db');
 afterEach(jest.restoreAllMocks);
 
 // Tests for /article
-describe('/article', () => {
+describe('/api/article', () => {
   test('GET one article', async () => {
     // Mock article data
     jest.spyOn(db, 'getOneArticle').
       mockImplementationOnce(() => sample.article1);
     
     // Act
-    const res = await request(app).get('/article');
+    const res = await request(app).get('/api/article');
 
     // Assert
     expect(res.body).toEqual(sample.article1);
@@ -40,7 +40,7 @@ describe('/article', () => {
       });
 
     // Act
-    const res = await request(app).get('/article');
+    const res = await request(app).get('/api/article');
 
     // Assert
     expect(res.body).toEqual({'error': 'Internal Error.'});
@@ -50,7 +50,7 @@ describe('/article', () => {
 
   test('POST not accepted', async () => {    
     // Act
-    const res = await request(app).post('/article');
+    const res = await request(app).post('/api/article');
 
     // Assert
     expect(res.body).toEqual({});
@@ -59,14 +59,14 @@ describe('/article', () => {
 });
 
 // Tests for /article/random
-describe('/article/random', () => {
+describe('/api/article/random', () => {
   test('GET one random article', async () => {
     // Mock article data
     jest.spyOn(db, 'getRandomArticle').
       mockImplementationOnce(() => [sample.article1]);
 
     // Act
-    const res = await request(app).get('/article/random');
+    const res = await request(app).get('/api/article/random');
 
     // Assert
     expect(res.body).toEqual([sample.article1]);
@@ -80,7 +80,7 @@ describe('/article/random', () => {
       mockImplementationOnce(() => [sample.article1, sample.article2, sample.article3]);
 
     // Act
-    const res = await request(app).get('/article/random?amount=3');
+    const res = await request(app).get('/api/article/random?amount=3');
 
     // Assert
     expect(res.body).toEqual([sample.article1, sample.article2, sample.article3]);
@@ -96,7 +96,7 @@ describe('/article/random', () => {
       });
 
     // Act
-    const res = await request(app).get('/article/random');
+    const res = await request(app).get('/api/article/random');
 
     // Assert
     expect(res.body).toEqual({'error': 'Internal Error.'});
@@ -110,7 +110,7 @@ describe('/article/random', () => {
       mockImplementationOnce(() => [sample.article1]);
 
     // Act
-    const res = await request(app).post('/article/random');
+    const res = await request(app).post('/api/article/random');
 
     // Assert
     expect(res.body).toEqual([sample.article1]);
@@ -126,7 +126,7 @@ describe('/article/random', () => {
       });
 
     // Act
-    const res = await request(app).post('/article/random');
+    const res = await request(app).post('/api/article/random');
 
     // Assert
     expect(res.body).toEqual({'error': 'Internal Error.'});
@@ -136,14 +136,14 @@ describe('/article/random', () => {
 });
 
 // Tests for /categories
-describe('/categories', () => {
+describe('/api/categories', () => {
   test('GET all categories', async () => {
     // Mock article data
     jest.spyOn(db, 'getCategories').
       mockImplementationOnce(() => sample.categoryList);
 
     // Act
-    const res = await request(app).get('/categories');
+    const res = await request(app).get('/api/categories');
 
     // Assert
     expect(res.body).toEqual(sample.categoryList);
@@ -159,7 +159,7 @@ describe('/categories', () => {
       });
 
     // Act
-    const res = await request(app).get('/categories');
+    const res = await request(app).get('/api/categories');
 
     // Assert
     expect(res.body).toEqual({'error': 'Internal Error.'});
@@ -169,7 +169,7 @@ describe('/categories', () => {
 
   test('POST not accepted', async () => {
     // Act
-    const res = await request(app).post('/categories');
+    const res = await request(app).post('/api/categories');
 
     // Assert
     expect(res.body).toEqual({});

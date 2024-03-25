@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const { getOneArticle, getRandomArticle, searchAllArticles } = require(
-  '../controllers/articlesControllers');
+const { 
+  getOneArticle, 
+  getRandomArticle, 
+  searchAllArticles,
+  translateArticles,
+  addArticle
+} = require('../controllers/articlesControllers');
 
 router.get('/', getOneArticle);
 
@@ -11,5 +16,8 @@ router.post('/random', getRandomArticle);
 
 router.get('/search', searchAllArticles);
 router.post('/search', searchAllArticles);
+
+router.post('/translate', translateArticles);
+router.post('/add', addArticle);
 
 module.exports = router;

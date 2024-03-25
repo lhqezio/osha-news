@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import ShortScroll from './Article/ShortScroll';
-import NavBar from './Navbar/Navbar';
+// import NavBar from './Navbar/Navbar';
 import CategoriesList from './Navbar/CategoriesList';
+import { useOutletContext } from 'react-router-dom';
+// import { useTranslation } from 'react-i18next';
 
 export default function Root(){
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [currentLang] = useOutletContext();
 
   function addSelectedCategory(categoryName){
     setSelectedCategories(selectedCategories => [...selectedCategories, categoryName]);
@@ -17,12 +20,16 @@ export default function Root(){
 
   return (
     <div>
-      <NavBar/>
-      <CategoriesList addSelectedCategory={addSelectedCategory}
+      <CategoriesList 
+        addSelectedCategory={addSelectedCategory}
         removeSelectedCategory={removeSelectedCategory}
-        selectedCategories={selectedCategories}/>
+        selectedCategories={selectedCategories}
+      />
       <div>
-        <ShortScroll selectedCategories={selectedCategories}/>
+        <ShortScroll 
+          selectedCategories={selectedCategories}
+          currentLang={currentLang}
+        />
       </div>
     </div>
   );
