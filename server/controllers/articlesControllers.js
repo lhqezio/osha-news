@@ -228,7 +228,7 @@ module.exports.addArticle = async (req, res) => {
           'status': 'Added article',
           'article': newArticle
         });
-      } catch (e) {
+      } catch (_) {
         res.status(500).json({'error' : 'Internal Error'});
       }
     } else {
