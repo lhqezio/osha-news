@@ -1,5 +1,4 @@
 const express = require('express');
-// const path = require('path');
 const session = require('express-session');
 
 const app = express();
@@ -23,8 +22,5 @@ app.use('/api/authenticate', authenticateRoute);
 // User route
 const userRoute = require('./routes/userRoute');
 app.use('/api/users', userRoute);
-
-// Required to make React Router Dom works correctly
-// app.get('*', (req, res) => res.sendFile(path.resolve('..', 'client', 'build', 'index.html')));
 
 module.exports = app;
