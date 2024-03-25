@@ -21,7 +21,7 @@ export default function Profile(){
              + ' type and scrambled' + 
              ' it to make a type specimen book. It has survived not only five centuries,'
       };
-      fetch(`/article/search?search=violent&page=1&amount=15`).
+      fetch(`/api/article/search?search=violent&page=1&amount=15`).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));

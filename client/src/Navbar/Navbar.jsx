@@ -41,7 +41,7 @@ export default function Navbar(){
   const dispatch = useDispatch();
   
   useEffect(() => {
-    fetch('/users/login').
+    fetch('/api/users/login').
       then((response) => response.json()).
       then((user) => {
         setUser(user.name);
@@ -53,7 +53,7 @@ export default function Navbar(){
   }, [dispatch]);
 
   const logoutUser = () => {
-    fetch('/users/logout', { method: 'DELETE' }).
+    fetch('/api/users/logout', { method: 'DELETE' }).
       then(() => {
         dispatch({ type: actionTypes.SET_LOGOUT });
       });

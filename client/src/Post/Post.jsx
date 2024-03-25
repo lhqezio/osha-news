@@ -21,7 +21,7 @@ export default function PostArticle(){
 
   useEffect(
     ()=>{
-      fetch('/categories').
+      fetch('/api/categories').
         then((resp)=>{
           if(!resp.ok) {
             setErrorMsg('Error occured');
@@ -59,7 +59,7 @@ export default function PostArticle(){
         'e6279b3c-db08-11ee-b7f5-005056bf30b7/w:1024/p:16x9/news_en_1920x1080.jpg'
       };
       if (formData) {
-        fetch('/article/add', {
+        fetch('/api/article/add', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

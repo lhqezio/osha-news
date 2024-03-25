@@ -21,7 +21,7 @@ export default function CategoryList({
   });
 
   useEffect(()=>{
-    fetch(`/categories?lang=${currentLang}`).
+    fetch(`/api/categories?lang=${currentLang}`).
       then((resp)=>{
         if(!resp.ok) {
           console.error('Error occured');

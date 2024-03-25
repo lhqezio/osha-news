@@ -16,7 +16,7 @@ export default function SearchBox(props) {
       setLoading(true);
       //fetch both users and articles for search
       Promise.all([
-        fetch(`/article/search?search=${props.searchTerm}&page=1&amount=15`).
+        fetch(`/api/article/search?search=${props.searchTerm}&page=1&amount=15`).
           then((resp) => {
             if(!resp.ok){
               setFetchErrMsg(t('error.connection'));
@@ -24,7 +24,7 @@ export default function SearchBox(props) {
               return resp.json();
             }
           }),
-        fetch(`users/search?name=${props.searchTerm}`).
+        fetch(`/api/users/search?name=${props.searchTerm}`).
           then((resp) => {
             if(!resp.ok){
               setFetchErrMsg(t('error.connection'));

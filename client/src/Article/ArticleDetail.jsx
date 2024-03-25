@@ -29,7 +29,7 @@ export default function Article({
     }
 
     function fetchRandomArticles() {
-      fetch(`article/random?lang=${currentLang}`).
+      fetch(`/api/article/random?lang=${currentLang}`).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -65,7 +65,7 @@ export default function Article({
         },
         body: requestBody
       };
-      fetch(`article/search?lang=${currentLang}`, options).
+      fetch(`/api/article/search?lang=${currentLang}`, options).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));

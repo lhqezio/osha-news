@@ -9,7 +9,7 @@ export default function Login(){
   const dispatch = useDispatch();
   
   useEffect(() => {
-    fetch('/users/login').
+    fetch('/api/users/login').
       then((response) => response.json()).
       then(() => {
         dispatch({ type: actionTypes.SET_LOGIN });
@@ -19,7 +19,7 @@ export default function Login(){
   const LOGIN_STATUS = useSelector((state) => state.value);
 
   const handleLogin = response => {
-    fetch('/authenticate/google', {
+    fetch('/api/authenticate/google', {
       method : 'POST',
       body: JSON.stringify({
         'token' : response.credential
