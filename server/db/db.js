@@ -35,7 +35,7 @@ module.exports.createManyNewsArticles = async (articles) => {
   * @returns Return the inserted article
   */
 module.exports.createNewsArticle = async (article) => {
-  const dbArticke = await this.ArticleModel.create(article);
+  const dbArticke = await ArticleModel.create(article);
   return dbArticke;
 };
 
