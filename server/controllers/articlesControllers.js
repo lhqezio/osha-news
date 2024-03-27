@@ -339,7 +339,7 @@ module.exports.deleteArticle = async (req, res) => {
         const newArticle = await deleteNewsArticle(article);
         res.status(201).json({
           'status': 'Deletes article',
-          'article': newArticle
+          'info': newArticle
         });
       } catch (_) {
         res.status(500).json({'error' : 'Internal Error'});
