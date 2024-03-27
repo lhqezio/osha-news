@@ -8,9 +8,14 @@ export default function SearchBox(props) {
   const [userResults, setUserResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState('');
   const { t } = useTranslation();
 
   useEffect(()=>{
+    const categories = sessionStorage.getItem('sCategories');
+    if(selectedCategories === '' || selectedCategories !== categories) {
+      setSelectedCategories(categories);
+    }
     if(props.searchTerm.trim() !== '') {
       setFetchErrMsg('');
       setLoading(true);
@@ -46,7 +51,7 @@ export default function SearchBox(props) {
       
     }
     
-  }, [props.searchTerm, t]);
+  }, [props.searchTerm, t, props.show, selectedCategories]);
 
   return (
     <div className={ !props.show ? 'hidden' : 
@@ -64,7 +69,12 @@ export default function SearchBox(props) {
         <p className="font-semibold text-sm">
           {fetchErrMsg !== '' ? fetchErrMsg : 
             loading ? 'LOADING...' : 
-              articleResults.length + ` ${t('search.found')}`}
+              <span>
+                {articleResults.length + t('search.found')}
+                <br></br>
+                {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
+              </span>
+          }
         </p>
         {articleResults !== null && !loading && 
           <ArticleResults articles = {articleResults}/>}
