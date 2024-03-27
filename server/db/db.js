@@ -94,14 +94,40 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
         ]} 
       },
       { 
-        $facet: 
-        { data: [{ $skip: (page - 1) * amount }, { $limit: amount }]} 
+        $facet: {
+          pageResult: [{ $skip: (page - 1) * amount }, { $limit: amount }],
+          totalCount: [{ $count: 'count' }]
+        }
       }
     ]
   );
 
   return articles;
 };
+
+// /**
+//  * Get amount of article for specific search
+//  * @param filter Search in the headline
+//  * @param category List of category to search in
+//  * @returns amount of article
+//  */
+// module.exports.getSearchedArticles = async (filter, category) => {
+//   if (!category || category === null) {
+//     category = [/^/];
+//   }
+//   const articles = await ArticleModel.aggregate(
+//     [
+//       { 
+//         $match: { $and: [
+//           { headline: { $regex : filter }}, 
+//           {category: {$in: category}}
+//         ]} 
+//       }
+//     ]
+//   );
+
+//   return articles;
+// };
 
 // Google User
 const userSchema = mongoose.Schema({

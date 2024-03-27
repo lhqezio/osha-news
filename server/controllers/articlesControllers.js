@@ -149,26 +149,42 @@ module.exports.searchAllArticles = async (req, res) => {
     }
     
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
-    const parsedResults = results[0].data;
+    const parsedResults = results[0].pageResult;
+    const count = results[0].totalCount[0].count;
+
+    const prevPage = pageBase > 1;
+    const nextPage = count - amountBase * pageBase > 0;
 
     if (req.query.lang && req.query.lang !== 'en') {
       try {
         const newResult = await translateMultipleArticle(parsedResults, req.query.lang);
-        res.status(200).json(
-          { 'search' : search, 'result' : newResult }
-        );
+        res.status(200).json({ 
+          'search' : search, 
+          'prev_page': prevPage,
+          'next_page': nextPage,
+          'amount': count,
+          'result' : newResult 
+        });
       } catch (_) {
-        res.status(200).json(
-          { 'search' : search, 'result' : parsedResults }
-        );
+        res.status(200).json({ 
+          'search' : search, 
+          'prev_page': prevPage,
+          'next_page': nextPage,
+          'amount': count,
+          'result' : parsedResults 
+        });
       }
       return;
     }
     
     // returns values found if more than 1 value exists
-    res.status(200).json(
-      { 'search' : search, 'result' : parsedResults }
-    );
+    res.status(200).json({ 
+      'search' : search, 
+      'prev_page': prevPage,
+      'next_page': nextPage,
+      'amount': count,
+      'result' : parsedResults 
+    });
   } catch (_) {
     res.status(500).json({ 'error' : 'Internal Error' });
   }
@@ -193,10 +209,19 @@ module.exports.translateArticles = async (req, res) => {
     res.status(400).json({'error': 'Did not provide a list of articles.'});
     return;
   }
-  // TODO: ADD check to check if req.body.articles are article
+
+  let articleList;
+  try {
+    articleList = articles.map((article) => {
+      return Article.createArticle(article);
+    });
+  } catch (err) {
+    res.status(500).json({'error': err.message});
+    return;
+  }
 
   try {
-    const translatedArticles = await translateMultipleArticle(articles, lang);
+    const translatedArticles = await translateMultipleArticle(articleList, lang);
     res.status(200).json({articles: translatedArticles});
   } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
