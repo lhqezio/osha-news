@@ -3,7 +3,9 @@ const {
   getOneArticle, 
   getRandomArticle, 
   getSearchedArticles,
-  createNewsArticle
+  createNewsArticle,
+  updateNewsArticle,
+  deleteNewsArticle
 } = require('../db/db');
 const { 
   translateOneArticle, 
@@ -252,6 +254,92 @@ module.exports.addArticle = async (req, res) => {
         res.status(201).json({
           'status': 'Added article',
           'article': newArticle
+        });
+      } catch (_) {
+        res.status(500).json({'error' : 'Internal Error'});
+      }
+    } else {
+      res.status(400).json({'error': 'No article provided in body'});
+    }
+  } catch (err) {
+    res.status(400).json({
+      'error': 'Article does not follow the right format.',
+      'message': err.message
+    });
+  }
+};
+
+/**
+ * Update One article in the database
+ * @param {*} req Request made by api
+ * @param {*} res Response made by api
+ * @param {Article} req.body.article Article to insert
+ */
+module.exports.updateArticle = async (req, res) => {
+  try {
+    if (!req.body._id) {
+      res.status(400).json({'error': 'No article "_id" provided in body'});
+      return;
+    }
+    const article = new Article(
+      req.body._id,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.body.authors,
+      req.body.date,
+      req.body.image
+    );
+    if (article) {
+      try {
+        const newArticle = await updateNewsArticle(article);
+        res.status(201).json({
+          'status': 'Edited article',
+          'article': newArticle
+        });
+      } catch (_) {
+        res.status(500).json({'error' : 'Internal Error'});
+      }
+    } else {
+      res.status(400).json({'error': 'No article provided in body'});
+    }
+  } catch (err) {
+    res.status(400).json({
+      'error': 'Article does not follow the right format.',
+      'message': err.message
+    });
+  }
+};
+
+/**
+ * Delete One article in the database
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response made by api
+ * @param {Article} req.body.article Article to insert
+ */
+module.exports.deleteArticle = async (req, res) => {
+  try {
+    if (!req.body._id) {
+      res.status(400).json({'error': 'No article "_id" provided in body'});
+      return;
+    }
+    const article = new Article(
+      req.body._id,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.body.authors,
+      req.body.date,
+      req.body.image
+    );
+    if (article) {
+      try {
+        const newArticle = await deleteNewsArticle(article);
+        res.status(201).json({
+          'status': 'Deletes article',
+          'info': newArticle
         });
       } catch (_) {
         res.status(500).json({'error' : 'Internal Error'});
