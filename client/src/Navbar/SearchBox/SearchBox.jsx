@@ -17,38 +17,42 @@ export default function SearchBox(props) {
       setSelectedCategories(categories);
     }
     if(props.searchTerm.trim() !== '') {
-      setFetchErrMsg('');
       setLoading(true);
-      //fetch both users and articles for search
-      Promise.all([
-        fetch(`/api/article/search?search=${props.searchTerm}&page=1&amount=15`).
-          then((resp) => {
-            if(!resp.ok){
-              setFetchErrMsg(t('error.connection'));
-            } else {
-              return resp.json();
-            }
-          }),
-        fetch(`/api/users/search?name=${props.searchTerm}`).
-          then((resp) => {
-            if(!resp.ok){
-              setFetchErrMsg(t('error.connection'));
-            } else {
-              return resp.json();
-            }
-          }),
-      ]).
-        then(([articles, users]) => {
+      const delaySearch = setTimeout(
+        ()=>{
           setFetchErrMsg('');
-          setArticleResults(articles.result);
-          setUserResults(users[0].data);
-          setLoading(false);
-        }).catch(
-          ()=>{
-            setFetchErrMsg(t('error.fetch'));
-          }
-        );
-      
+          //fetch both users and articles for search
+          Promise.all([
+            fetch(`/api/article/search?search=${props.searchTerm}&page=1&amount=15`).
+              then((resp) => {
+                if(!resp.ok){
+                  setFetchErrMsg(t('error.connection'));
+                } else {
+                  return resp.json();
+                }
+              }),
+            fetch(`/api/users/search?name=${props.searchTerm}`).
+              then((resp) => {
+                if(!resp.ok){
+                  setFetchErrMsg(t('error.connection'));
+                } else {
+                  return resp.json();
+                }
+              }),
+          ]).
+            then(([articles, users]) => {
+              setFetchErrMsg('');
+              setArticleResults(articles.result);
+              setUserResults(users[0].data);
+              setLoading(false);
+            }).catch(
+              ()=>{
+                setFetchErrMsg(t('error.fetch'));
+              }
+            );
+        }, 1500
+      );
+      return () => clearTimeout(delaySearch);
     }
     
   }, [props.searchTerm, t, props.show, selectedCategories]);
