@@ -102,13 +102,13 @@ module.exports.getRandomArticle = async (req, res) => {
 module.exports.searchAllArticles = async (req, res) => {
   try{
     // Get all values from param first and then from query if it doesnt exist
-    const category = req.body.category;
+    const categories = req.body.category ? req.body.category : [req.query.category];
     const search = req.body.search ? req.body.search : req.query.search;
     const page = req.body.page ? req.body.page : req.query.page;
     const amount = req.body.amount ? req.body.amount : req.query.amount;
 
     // Make sure that one of search or category is present
-    if (!(search || category)) {
+    if (!(search || categories)) {
       res.status(400).json({ 'error' : 'missing search value' });
       return;
     }
@@ -116,8 +116,8 @@ module.exports.searchAllArticles = async (req, res) => {
     // Sets category if defined
     let categoryFilter = null;
 
-    if (category !== null || category.length > 0) {
-      categoryFilter = category;
+    if (categories !== null || categories.length > 0) {
+      categoryFilter = categories.map((cat) => new RegExp(cat, 'i'));
     }
 
     // set base page to 1 and amount to 10

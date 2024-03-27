@@ -89,8 +89,8 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
     [
       { 
         $match: { $and: [
-          { headline: { $regex : filter }}, 
-          {category: {$in: category}}
+          { headline: { $regex: filter }}, 
+          { category: { $in: category }}
         ]} 
       },
       { 
