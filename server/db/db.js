@@ -23,7 +23,7 @@ const ArticleModel = new mongoose.model('newsarticles', articleSchema);
 
 /**
   * Add many rows of news data
-  * @param articles list article to add to newsArticles
+  * @param {Article} articles list article to add to newsArticles
   */
 module.exports.createManyNewsArticles = async (articles) => {
   await ArticleModel.insertMany(articles);
@@ -31,7 +31,7 @@ module.exports.createManyNewsArticles = async (articles) => {
 
 /**
   * Add one Article
-  * @param article article to add to newsArticles
+  * @param {Article} article article to add to newsArticles
   * @returns Return the inserted article
   */
 module.exports.createNewsArticle = async (article) => {
@@ -40,7 +40,22 @@ module.exports.createNewsArticle = async (article) => {
 };
 
 /**
+  * update one Article
+  * @param {Article} article article to update to newsArticles
+  * @returns Return the updated article
+  */
+module.exports.updateNewsArticle = async (article) => {
+  const dbArticke = await ArticleModel.findOneAndUpdate(
+    { _id: article._id },
+    article,
+    { new: true }
+  );
+  return dbArticke;
+};
+
+/**
  * Get one article
+ * @returns {Article} One Article
  */
 module.exports.getOneArticle = async () => {
   const article = await ArticleModel.findOne();
@@ -60,7 +75,7 @@ module.exports.getCategories = async () => {
  * Get random articles acording to a filter
  * @param filter
  * @param amount
- * @returns random article
+ * @returns {Array<Article>} random article
  */
 module.exports.getRandomArticle = async (filter, amount) => {
   const articles = await ArticleModel.aggregate(
@@ -104,30 +119,6 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
 
   return articles;
 };
-
-// /**
-//  * Get amount of article for specific search
-//  * @param filter Search in the headline
-//  * @param category List of category to search in
-//  * @returns amount of article
-//  */
-// module.exports.getSearchedArticles = async (filter, category) => {
-//   if (!category || category === null) {
-//     category = [/^/];
-//   }
-//   const articles = await ArticleModel.aggregate(
-//     [
-//       { 
-//         $match: { $and: [
-//           { headline: { $regex : filter }}, 
-//           {category: {$in: category}}
-//         ]} 
-//       }
-//     ]
-//   );
-
-//   return articles;
-// };
 
 // Google User
 const userSchema = mongoose.Schema({
