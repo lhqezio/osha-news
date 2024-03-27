@@ -54,6 +54,18 @@ module.exports.updateNewsArticle = async (article) => {
 };
 
 /**
+  * Delete one Article
+  * @param {Article} article article to delete in newsArticles
+  * @returns Return the updated article
+  */
+module.exports.deleteNewsArticle = async (article) => {
+  const dbArticke = await ArticleModel.deleteOne(
+    { _id: article._id }
+  );
+  return dbArticke;
+};
+
+/**
  * Get one article
  * @returns {Article} One Article
  */
