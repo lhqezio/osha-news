@@ -14,7 +14,7 @@ class Article {
   /**
    * Article Constructor
    * @param {string | null} id Id of the article
-   * @param {string} link Link to the full news article
+   * @param {string | null} link Link to the full news article
    * @param {string} headline Title of the article
    * @param {string} category Category of the article
    * @param {string} text Article text
@@ -37,7 +37,7 @@ class Article {
     } else {
       throw new Error(`id: ${id} is not a string or null.`);
     }
-    if (typeof link === 'string') {
+    if (typeof link === 'string' || link === null) {
       this.link = link;
     } else {
       throw new Error(`link: ${link} is not a string.`);
@@ -126,7 +126,7 @@ class Article {
       console.log(0);
       return false;
     }
-    if (typeof obj.link !== 'string') {
+    if (typeof obj.link !== 'string' || obj.link === null) {
       return false;
     }
     if (typeof obj.headline !== 'string') {
