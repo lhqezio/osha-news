@@ -23,7 +23,7 @@ const ArticleModel = new mongoose.model('newsarticles', articleSchema);
 
 /**
   * Add many rows of news data
-  * @param articles list article to add to newsArticles
+  * @param {Article} articles list article to add to newsArticles
   */
 module.exports.createManyNewsArticles = async (articles) => {
   await ArticleModel.insertMany(articles);
@@ -31,7 +31,7 @@ module.exports.createManyNewsArticles = async (articles) => {
 
 /**
   * Add one Article
-  * @param article article to add to newsArticles
+  * @param {Article} article article to add to newsArticles
   * @returns Return the inserted article
   */
 module.exports.createNewsArticle = async (article) => {
@@ -40,7 +40,34 @@ module.exports.createNewsArticle = async (article) => {
 };
 
 /**
+  * update one Article
+  * @param {Article} article article to update to newsArticles
+  * @returns Return the updated article
+  */
+module.exports.updateNewsArticle = async (article) => {
+  const dbArticke = await ArticleModel.findOneAndUpdate(
+    { _id: article._id },
+    article,
+    { new: true }
+  );
+  return dbArticke;
+};
+
+/**
+  * Delete one Article
+  * @param {Article} article article to delete in newsArticles
+  * @returns Return the updated article
+  */
+module.exports.deleteNewsArticle = async (article) => {
+  const dbArticke = await ArticleModel.deleteOne(
+    { _id: article._id }
+  );
+  return dbArticke;
+};
+
+/**
  * Get one article
+ * @returns {Article} One Article
  */
 module.exports.getOneArticle = async () => {
   const article = await ArticleModel.findOne();
@@ -60,7 +87,7 @@ module.exports.getCategories = async () => {
  * Get random articles acording to a filter
  * @param filter
  * @param amount
- * @returns random article
+ * @returns {Array<Article>} random article
  */
 module.exports.getRandomArticle = async (filter, amount) => {
   const articles = await ArticleModel.aggregate(
@@ -89,13 +116,15 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
     [
       { 
         $match: { $and: [
-          { headline: { $regex : filter }}, 
-          {category: {$in: category}}
+          { headline: { $regex: filter }}, 
+          { category: { $in: category }}
         ]} 
       },
       { 
-        $facet: 
-        { data: [{ $skip: (page - 1) * amount }, { $limit: amount }]} 
+        $facet: {
+          pageResult: [{ $skip: (page - 1) * amount }, { $limit: amount }],
+          totalCount: [{ $count: 'count' }]
+        }
       }
     ]
   );
