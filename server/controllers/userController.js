@@ -1,12 +1,12 @@
 const { getUser, searchUsers } = require('../db/db');
 
 /**
- * Login user and send info to front-end
+ * Gets user and send info about user that is authenticated
  * @param req request sent by api 
  * @param res response sent by api
  * @param req.session.userId session user email
  */
-module.exports.login = async (req, res) => {
+module.exports.getUserInfo = async (req, res) => {
   const user = await getUser(req.session.userId);
   if (user[0]){
     res.status(200).json({ 
@@ -65,3 +65,4 @@ module.exports.searchUsers = async (req, res) => {
   const users = await searchUsers(name, pageBase, amountBase);
   res.send(users);
 };
+

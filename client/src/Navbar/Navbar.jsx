@@ -41,7 +41,7 @@ export default function Navbar(){
   const dispatch = useDispatch();
   
   useEffect(() => {
-    fetch('/api/users/login').
+    fetch('/api/users/user-info').
       then((response) => response.json()).
       then((user) => {
         setUser(user.name);
