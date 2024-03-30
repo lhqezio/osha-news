@@ -6,7 +6,9 @@ const {
   getRandomArticle, 
   searchAllArticles,
   translateArticles,
-  addArticle
+  addArticle,
+  updateArticle,
+  deleteArticle
 } = require('../controllers/articlesControllers');
 
 router.get('/', getOneArticle);
@@ -19,5 +21,9 @@ router.post('/search', searchAllArticles);
 
 router.post('/translate', translateArticles);
 router.post('/add', addArticle);
+
+router.put('/update', updateArticle);
+
+router.delete('/delete', deleteArticle);
 
 module.exports = router;
