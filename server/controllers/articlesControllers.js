@@ -244,7 +244,7 @@ module.exports.addArticle = async (req, res) => {
       req.body.headline,
       req.body.category,
       req.body.text,
-      req.body.authors,
+      req.session.name,
       req.body.date,
       req.body.image
     );

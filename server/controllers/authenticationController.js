@@ -23,6 +23,7 @@ module.exports.authenticateGoogle = async (req, res) => {
   if (payload.email_verified) {
     addNewGoogleUser(payload);
     req.session.userId = payload.email;
+    req.session.name = payload.name;
     res.status(200).json({ confirmation : true });
     return;
   }
