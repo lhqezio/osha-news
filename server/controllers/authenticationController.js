@@ -1,5 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
-const { addNewGoogleUser, getUser, addNewUser } = require('../db/db');
+const { addNewUser } = require('../db/db');
 
 // id used by google authentication
 const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -21,37 +21,11 @@ module.exports.authenticateGoogle = async (req, res) => {
   const payload = ticket.getPayload();
 
   if (payload.email_verified) {
-    addNewGoogleUser(payload);
+    addNewUser(payload);
     req.session.userId = payload.email;
     req.session.name = payload.name;
     res.status(200).json({ confirmation : true });
     return;
   }
   res.status(401).json({ confirmation : false });
-};
-
-/**
- * Authenticate through our database
- */
-module.exports.authenticate = async (req, res) => {
-  const email = req.body.email;
-
-  const user = getUser(email);
-  if (user[0]){
-    res.status(400).json({ 'message' : 'User already exists with that email' });
-    return;
-  }
-  const name = req.body.name;
-  const image = req.body.image;
-  const password = req.body.password;
-
-  addNewUser({
-    name : name,
-    email : email,
-    posts : [],
-    image : image,
-    password : password
-  });
-
-  res.status(200).json({ 'confirmation' : true });
 };

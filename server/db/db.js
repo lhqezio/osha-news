@@ -146,7 +146,7 @@ const UserModel = new mongoose.model('users', userSchema);
  * Add a user to database only if they don't already exist
  * @param user user info from authentication 
  */
-module.exports.addNewGoogleUser = async (user) => {
+module.exports.addNewUser = async (user) => {
   // Check if the user already exists using email
   const userExists = await UserModel.find({ email: user.email });
 
@@ -156,16 +156,6 @@ module.exports.addNewGoogleUser = async (user) => {
     });                                                   
     await newUser.save();
   }
-};
-
-/**
- * get a user from the database by email
- * @param email email to search
- * @returns user found
- */
-module.exports.getUser = async (email) => {
-  const user = await UserModel.find({ email : email });
-  return user;
 };
 
 /**
