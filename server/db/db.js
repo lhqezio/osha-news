@@ -159,6 +159,16 @@ module.exports.addNewUser = async (user) => {
 };
 
 /**
+ * get a user from the database by email
+ * @param email email to search
+ * @returns user found
+ */
+module.exports.getUser = async (email) => {
+  const user = await UserModel.find({ email : email });
+  return user;
+};
+
+/**
  * Search for users by name using regex
  * @param filter search parameter filter 
  * @param page page number pagination 
