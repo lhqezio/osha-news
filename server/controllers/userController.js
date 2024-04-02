@@ -34,11 +34,11 @@ module.exports.logout = async (req, res) => {
 /**
  * Express Controller
  * Search users by name
- * @param {Express.Request} req request made by api
- * @param {Express.Response} res response sent by api
- * @param {String} req.query.name name used in search
- * @param {Number} req.query.page page number to search
- * @param {Number} req.qeury.amount amount of searches per call
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {String} req.query.name Name used in search
+ * @param {Number} req.query.page Page number to search
+ * @param {Number} req.qeury.amount Amount of searches per call
  */
 module.exports.searchUsers = async (req, res) => {
   const name = req.query.name;
