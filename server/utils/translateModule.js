@@ -11,7 +11,7 @@ const location = 'canadacentral';
  * @param {String} text to translate
  * @param {String} to target language eg. fr, es
  * @param {String} from original language (defaults to 'en')
- * @returns Object { text: 'translated text', to: 'language tranlated to' }
+ * @returns {String} Translated text
  */
 module.exports.translate = async (text, to, from = 'en') => {
   const res = await axios({

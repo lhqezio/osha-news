@@ -5,10 +5,11 @@ const { addNewUser } = require('../db/db');
 const clientId = process.env.GOOGLE_CLIENT_ID;
 
 /**
+ * Express Controller
  * Authenticates user token using Google Authentication
- * @param req request made by api
- * @param res response made by api
- * @param req.body.token token that is being authenticated 
+ * @param {Express.Request} req request made by api
+ * @param {Express.Response} res response made by api
+ * @param {String} req.body.token token that is being authenticated 
  */
 module.exports.authenticateGoogle = async (req, res) => {
   const client = new OAuth2Client(clientId);
