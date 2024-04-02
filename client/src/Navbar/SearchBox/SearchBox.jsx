@@ -71,7 +71,7 @@ export default function SearchBox(props) {
       );
       return () => clearTimeout(delaySearch);
     }
-  }, [props.searchTerm, t, props.show, selectedCategories, props.currentLang]);
+  }, [props.searchTerm, t, selectedCategories, props.currentLang]);
 
   function loadMore() {
     const params = {
