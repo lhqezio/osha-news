@@ -14,10 +14,9 @@ export default function SearchBox(props) {
 
   useEffect(()=>{
     const categories = sessionStorage.getItem('sCategories');
-    if(selectedCategories !== categories) {
+
+    if(props.searchTerm.trim() !== '' && selectedCategories !== categories) {
       setSelectedCategories(categories);
-    }
-    if(props.searchTerm.trim() !== '') {
       setLoading(true);
       setArticleResults(null);
       const delaySearch = setTimeout(
