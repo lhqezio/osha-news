@@ -13,17 +13,31 @@ export default function SearchBox(props) {
 
   useEffect(()=>{
     const categories = sessionStorage.getItem('sCategories');
-    if(selectedCategories === '' || selectedCategories !== categories) {
+    if(selectedCategories !== categories) {
       setSelectedCategories(categories);
     }
     if(props.searchTerm.trim() !== '') {
       setLoading(true);
       const delaySearch = setTimeout(
         ()=>{
+          const params = {
+            category: selectedCategories.trim() !== '' ? selectedCategories.split(',') : null,
+            amount: 15,
+            page:1,
+            search: props.searchTerm
+          };
+          const requestBody = JSON.stringify(params);
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: requestBody
+          };
           setFetchErrMsg('');
           //fetch both users and articles for search
           Promise.all([
-            fetch(`/api/article/search?search=${props.searchTerm}&page=1&amount=15`).
+            fetch(`/api/article/search?lang=${props.currentLang}`, options).
               then((resp) => {
                 if(!resp.ok){
                   setFetchErrMsg(t('error.connection'));
@@ -40,9 +54,10 @@ export default function SearchBox(props) {
                 }
               }),
           ]).
-            then(([articles, users]) => {
+            then(([foundArticles, users]) => {
+              console.log(foundArticles);
               setFetchErrMsg('');
-              setArticleResults(articles.result);
+              setArticleResults(foundArticles.result);
               setUserResults(users[0].data);
               setLoading(false);
             }).catch(
@@ -54,8 +69,7 @@ export default function SearchBox(props) {
       );
       return () => clearTimeout(delaySearch);
     }
-    
-  }, [props.searchTerm, t, props.show, selectedCategories]);
+  }, [props.searchTerm, t, props.show, selectedCategories, props.currentLang]);
 
   return (
     <div className={ !props.show ? 'hidden' : 
@@ -73,18 +87,19 @@ export default function SearchBox(props) {
         <p className="font-semibold text-sm">
           {fetchErrMsg !== '' ? fetchErrMsg : 
             loading ? 'LOADING...' : 
-              <span>
-                {articleResults.length + t('search.found')}
-                <br></br>
-                {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
-              </span>
+              articleResults !== undefined ? 
+                <span>
+                  {articleResults.length + t('search.found')}
+                  <br></br>
+                  {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
+                </span> : null
           }
         </p>
-        {articleResults !== null && !loading && 
+        {articleResults !== null && articleResults !== undefined && !loading && 
           <ArticleResults articles = {articleResults}/>}
       </div>
       <div className="grow p-8 overflow-y-scroll">
-        {userResults !== null && !loading &&
+        {userResults !== null && userResults !== undefined && !loading &&
         <UserResults users= {userResults} />}
       </div>
     </div>
