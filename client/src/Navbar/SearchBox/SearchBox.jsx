@@ -22,7 +22,7 @@ export default function SearchBox(props) {
               setFetchErrMsg(t('error.connection'));
             } else {
               return resp.json();
-            }
+            }w
           }),
         fetch(`users/search?name=${props.searchTerm}`).
           then((resp) => {

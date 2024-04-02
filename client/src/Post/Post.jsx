@@ -89,7 +89,7 @@ export default function PostArticle(){
         <form ref={ form } 
           className="flex flex-col border-2 border-gray-300
           m-auto absolute inset-1/4 rounded shadow-lg" >
-          <feildset className="flex flex-col justify-between h-full">
+          <fieldset className="flex flex-col justify-between h-full">
             <legend className="text-2xl m-2">Upload Article</legend>
             {/* headline */}
             <div>
@@ -129,7 +129,7 @@ export default function PostArticle(){
             <input type="submit" value="Submit" onClick={postData} 
               className="w-full 
               text-center text-white border p-1 bg-blue-500 rounded" />
-          </feildset>
+          </fieldset>
         </form>
       </div>
     </div>
