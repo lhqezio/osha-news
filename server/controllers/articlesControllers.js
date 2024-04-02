@@ -237,6 +237,10 @@ module.exports.translateArticles = async (req, res) => {
  * @param {Article} req.body.article Article to insert
  */
 module.exports.addArticle = async (req, res) => {
+  if (!req.session.name) {
+    res.status(401).json({'error' : 'Not logged in'});
+    return;
+  }
   try {
     const article = new Article(
       null,
