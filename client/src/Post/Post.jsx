@@ -1,5 +1,6 @@
 // import { Link } from 'react-router-dom';
 import React, {useState, useEffect, useRef} from 'react';
+import { useTranslation } from 'react-i18next';
 // import Article from '../../../server/classes/Article.js';
 // import Navbar from '../Navbar/Navbar.jsx';
 
@@ -18,6 +19,7 @@ export default function PostArticle(){
   const [errorMsg, setErrorMsg] = useState('');
   const [categories, setCategories] = useState([]);
   const form = useRef(0);
+  const { t } = useTranslation();
 
   useEffect(
     ()=>{
@@ -90,29 +92,29 @@ export default function PostArticle(){
           className="flex flex-col border-2 border-gray-300
           m-auto absolute inset-1/4 rounded shadow-lg" >
           <feildset className="flex flex-col justify-between h-full">
-            <legend className="text-2xl m-2">Upload Article</legend>
+            <legend className="text-2xl m-2">{t('post.upload')}</legend>
             {/* headline */}
             <div>
-              <label htmlFor="headline" className="text-xl m-2">Article Headline:</label>
+              <label htmlFor="headline" className="text-xl m-2">{t('post.headline')}</label>
               <input type="text" name="headline" className="border w-2/4 m-1" required/>
             </div>
             {/* description */}
             <div className="flex flex-col">
               <label htmlFor="descript" className="text-xl m-2">
-                Article Description:
+                {t('post.description')}
               </label>
               <textarea name="descript" rows="4" cols="50" className="border w-3/4 m-2" required>
               </textarea>
             </div>
             {/* url */}
             <div className="flex flex-col">
-              <label htmlFor="url" className="text-xl m-2">Url of original post:</label>
+              <label htmlFor="url" className="text-xl m-2">{t('post.url')}</label>
               <input type="url" name="url" className="border w-4/5 m-2" 
                 placeholder="https://example.com" pattern="https://.*" size="30" required/>
             </div>
             {/* category */}
             <div>
-              <label htmlFor="category" className="text-xl m-2">Category:</label>
+              <label htmlFor="category" className="text-xl m-2">{t('post.category')}</label>
               <select name="category" className="border w-1/4">
                 {categories.map((cat, i) =>
                   <option key={i} value={cat}>{cat}</option>
@@ -121,7 +123,7 @@ export default function PostArticle(){
             </div>
             <div>
               <label htmlFor="file" className="text-xl m-2 block w-full text-sm text-gray-900"
-              >Upload image</label>
+              >{t('post.uploadImage')}</label>
               <input type="file" id="avatar" name="file" 
                 className="w-1/3 m-2 block text-sm text-gray-900 border border-gray-300 
                 rounded cursor-pointer bg-gray-100 "></input>  

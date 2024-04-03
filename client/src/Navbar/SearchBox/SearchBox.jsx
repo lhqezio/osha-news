@@ -63,7 +63,7 @@ export default function SearchBox(props) {
       <div className="w-[50vw] border-r border-gray-400 p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
           {fetchErrMsg !== '' ? fetchErrMsg : 
-            loading ? 'LOADING...' : 
+            loading ? t('search.loading') : 
               articleResults.length + ` ${t('search.found')}`}
         </p>
         {articleResults !== null && !loading && 
