@@ -11,18 +11,20 @@ export default function SearchBox(props) {
   const [selectedCategories, setSelectedCategories] = useState('');
   const { t } = useTranslation();
   const [page, setPage] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(()=>{
     const categories = sessionStorage.getItem('sCategories');
-
-    if(props.searchTerm.trim() !== '' && selectedCategories !== categories) {
-      setSelectedCategories(categories);
+    if(props.searchTerm.trim() === '') {
+      setSearchTerm(props.searchTerm);
+    }
+    if(props.searchTerm !== searchTerm || categories !== selectedCategories) {
       setLoading(true);
       setArticleResults(null);
       const delaySearch = setTimeout(
         ()=>{
           const params = {
-            category: selectedCategories.trim() !== '' ? selectedCategories.split(',') : null,
+            category: categories.trim() !== '' ? categories.split(',') : null,
             amount: 15,
             page:1,
             search: props.searchTerm
@@ -58,6 +60,8 @@ export default function SearchBox(props) {
             then(([foundArticles, users]) => {
               setFetchErrMsg('');
               setArticleResults(foundArticles);
+              setSearchTerm(props.searchTerm);
+              setSelectedCategories(categories);
               setPage(1);
               setUserResults(users[0].data);
               setLoading(false);
@@ -70,7 +74,7 @@ export default function SearchBox(props) {
       );
       return () => clearTimeout(delaySearch);
     }
-  }, [props.searchTerm, t, selectedCategories, props.currentLang]);
+  }, [props.searchTerm, t, selectedCategories, props.currentLang, props.show, searchTerm]);
 
   function loadMore() {
     const params = {
