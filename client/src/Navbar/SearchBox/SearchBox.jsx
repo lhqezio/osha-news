@@ -139,7 +139,8 @@ export default function SearchBox(props) {
         {articleResults?.next_page ? 
           <button
             onClick={loadMore}
-            className="mx-auto font-light p-2 border border-gray-600 rounded-lg"
+            className={'text-sm mx-auto font-light p-2 border border-gray-600 rounded-full ' + 
+            'hover:opacity-75'}
           >
           LOAD MORE
           </button>  : null 
