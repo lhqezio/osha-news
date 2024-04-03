@@ -21,20 +21,13 @@ export default function CategoryList({
   });
 
   useEffect(()=>{
-    fetch(`/api/categories?lang=${currentLang}`).
-      then((resp)=>{
-        if(!resp.ok) {
-          console.error('Error occured');
-        }else {
-          return resp.json();
-        }
-      }).
-      then ((json)=>{
-        setCategories(json);
-      }).
-      catch (()=>{
-        console.error('Server Error Occured');
-      });
+    const fetchCategory = async () => {
+      const res = await fetch(`/api/categories?lang=${currentLang}`);
+      const data = await res.json();
+        
+      setCategories(data);
+    };
+    fetchCategory();
   }, [currentLang]);  
 
   //on button press shows or hides the list

@@ -1,5 +1,7 @@
 const axios = require('axios').default;
 const { v4: uuidv4 } = require('uuid');
+// eslint-disable-next-line no-unused-vars
+const Article = require('../classes/Article');
 require('dotenv').config();
 
 const key = process.env.AZURE_TRANSLATE_KEY;
@@ -56,7 +58,7 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
     headline: textRes[0],
     category: textRes[1],
     text: textRes[2],
-    author: article.author,
+    author: article.authors,
     date: article.date,
     image: article.image,
     lang: to,
