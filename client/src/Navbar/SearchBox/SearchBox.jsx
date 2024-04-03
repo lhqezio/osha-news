@@ -108,8 +108,6 @@ export default function SearchBox(props) {
       );
   }
 
-  console.log(articleResults);
-
   return (
     <div className={ !props.show ? 'hidden' : 
       'flex rounded-md mt-4 mx-auto border border-gray-400' +
