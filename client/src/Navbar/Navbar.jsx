@@ -10,8 +10,7 @@ import { Outlet } from 'react-router-dom';
 
 export default function Navbar(){
   const { i18n, t } = useTranslation();
-  const defaultSearchValue = '';
-  const[searchTerm, setSearchTerm] = useState(defaultSearchValue);
+  const[searchTerm, setSearchTerm] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(false);  
   const [user, setUser] = useState('');
   const [userIcon, setUserIcon] = useState('');
@@ -25,7 +24,7 @@ export default function Navbar(){
 
   function handleShowSearchBox(e){
     setSearchTerm(e.target.value);
-    if(e.target.value.trim() !== defaultSearchValue) {
+    if(e.target.value.trim() !== '') {
       setShowSearchBox(true);
     } else {
       setShowSearchBox(false);

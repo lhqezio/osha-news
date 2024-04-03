@@ -27,7 +27,7 @@ i18n.use(initReactI18next).init({
           unexpected: 'Unexpected error has occurred, Contact the administrator'
         },
         search: {
-          found: 'ARTICLE(S) FOUND'
+          found: ' ARTICLE(S) FOUND'
         }
       }
     },
