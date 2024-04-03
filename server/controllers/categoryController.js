@@ -1,6 +1,13 @@
 const { getCategories } = require('../db/db');
 const { translateCategories } = require('../utils/translateModule');
 
+/**
+ * Express Controller
+ * Get all the available categories
+ * @param {Express.Request} req Request made to the api
+ * @param {Express.Response} res Responce send by the api
+ * @param {String} req.query.lang Language of the response
+ */
 module.exports.getAllCategories = async (req, res) => {
   try{
     const categories = await getCategories();

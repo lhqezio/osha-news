@@ -10,10 +10,10 @@ const location = 'canadacentral';
 
 /**
  * Translate text to desired language using Azure API
- * @param {String} text to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns Object { text: 'translated text', to: 'language tranlated to' }
+ * @param {String} text To translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {String} Translated text
  */
 module.exports.translate = async (text, to, from = 'en') => {
   const res = await axios({
@@ -41,10 +41,10 @@ module.exports.translate = async (text, to, from = 'en') => {
 
 /**
  * Translate article to desired language using Azure API
- * @param {Article} article article object to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns translated article
+ * @param {Object} article Article object to translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {Object} Translated article
  */
 module.exports.translateOneArticle = async (article, to, from = 'en') => {
   const textReq = [article.headline, article.category, article.text];
@@ -68,10 +68,10 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
 
 /**
  * Translate articles to desired language using Azure API
- * @param {Array<Article>} articles array of articles object to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns translated articles
+ * @param {Array} articles Array of articles object to translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {Object} Translated articles
  */
 module.exports.translateMultipleArticle = async (articles, to, from = 'en') => {
   const newArticles = await Promise.all(articles.map(async (article) => {
@@ -82,10 +82,10 @@ module.exports.translateMultipleArticle = async (articles, to, from = 'en') => {
 
 /**
  * Translate categories to desired language using Azure API
- * @param {Array} categories categories to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns translated categories
+ * @param {Array} categories Categories to translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {Object} Translated categories
  */
 module.exports.translateCategories = async (categories, to, from = 'en') => {
   const newCategories = await Promise.all(categories.map(async (category) => {
