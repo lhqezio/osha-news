@@ -1,5 +1,7 @@
 const axios = require('axios').default;
 const { v4: uuidv4 } = require('uuid');
+// eslint-disable-next-line no-unused-vars
+const Article = require('../classes/Article');
 require('dotenv').config();
 
 const key = process.env.AZURE_TRANSLATE_KEY;
@@ -39,7 +41,7 @@ module.exports.translate = async (text, to, from = 'en') => {
 
 /**
  * Translate article to desired language using Azure API
- * @param {Object} article article object to translate
+ * @param {Article} article article object to translate
  * @param {String} to target language eg. fr, es
  * @param {String} from original language (defaults to 'en')
  * @returns translated article
@@ -56,7 +58,7 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
     headline: textRes[0],
     category: textRes[1],
     text: textRes[2],
-    author: article.author,
+    author: article.authors,
     date: article.date,
     image: article.image,
     lang: to,
@@ -66,7 +68,7 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
 
 /**
  * Translate articles to desired language using Azure API
- * @param {Array} articles array of articles object to translate
+ * @param {Array<Article>} articles array of articles object to translate
  * @param {String} to target language eg. fr, es
  * @param {String} from original language (defaults to 'en')
  * @returns translated articles
