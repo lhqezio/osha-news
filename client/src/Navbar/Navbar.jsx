@@ -71,8 +71,8 @@ export default function Navbar(){
           <ul className="flex flex-row justify-between">
             <li className="inline w-1/3">
               <div className="flex flex-row justify-items-start">
-                <img className="size-6 my-1 mr-2" src={search} alt="search icon"/>
-                <input className="border rounded-sm border-gray-400 p-1 font-light" 
+                <img className="size-5 md:size-6 my-1 mr-2" src={search} alt="search icon"/>
+                <input className="border rounded-sm border-gray-400 p-1 font-light hidden md:block" 
                   type="text" value={searchTerm}
                   onChange={handleShowSearchBox}
                   onBlur={hideSearchBox}
@@ -81,7 +81,8 @@ export default function Navbar(){
               </div>
             </li>
             <li className="w-1/3 flex justify-items-end">
-              <Link to="/" className="text-xl text-center w-full my-1">{t('home.title')}</Link>
+              <Link to="/" className="text-lg md:text-xl text-center w-full my-1">
+                {t('home.title')}</Link>
             </li>
             <li className="inline w-1/3">
               <div className="grid grid-rows-1 justify-items-end">

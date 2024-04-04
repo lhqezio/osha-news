@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
 import Comment from './Comment';
-import plus from '../images/plus.png';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export default function Article({
@@ -90,10 +88,12 @@ export default function Article({
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
-        className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
-        'my-30 snap-always flex flex-col'} >
-        <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
-          <div className="text-4xl font-serif">
+        className={'snap-start md:h-[80vh] md:p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
+        'my-30 snap-always flex flex-col h-[90vh]'} >
+        <div 
+          className={'md:w-1/2 backdrop-blur-lg p-6 drop-shadow-md' 
+          + ' md:rounded-lg bg-white opacity-75'}>
+          <div className="text-2xl md:text-4xl font-serif">
             {articles[0].headline}
           </div>
           <div>
@@ -109,16 +109,11 @@ export default function Article({
             <a className="text-blue-600" href={`${articles[0].link}`}>{t('article.moreInfo')}</a>
           </div>
         </div>
-        <div className="flex items-end self-end h-full">
+        <div className="flex items-end self-end h-full m-4">
           <Comment/>
         </div>
-        <div className="absolute bottom-0 right-0">
-          <Link to={`/post`}>
-            <img src={plus} alt="add button" className="size-6 my-1 mr-2"/>
-          </Link>
-        </div>
       </section> :
-      <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
+      <section ref={ref} className="snap-start h-[90vh] md:h-[80vh] rounded-xl p-4">
         {
           fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />
