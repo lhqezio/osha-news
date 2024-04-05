@@ -3,6 +3,12 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { createRoot } from "react-dom/client";
 import { act } from "react-dom/test-utils";
 import { screen } from '@testing-library/react';
+import {
+  mockAllIsIntersecting,
+  mockIsIntersecting,
+  intersectionMockInstance,
+} from 'react-intersection-observer/test-utils';
+
 import '@testing-library/jest-dom/extend-expect';
 
 import Article from "../Article/ArticleDetail";
@@ -19,30 +25,6 @@ jest.mock("../Article/Comment.jsx", () => {
   };
 });
 
-export class IntersectionObserver {
-  root = null;
-  rootMargin = "";
-  thresholds = [];
-
-  disconnect() {
-    return null;
-  }
-
-  observe() {
-    return null;
-  }
-
-  takeRecords() {
-    return [];
-  }
-
-  unobserve() {
-    return null;
-  }
-}
-window.IntersectionObserver = IntersectionObserver;
-global.IntersectionObserver = IntersectionObserver;
-
 beforeEach(() => {
   container = document.createElement("div");
   document.body.appendChild(container);
@@ -55,8 +37,7 @@ afterEach(() => {
 });
 
 it("renders SearchBox", async () => {
-  const t = true;
-  const f = false;
+  const update = function (t){return t};
   const cat = [];
   const currentLang = 'en';
   const article = {0:{
@@ -64,6 +45,8 @@ it("renders SearchBox", async () => {
     headline: "headline",
     short_description: "short description"
   }};
+
+  
 
   jest.spyOn(global, 'fetch').mockImplementation(() =>
     Promise.resolve({
@@ -73,14 +56,11 @@ it("renders SearchBox", async () => {
 
   await act(async() => {
     // const root = createRoot(container);
-    render(<Article setUpdateScroll={false} selectedCategories={cat} currentLang={currentLang} />, container);
+    render(<Article setUpdateScroll={update} selectedCategories={cat} currentLang={currentLang} />, container);
   });
- 
-  expect(global.fetch).toHaveBeenCalledTimes(0);
-  // const image = screen.getByAltText('add button');
-  // expect(image).toBeInTheDocument();
-  // expect(global.fetch).toHaveBeenCalledWith('article/random?lang=en');
-  // expect(container.textContent).toContain('bob');
+  mockAllIsIntersecting(true);
+  expect(global.fetch).toHaveBeenCalledTimes(1);
+  expect(global.fetch).toHaveBeenCalledWith('article/random?lang=en');
 
   global.fetch.mockRestore();
 });
