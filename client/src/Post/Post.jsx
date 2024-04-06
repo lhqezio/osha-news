@@ -97,12 +97,12 @@ export default function PostArticle(){
   }
   
   return (
-    <div>
+    <div >
       <div className="w-screen h-screen">
         <p>{ errorMsg }</p>
         <form ref={ form } 
-          className="flex flex-col border-2 border-gray-300
-          m-auto absolute inset-1/4 rounded shadow-lg" >
+          className="flex flex-col border-2 border-gray-300 overflow-x-hidden
+          m-auto absolute inset-x-1/4 inset-y-[20%] rounded shadow-lg overflow-y-auto" >
           <feildset className="flex flex-col justify-between h-full">
             <legend className="text-2xl m-2">Upload Article</legend>
             {/* headline */}

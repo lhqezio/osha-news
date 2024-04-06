@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export default function CategoryList({ 
   currentLang, 
@@ -63,6 +64,13 @@ export default function CategoryList({
         <button type="button" 
           className="text-sm font-bold border border-gray-400 rounded-xl mb-4 p-2 mr-2"
           onClick={showCategories}>{t('home.categories')}</button>
+        <div className="absolute right-0">
+          <Link to={`/post`}>
+            <button type="button" 
+              className="text-sm font-bold border border-gray-400 
+              rounded-xl mb-4 p-2 mr-2">Add Article</button>
+          </Link>
+        </div>
         <ul className="flex flex-row">
           {selectedCategories.map((cat, i) =>
             <li key={i}>

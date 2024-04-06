@@ -40,12 +40,15 @@ export default function Comment(){
   return (
     <div className="relative">
       <div className="flex flex-row ">
-        <img className="size-6 my-1 mr-2" onClick={showCategories} 
-          src={comment} alt="comment icon"/>
+        <div className="size-8 backdrop-blur-lg bg-white/30 rounded-full drop-shadow-md">
+          <img className="size-6 m-auto mt-1" 
+            onClick={showCategories} 
+            src={comment} alt="comment icon"/>
+        </div>
         <ul ref={ref} className={ hidden ? 'hidden' : 
           'block border rounded-md p-2 -mt-2' +
-          ' overflow-auto w-80 h-52 absolute bg-white md:bg-opacity-95 z-10 font-bold' +
-          ' absolute bottom-0 right-0' }>
+          ' overflow-auto w-80 h-52 absolute md:bg-opacity-95 z-10 font-bold' +
+          ' absolute bottom-0 right-0 backdrop-blur-lg bg-white/30' }>
           {comments[0].map((com, i) =>
             <li key={i} className="m-2">
               <p className="text-xl">{com.user}</p>
