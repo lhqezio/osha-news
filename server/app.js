@@ -5,6 +5,14 @@ const app = express();
 
 app.use(express.static('../client/build'));
 app.use(express.json());
+
+//for accepting files through requests
+const fileUpload = require('express-fileupload');
+app.use(
+  fileUpload({
+    createParentPath: true,
+  })
+);
 app.use(session({secret: 'secretfornow'}));
 
 // Article route
