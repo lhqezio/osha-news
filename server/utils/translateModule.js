@@ -1,5 +1,7 @@
 const axios = require('axios').default;
 const { v4: uuidv4 } = require('uuid');
+// eslint-disable-next-line no-unused-vars
+const Article = require('../classes/Article');
 require('dotenv').config();
 
 const key = process.env.AZURE_TRANSLATE_KEY;
@@ -8,10 +10,10 @@ const location = 'canadacentral';
 
 /**
  * Translate text to desired language using Azure API
- * @param {String} text to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns Object { text: 'translated text', to: 'language tranlated to' }
+ * @param {String} text To translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {String} Translated text
  */
 module.exports.translate = async (text, to, from = 'en') => {
   const res = await axios({
@@ -39,10 +41,10 @@ module.exports.translate = async (text, to, from = 'en') => {
 
 /**
  * Translate article to desired language using Azure API
- * @param {Object} article article object to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns translated article
+ * @param {Object} article Article object to translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {Object} Translated article
  */
 module.exports.translateOneArticle = async (article, to, from = 'en') => {
   const textReq = [article.headline, article.category, article.text];
@@ -56,7 +58,7 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
     headline: textRes[0],
     category: textRes[1],
     text: textRes[2],
-    author: article.author,
+    author: article.authors,
     date: article.date,
     image: article.image,
     lang: to,
@@ -66,10 +68,10 @@ module.exports.translateOneArticle = async (article, to, from = 'en') => {
 
 /**
  * Translate articles to desired language using Azure API
- * @param {Array} articles array of articles object to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns translated articles
+ * @param {Array} articles Array of articles object to translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {Object} Translated articles
  */
 module.exports.translateMultipleArticle = async (articles, to, from = 'en') => {
   const newArticles = await Promise.all(articles.map(async (article) => {
@@ -80,10 +82,10 @@ module.exports.translateMultipleArticle = async (articles, to, from = 'en') => {
 
 /**
  * Translate categories to desired language using Azure API
- * @param {Array} categories categories to translate
- * @param {String} to target language eg. fr, es
- * @param {String} from original language (defaults to 'en')
- * @returns translated categories
+ * @param {Array} categories Categories to translate
+ * @param {String} to Target language eg. fr, es
+ * @param {String} from Original language (defaults to 'en')
+ * @returns {Object} Translated categories
  */
 module.exports.translateCategories = async (categories, to, from = 'en') => {
   const newCategories = await Promise.all(categories.map(async (category) => {
