@@ -22,6 +22,19 @@ export default function CategoryList({
   });
 
   useEffect(()=>{
+    fetch('/api/users/login').
+      then((response) => response.json()).
+      then((user) => {
+        // setUser(user.name);
+        // setUserIcon(user.image);
+        console.log(user);
+      }).
+      catch (()=>{
+        console.error('Server Error Occured');
+      });
+  }, []);
+
+  useEffect(()=>{
     fetch(`/api/categories?lang=${currentLang}`).
       then((resp)=>{
         if(!resp.ok) {
