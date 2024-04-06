@@ -16,6 +16,7 @@ const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 import './i18n';
 import Profile from './Profile/Profile.jsx';
 import Navbar from './Navbar/Navbar.jsx';
+import Search from './Search/Search.jsx';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/search',
+        element: <Search />,
       }
     ],
   }

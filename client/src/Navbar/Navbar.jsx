@@ -71,7 +71,12 @@ export default function Navbar(){
           <ul className="flex flex-row justify-between">
             <li className="inline w-1/3">
               <div className="flex flex-row justify-items-start">
-                <img className="size-5 md:size-6 my-1 mr-2" src={search} alt="search icon"/>
+                <Link to="/search" className="block md:hidden">
+                  <img className="size-5 md:size-6 my-1 mr-2"  
+                    src={search} alt="search icon"/>
+                </Link>
+                <img className="size-5 md:size-6 my-1 mr-2 hidden md:block" 
+                  src={search} alt="search icon"/>
                 <input className="border rounded-sm border-gray-400 p-1 font-light hidden md:block" 
                   type="text" value={searchTerm}
                   onChange={handleShowSearchBox}
@@ -106,7 +111,16 @@ export default function Navbar(){
               </div>
             </li>
           </ul>
-          <SearchBox show={showSearchBox} searchTerm={searchTerm}> </SearchBox>
+          <SearchBox show={showSearchBox} searchTerm={searchTerm}
+            className = {'flex rounded-md mt-4 mx-auto border border-gray-400' +
+            ' overflow-auto w-[70vw] h-[70vh] absolute bg-white md:bg-opacity-95 z-20 font-bold' +
+            ' top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 '}
+            onMouseDown = {
+              (e)=>{
+                e.preventDefault();
+              }
+            }
+          > </SearchBox>
         </nav>
         <div>
           <Outlet context={[currentLang]}/>
@@ -156,7 +170,6 @@ export default function Navbar(){
               </div>
             </li>
           </ul>
-          <SearchBox show={showSearchBox} searchTerm={searchTerm}> </SearchBox>
         </nav>
         <div>
           <Outlet context={[currentLang]}/>

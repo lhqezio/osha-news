@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 // import NavBar from './Navbar/Navbar';
-import CategoriesList from './Navbar/CategoriesList';
+import CategoriesList from '../Navbar/CategoriesList';
+import SearchBox from '../Navbar/SearchBox/SearchBox';
 // import { useOutletContext } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
 
@@ -8,10 +9,12 @@ export default function Search(){
   const [selectedCategories, setSelectedCategories] = useState([]);
   //   const [currentLang] = useOutletContext();
   const [searchTerm, setSearchTerm] = useState('');
+  const [reload, setReload] = useState(false);
 
   useEffect (
     ()=>{
       sessionStorage.setItem('sCategories', selectedCategories);
+      setReload(true);
     }, [selectedCategories]
   );
 
@@ -43,6 +46,13 @@ export default function Search(){
             setSearchTerm(e.target.value);
           }
         }
+      />
+      <SearchBox show={true}  
+        className = {'flex flex-col-reverse rounded-md mt-4 mx-auto mb-5' +
+            ' overflow-auto md:h-[70vh] bg-white md:bg-opacity-95 font-bold'} 
+        searchTerm = {searchTerm}
+        reload = {reload}
+        setReload = {setReload}
       />
     </div>
   );

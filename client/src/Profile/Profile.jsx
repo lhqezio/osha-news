@@ -49,7 +49,7 @@ export default function Profile(){
       {fetchErrMsg.trim() !== '' ? fetchErrMsg
         : profile === null  ?  'Loading...'
           :
-          <>
+          <div>
             <div className="flex mb-10">
               <div>
                 <img className="size-28" src={avatar} alt="profile"/>
@@ -61,8 +61,8 @@ export default function Profile(){
                 </p>
               </div>
             </div> 
-            <div className="flex w-full">
-              <div className="flex-1 mr-8">
+            <div className="flex md:flex-row flex-col w-full">
+              <div className="flex-1 mb-10 md:mb-0 md:mr-8">
                 <p className="font-semibold text-2xl mb-6">
                 ABOUT
                 </p>
@@ -74,11 +74,11 @@ export default function Profile(){
                   </p>
                 </div>
               </div>
-              <div className="flex-1 ml-8">
-                <p className="font-semibold text-2xl mb-2">
+              <div className="flex-1 md:ml-8">
+                <p className="font-semibold text-2xl mb-8 md:mb-2">
                 ALL POSTS
                 </p>
-                <div className="overflow-y-scroll h-[50vh]">
+                <div className="md:overflow-y-scroll h-[50vh]">
                   {
                     profile.top.map(
                       (article) => <ArticleResult key = {article.id} article={article} />
@@ -87,7 +87,7 @@ export default function Profile(){
                 </div>
               </div>
             </div>
-          </>
+          </div>
       }
     </div>
   );
