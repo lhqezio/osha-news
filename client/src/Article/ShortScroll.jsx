@@ -4,11 +4,13 @@ import Article from './ArticleDetail';
 export default function ShortScroll({selectedCategories, currentLang}) {
 
   const[updateScroll, setUpdateScroll] = useState(false);
+  const [page, setPage] = useState(0);
   const[articleElems, setArticleElems] = useState([
     <Article 
       setUpdateScroll={setUpdateScroll} 
       selectedCategories={selectedCategories} 
       currentLang={currentLang} 
+      page={page}
       key={0}
     />
   ]);
@@ -19,10 +21,12 @@ export default function ShortScroll({selectedCategories, currentLang}) {
         setUpdateScroll={setUpdateScroll} 
         selectedCategories={selectedCategories} 
         currentLang={currentLang} 
+        page={page}
         key={0}
       />
     ]);
     setArticleElems(newArr);
+    setPage(page + 1);
     setUpdateScroll(false);
   }
 
