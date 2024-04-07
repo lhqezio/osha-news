@@ -1,4 +1,4 @@
-const { getUser, searchUsers } = require('../db/db');
+const { getUser, searchUsers, getUserPosts } = require('../db/db');
 
 /**
  * Express Controller
@@ -72,6 +72,12 @@ module.exports.searchUsers = async (req, res) => {
 module.exports.getUserPosts = async (req, res) => {
   const user = req.query.user;
 
-  res.json({ 'user' : user});
+  const posts = await getUserPosts(user);
+
+  if (posts.length > 0){
+    res.json({ 'posts' : posts });
+    return;
+  }
+  res.json({ 'Error' : 'User not found' });
 };
 

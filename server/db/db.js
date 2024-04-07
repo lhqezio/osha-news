@@ -132,7 +132,7 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
   return articles;
 };
 
-// Google User
+// User
 const userSchema = mongoose.Schema({
   email: String,
   name: String,
@@ -156,6 +156,14 @@ module.exports.addNewUser = async (user) => {
     });                                                   
     await newUser.save();
   }
+};
+
+module.exports.getUserPosts = async (user) => {
+  let posts = [];
+
+  posts = await ArticleModel.find({ authors : user }).exec();
+
+  return posts;
 };
 
 /**
