@@ -4,10 +4,40 @@ import { useEffect } from 'react';
 import { actionTypes } from '../userStore';
 import { redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { config } from '../Config';
+import { PublicClientApplication } from '@azure/msal-browser';
 
 export default function Login(){
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const publicClientApplication = new PublicClientApplication({
+    auth: {
+      clientId: config.appId,
+      redirectUri: config.redirectUri,
+      authority: config.authority
+    },
+    cache: {
+      cacheLocation: 'sessionStorage',
+      storeAuthStateInCookie: true
+    }
+  });
+
+  const login = async () => {
+    try {
+      await publicClientApplication.loginPopup({
+        scopes: config.scopes,
+        prompt: 'select_account'
+      });
+      dispatch({ type: actionTypes.SET_LOGIN });
+    } catch (err){
+      dispatch({ type: actionTypes.SET_LOGOUT });
+    }
+  };
+
+  // const logout = () => {
+  //    publicClientApplication.logout();
+  // };
   
   useEffect(() => {
     fetch('/api/users/login').
@@ -45,6 +75,7 @@ export default function Login(){
               // do something
             }}
           />
+          <button onClick={() => login()}>Log In with microsoft</button>
         </div>
       </div>
     );
