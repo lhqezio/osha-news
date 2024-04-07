@@ -23,6 +23,7 @@
   },
   "homepage": "https://gitlab.com/csy3dawson23-24/620/section-2/TeamA-620-2024-2/webdevproject#readme",
   "dependencies": {
-    "@azure/msal-browser": "^3.11.1"
+    "@azure/msal-browser": "^3.11.1",
+    "@azure/msal-react": "^2.0.14"
   }
 }
