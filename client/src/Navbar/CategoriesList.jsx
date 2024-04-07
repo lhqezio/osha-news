@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export default function CategoryList({ 
   currentLang, 
@@ -9,6 +10,7 @@ export default function CategoryList({
   removeSelectedCategory 
 }){
   const [hidden, setHidden] = useState(true);
+  const [addButtonHidden, setAddButtonHidden] = useState(true);
   const [categories, setCategories] = useState([]);
   const [closeByClickedAway, setCloseByClickedAway] = useState(false);
   const { t } = useTranslation();
@@ -21,20 +23,26 @@ export default function CategoryList({
   });
 
   useEffect(()=>{
-    fetch(`/api/categories?lang=${currentLang}`).
-      then((resp)=>{
-        if(!resp.ok) {
-          console.error('Error occured');
-        }else {
-          return resp.json();
+    fetch('/api/users/user-info').
+      then((response) => response.json()).
+      then((user) => {
+        if (user.name){
+          setAddButtonHidden(false);
         }
-      }).
-      then ((json)=>{
-        setCategories(json);
       }).
       catch (()=>{
         console.error('Server Error Occured');
       });
+  }, []);
+
+  useEffect(()=>{
+    const fetchCategory = async () => {
+      const res = await fetch(`/api/categories?lang=${currentLang}`);
+      const data = await res.json();
+        
+      setCategories(data);
+    };
+    fetchCategory();
   }, [currentLang]);  
 
   //on button press shows or hides the list

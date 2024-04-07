@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import ShortScroll from './Article/ShortScroll';
 // import NavBar from './Navbar/Navbar';
-import CategoriesList from './Navbar/CategoriesList';
+import CategoryList from './Navbar/CategoriesList';
 import { useOutletContext } from 'react-router-dom';
 // import { useTranslation } from 'react-i18next';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';

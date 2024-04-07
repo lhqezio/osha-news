@@ -5,10 +5,10 @@ import avatar from '../images/avatar.png';
 
 
 export default function Profile(){  
-  const {id} = useParams();
+  const { id } = useParams();
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [profile, setProfile] = useState(null);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(
     ()=>{
@@ -17,9 +17,9 @@ export default function Profile(){
         crediblity: 7,
         about: 'Lorem Ipsum is simply dummy text of the printing and typesetting' + 
             ' industry. Lorem Ipsum has been the industry\'s' +
-             ' standard dummy text ever since the 1500s, when an unknown printer took a galley of' 
-             + ' type and scrambled' + 
-             ' it to make a type specimen book. It has survived not only five centuries,'
+            ' standard dummy text ever since the 1500s, when an unknown printer took a galley of' +
+            ' type and scrambled' + 
+            ' it to make a type specimen book. It has survived not only five centuries,'
       };
       fetch(`/api/article/search?search=violent&page=1&amount=15`).
         then((resp) => {
@@ -47,7 +47,7 @@ export default function Profile(){
   return (
     <div>
       {fetchErrMsg.trim() !== '' ? fetchErrMsg
-        : profile === null  ?  'Loading...'
+        : profile === null  ?  t('profile.loading')
           :
           <div>
             <div className="flex mb-10">
@@ -57,14 +57,14 @@ export default function Profile(){
               <div className="grow inline-block self-end">
                 <p className="text-3xl">{profile.username}</p>
                 <p>
-                    Credibility : {profile.crediblity}/10
+                  {t('profile.credibility')} : {profile.crediblity}/10
                 </p>
               </div>
             </div> 
             <div className="flex md:flex-row flex-col w-full">
               <div className="flex-1 mb-10 md:mb-0 md:mr-8">
                 <p className="font-semibold text-2xl mb-6">
-                ABOUT
+                  {t('profile.about')}
                 </p>
                 <div className="overflow-y-scroll">
                   <p className="font-light text-xl">
