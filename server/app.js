@@ -31,4 +31,8 @@ app.use('/api/authenticate', authenticateRoute);
 const userRoute = require('./routes/userRoute');
 app.use('/api/users', userRoute);
 
+// Image route
+const imageRoute = require('./routes/imageRoute');
+app.use('/api/image', imageRoute);
+
 module.exports = app;
