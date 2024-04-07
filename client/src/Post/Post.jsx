@@ -1,22 +1,13 @@
-// import { Link } from 'react-router-dom';
 import React, {useState, useEffect, useRef} from 'react';
 import { useTranslation } from 'react-i18next';
-// import Article from '../../../server/classes/Article.js';
-// import Navbar from '../Navbar/Navbar.jsx';
 
 /*
-keep in mind
-author and date are set using current dat and current user logged in
-link;
-headline;
-category;
-text;
-authors;
-date;
-image;
+fetch article and current user
+fill out form and post article
 */ 
 export default function PostArticle(){
   const [errorMsg, setErrorMsg] = useState('');
+  const [user, setUser] = useState('');
   const [categories, setCategories] = useState([]);
   const form = useRef(0);
   const { t } = useTranslation();
@@ -37,12 +28,20 @@ export default function PostArticle(){
         catch (()=>{
           setErrorMsg('Server Error Occured');
         });
+      fetch('/api/users/user-info').
+        then((response) => response.json()).
+        then((user) => {
+          setUser(user.name);
+        }).
+        catch (()=>{
+          setErrorMsg('Server Error Occured');
+        });
     }, []
   );  
   
   /*
-  post fetch formdata
-  yyyy-mm-dd
+  post fetch to add article
+  need to upload image first
   */
   async function postData(e){
     e.preventDefault();
@@ -54,7 +53,7 @@ export default function PostArticle(){
         headline: formData.get('headline'),
         category: formData.get('category'),
         text: formData.get('descript'),
-        authors: 'Clark Kent',
+        authors: user,
         date: currentDate,
         image: ''
       };

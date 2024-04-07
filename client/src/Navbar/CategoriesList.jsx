@@ -10,6 +10,7 @@ export default function CategoryList({
   removeSelectedCategory 
 }){
   const [hidden, setHidden] = useState(true);
+  const [addButtonHidden, setAddButtonHidden] = useState(true);
   const [categories, setCategories] = useState([]);
   const [closeByClickedAway, setCloseByClickedAway] = useState(false);
   const { t } = useTranslation();
@@ -22,12 +23,12 @@ export default function CategoryList({
   });
 
   useEffect(()=>{
-    fetch('/api/users/login').
+    fetch('/api/users/user-info').
       then((response) => response.json()).
       then((user) => {
-        // setUser(user.name);
-        // setUserIcon(user.image);
-        console.log(user);
+        if (user.name){
+          setAddButtonHidden(false);
+        }
       }).
       catch (()=>{
         console.error('Server Error Occured');
@@ -71,7 +72,7 @@ export default function CategoryList({
           className="text-sm font-bold border border-gray-400 rounded-xl mb-4 p-2 mr-2"
           onClick={showCategories}>{t('home.categories')}</button>
         <div className="absolute right-0">
-          <Link to={`/post`}>
+          <Link  to={`/post`} className={ addButtonHidden ? 'hidden' : '' }>
             <button type="button" 
               className="text-sm font-bold border border-gray-400 
               rounded-xl mb-4 p-2 mr-2">Add Article</button>
