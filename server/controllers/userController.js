@@ -69,3 +69,9 @@ module.exports.searchUsers = async (req, res) => {
   res.send(users);
 };
 
+module.exports.getUserPosts = async (req, res) => {
+  const user = req.query.user;
+
+  res.json({ 'user' : user});
+};
+

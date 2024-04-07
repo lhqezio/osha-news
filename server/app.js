@@ -3,7 +3,7 @@ const session = require('express-session');
 
 const app = express();
 
-app.use(express.static('../client/build'));
+//app.use(express.static('../client/build'));
 app.use(express.json());
 
 //for accepting files through requests
