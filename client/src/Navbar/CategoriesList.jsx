@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 export default function CategoryList({ 
   currentLang, 
@@ -10,7 +9,6 @@ export default function CategoryList({
   removeSelectedCategory 
 }){
   const [hidden, setHidden] = useState(true);
-  const [addButtonHidden, setAddButtonHidden] = useState(true);
   const [categories, setCategories] = useState([]);
   const [closeByClickedAway, setCloseByClickedAway] = useState(false);
   const { t } = useTranslation();
@@ -21,19 +19,6 @@ export default function CategoryList({
       setCloseByClickedAway(true);
     }
   });
-
-  useEffect(()=>{
-    fetch('/api/users/user-info').
-      then((response) => response.json()).
-      then((user) => {
-        if (user.name){
-          setAddButtonHidden(false);
-        }
-      }).
-      catch (()=>{
-        console.error('Server Error Occured');
-      });
-  }, []);
 
   useEffect(()=>{
     const fetchCategory = async () => {
