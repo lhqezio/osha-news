@@ -6,7 +6,7 @@ export default function SearchBox(props) {
 
   const [articleResults, setArticleResults] = useState(null);
   const [userResults, setUserResults] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [selectedCategories, setSelectedCategories] = useState('');
   const { t } = useTranslation();
@@ -65,6 +65,10 @@ export default function SearchBox(props) {
               setPage(1);
               setUserResults(users[0].data);
               setLoading(false);
+              if (props.reload !== null) {
+                props.reload ? props.setReload(false) 
+                  : null;
+              }
             }).catch(
               ()=>{
                 setFetchErrMsg(t('error.fetch'));
@@ -74,7 +78,8 @@ export default function SearchBox(props) {
       );
       return () => clearTimeout(delaySearch);
     }
-  }, [props.searchTerm, t, selectedCategories, props.currentLang, props.show, searchTerm]);
+  }, [props.searchTerm, t, selectedCategories, props.currentLang, props.show,
+    searchTerm, props.reload, props.setReload, props]);
 
   function loadMore() {
     const params = {
@@ -110,26 +115,21 @@ export default function SearchBox(props) {
 
   return (
     <div className={ !props.show ? 'hidden' : 
-      'flex rounded-md mt-4 mx-auto border border-gray-400' +
-        ' overflow-auto w-[70vw] h-[70vh] absolute bg-white md:bg-opacity-95 z-20 font-bold' +
-        ' top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 '
+      props.className
     } 
-    onMouseDown={
-      (e)=>{
-        e.preventDefault();
-      }
-    }
+    onMouseDown={props.onMouseDown}
     >
-      <div className="w-[50vw] border-r border-gray-400 p-8 overflow-y-scroll">
+      <div className="md:w-[50vw] md:border-r border-gray-400 md:p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
-          {fetchErrMsg !== '' ? fetchErrMsg : 
-            loading ? 'LOADING...' : 
-              articleResults?.result !== undefined ? 
-                <span>
-                  {articleResults?.amount + ' ' + t('search.found')}
-                  <br></br>
-                  {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
-                </span> : null
+          {searchTerm === '' ? null :
+            fetchErrMsg !== '' ? fetchErrMsg : 
+              loading ? 'LOADING...' : 
+                articleResults?.result !== undefined ? 
+                  <span>
+                    {articleResults?.amount + ' ' + t('search.found')}
+                    <br></br>
+                    {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
+                  </span> : null
           }
         </p>
         {articleResults?.result  !== null && articleResults?.result  !== undefined && !loading && 
@@ -144,7 +144,12 @@ export default function SearchBox(props) {
           </button>  : null 
         }
       </div>
-      <div className="grow p-8 overflow-y-scroll">
+      <div className="md:h-[70vh] grow md:p-8 overflow-y-scroll">
+        <p className="font-semibold text-sm">
+          {searchTerm === '' ? 'ENTER A SEARCH TERM' : 
+            userResults?.length + ' USER(S) FOUND'
+          }
+        </p>
         {userResults !== null && userResults !== undefined && !loading &&
         <UserResults users= {userResults} />}
       </div>
