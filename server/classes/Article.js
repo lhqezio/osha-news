@@ -80,7 +80,7 @@ class Article {
 
   /**
    * Get this article without an id
-   * @returns Article object with no id
+   * @returns {Article} Article object with no id
    */
   getArticleNoId() {
     return {
@@ -96,7 +96,7 @@ class Article {
 
   /**\
    * Creates an Article with an existing article
-   * @returns Article
+   * @returns {Article} Article
    * @throws Error invalid article
    */
   static createArticle(article) {
@@ -119,7 +119,7 @@ class Article {
   /**
    * Ceck if an object is an article
    * @param {Article} obj Article
-   * @returns Boolean
+   * @returns {Boolean} True if valid Article
    */
   static isArticle(obj) {
     if (!(typeof obj._id === 'string' || obj._id === null)) {
