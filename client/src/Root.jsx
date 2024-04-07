@@ -51,7 +51,9 @@ export default function Root(){
   return (
     <>
       <div className="block md:hidden">
-        <button onClick={handle.enter}
+        <button 
+          onClick={handle.enter}
+          onTouchEnd={handle.enter}
           className = {'absolute top-[40%] left-1/2 transform -translate-x-1/2 '
           + '-translate-y-1/2 font-serif text-2xl'
           }  
