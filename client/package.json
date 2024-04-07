@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.42",
     "@react-oauth/google": "^0.12.1",
