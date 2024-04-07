@@ -1,12 +1,13 @@
 const { getUser, searchUsers } = require('../db/db');
 
 /**
- * Login user and send info to front-end
- * @param req request sent by api 
- * @param res response sent by api
- * @param req.session.userId session user email
+ * Express Controller
+ * Gets user and send info about user that is authenticated
+ * @param {Express.Request} req Request sent by api 
+ * @param {Express.Response} res Response sent by api
+ * @param {String} req.session.userId Session user email
  */
-module.exports.login = async (req, res) => {
+module.exports.getUserInfo = async (req, res) => {
   const user = await getUser(req.session.userId);
   if (user[0]){
     res.status(200).json({ 
@@ -19,10 +20,11 @@ module.exports.login = async (req, res) => {
 };
 
 /**
+ * Express Controller
  * Logs out session user
- * @param req request sent by api
- * @param res response sent by api
- * @param req.session session token that holds user info
+ * @param {Express.Request} req Request sent by api
+ * @param {Express.Response} res Response sent by api
+ * @param {*} req.session Session token that holds user info
  */
 module.exports.logout = async (req, res) => {
   await req.session.destroy();
@@ -30,12 +32,13 @@ module.exports.logout = async (req, res) => {
 };
 
 /**
+ * Express Controller
  * Search users by name
- * @param req request made by api
- * @param res response sent by api
- * @param req.query.name name used in search
- * @param req.query.page page number to search
- * @param req.qeury.amount amount of searches per call
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {String} req.query.name Name used in search
+ * @param {Number} req.query.page Page number to search
+ * @param {Number} req.qeury.amount Amount of searches per call
  */
 module.exports.searchUsers = async (req, res) => {
   const name = req.query.name;
@@ -65,3 +68,4 @@ module.exports.searchUsers = async (req, res) => {
   const users = await searchUsers(name, pageBase, amountBase);
   res.send(users);
 };
+

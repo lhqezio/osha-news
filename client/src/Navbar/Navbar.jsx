@@ -10,8 +10,7 @@ import { Outlet } from 'react-router-dom';
 
 export default function Navbar(){
   const { i18n, t } = useTranslation();
-  const defaultSearchValue = '';
-  const[searchTerm, setSearchTerm] = useState(defaultSearchValue);
+  const[searchTerm, setSearchTerm] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(false);  
   const [user, setUser] = useState('');
   const [userIcon, setUserIcon] = useState('');
@@ -25,7 +24,7 @@ export default function Navbar(){
 
   function handleShowSearchBox(e){
     setSearchTerm(e.target.value);
-    if(e.target.value.trim() !== defaultSearchValue) {
+    if(e.target.value.trim() !== '') {
       setShowSearchBox(true);
     } else {
       setShowSearchBox(false);
@@ -41,7 +40,7 @@ export default function Navbar(){
   const dispatch = useDispatch();
   
   useEffect(() => {
-    fetch('/users/login').
+    fetch('/api/users/user-info').
       then((response) => response.json()).
       then((user) => {
         setUser(user.name);
@@ -53,9 +52,10 @@ export default function Navbar(){
   }, [dispatch]);
 
   const logoutUser = () => {
-    fetch('/users/logout', { method: 'DELETE' }).
+    fetch('/api/users/logout', { method: 'DELETE' }).
       then(() => {
         dispatch({ type: actionTypes.SET_LOGOUT });
+        window.location.reload();
       });
   };
 
@@ -137,7 +137,7 @@ export default function Navbar(){
                 <div className="flex flex-row">
                   <div>
                     <select
-                      className="mr-2 my-1"
+                      className="mr-2 my-1 rounded-lg bg-white"
                       name="selectLanguage"
                       defaultValue={currentLang}
                       onChange={onChangeLang}
@@ -150,8 +150,8 @@ export default function Navbar(){
                     </select>
                   </div>
                   <div>{user}</div>
-                  <img className="size-7" src={userIcon}></img>
-                  <button onClick={logoutUser}>{t('home.logout')}</button>
+                  <img className="size-7 mx-2 rounded-full" src={userIcon}></img>
+                  <Link to={'/'} button onClick={logoutUser}>{t('home.logout')}</Link>
                 </div>
               </div>
             </li>

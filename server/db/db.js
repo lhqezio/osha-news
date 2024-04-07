@@ -23,7 +23,7 @@ const ArticleModel = new mongoose.model('newsarticles', articleSchema);
 
 /**
   * Add many rows of news data
-  * @param articles list article to add to newsArticles
+  * @param {Article} articles list article to add to newsArticles
   */
 module.exports.createManyNewsArticles = async (articles) => {
   await ArticleModel.insertMany(articles);
@@ -31,7 +31,7 @@ module.exports.createManyNewsArticles = async (articles) => {
 
 /**
   * Add one Article
-  * @param article article to add to newsArticles
+  * @param {Article} article article to add to newsArticles
   * @returns Return the inserted article
   */
 module.exports.createNewsArticle = async (article) => {
@@ -40,7 +40,34 @@ module.exports.createNewsArticle = async (article) => {
 };
 
 /**
+  * update one Article
+  * @param {Article} article article to update to newsArticles
+  * @returns Return the updated article
+  */
+module.exports.updateNewsArticle = async (article) => {
+  const dbArticke = await ArticleModel.findOneAndUpdate(
+    { _id: article._id },
+    article,
+    { new: true }
+  );
+  return dbArticke;
+};
+
+/**
+  * Delete one Article
+  * @param {Article} article article to delete in newsArticles
+  * @returns Return the updated article
+  */
+module.exports.deleteNewsArticle = async (article) => {
+  const dbArticke = await ArticleModel.deleteOne(
+    { _id: article._id }
+  );
+  return dbArticke;
+};
+
+/**
  * Get one article
+ * @returns {Article} One Article
  */
 module.exports.getOneArticle = async () => {
   const article = await ArticleModel.findOne();
@@ -60,7 +87,7 @@ module.exports.getCategories = async () => {
  * Get random articles acording to a filter
  * @param filter
  * @param amount
- * @returns random article
+ * @returns {Array<Article>} random article
  */
 module.exports.getRandomArticle = async (filter, amount) => {
   const articles = await ArticleModel.aggregate(
@@ -89,13 +116,15 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
     [
       { 
         $match: { $and: [
-          { headline: { $regex : filter }}, 
-          {category: {$in: category}}
+          { headline: { $regex: filter }}, 
+          { category: { $in: category }}
         ]} 
       },
       { 
-        $facet: 
-        { data: [{ $skip: (page - 1) * amount }, { $limit: amount }]} 
+        $facet: {
+          pageResult: [{ $skip: (page - 1) * amount }, { $limit: amount }],
+          totalCount: [{ $count: 'count' }]
+        }
       }
     ]
   );
@@ -104,25 +133,25 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
 };
 
 // Google User
-const googleUserSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   email: String,
   name: String,
   posts: Array,
   image: String
 });
 
-const GoogleUserModel = new mongoose.model('google-users', googleUserSchema);
+const UserModel = new mongoose.model('users', userSchema);
 
 /**
  * Add a user to database only if they don't already exist
  * @param user user info from authentication 
  */
-module.exports.addNewGoogleUser = async (user) => {
+module.exports.addNewUser = async (user) => {
   // Check if the user already exists using email
-  const userExists = await GoogleUserModel.find({ email: user.email });
+  const userExists = await UserModel.find({ email: user.email });
 
   if (userExists.length === 0) { 
-    const newUser = new GoogleUserModel({
+    const newUser = new UserModel({
       email: user.email, name: user.name, posts: [], image: user.picture
     });                                                   
     await newUser.save();
@@ -135,7 +164,7 @@ module.exports.addNewGoogleUser = async (user) => {
  * @returns user found
  */
 module.exports.getUser = async (email) => {
-  const user = await GoogleUserModel.find({ email : email });
+  const user = await UserModel.find({ email : email });
   return user;
 };
 
@@ -147,7 +176,7 @@ module.exports.getUser = async (email) => {
  * @returns users found with pagination params
  */
 module.exports.searchUsers = async (filter, page, amount) => {
-  const users = await GoogleUserModel.aggregate(
+  const users = await UserModel.aggregate(
     [
       { 
         $match: { name: { $regex : filter }},  

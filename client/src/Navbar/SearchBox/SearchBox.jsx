@@ -8,45 +8,105 @@ export default function SearchBox(props) {
   const [userResults, setUserResults] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState('');
   const { t } = useTranslation();
+  const [page, setPage] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(()=>{
-    if(props.searchTerm.trim() !== '') {
-      setFetchErrMsg('');
-      setLoading(true);
-      //fetch both users and articles for search
-      Promise.all([
-        fetch(`/article/search?search=${props.searchTerm}&page=1&amount=15`).
-          then((resp) => {
-            if(!resp.ok){
-              setFetchErrMsg(t('error.connection'));
-            } else {
-              return resp.json();
-            }w
-          }),
-        fetch(`users/search?name=${props.searchTerm}`).
-          then((resp) => {
-            if(!resp.ok){
-              setFetchErrMsg(t('error.connection'));
-            } else {
-              return resp.json();
-            }
-          }),
-      ]).
-        then(([articles, users]) => {
-          setFetchErrMsg('');
-          setArticleResults(articles.result);
-          setUserResults(users[0].data);
-          setLoading(false);
-        }).catch(
-          ()=>{
-            setFetchErrMsg(t('error.fetch'));
-          }
-        );
-      
+    const categories = sessionStorage.getItem('sCategories');
+    if(props.searchTerm.trim() === '') {
+      setSearchTerm(props.searchTerm);
     }
-    
-  }, [props.searchTerm, t]);
+    if(props.searchTerm !== searchTerm || categories !== selectedCategories) {
+      setLoading(true);
+      setArticleResults(null);
+      const delaySearch = setTimeout(
+        ()=>{
+          const params = {
+            category: categories.trim() !== '' ? categories.split(',') : null,
+            amount: 15,
+            page:1,
+            search: props.searchTerm
+          };
+          const requestBody = JSON.stringify(params);
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: requestBody
+          };
+          setFetchErrMsg('');
+          //fetch both users and articles for search
+          Promise.all([
+            fetch(`/api/article/search?lang=${props.currentLang}`, options).
+              then((resp) => {
+                if(!resp.ok){
+                  setFetchErrMsg(t('error.connection'));
+                } else {
+                  return resp.json();
+                }
+              }),
+            fetch(`/api/users/search?name=${props.searchTerm}`).
+              then((resp) => {
+                if(!resp.ok){
+                  setFetchErrMsg(t('error.connection'));
+                } else {
+                  return resp.json();
+                }
+              }),
+          ]).
+            then(([foundArticles, users]) => {
+              setFetchErrMsg('');
+              setArticleResults(foundArticles);
+              setSearchTerm(props.searchTerm);
+              setSelectedCategories(categories);
+              setPage(1);
+              setUserResults(users[0].data);
+              setLoading(false);
+            }).catch(
+              ()=>{
+                setFetchErrMsg(t('error.fetch'));
+              }
+            );
+        }, 1500
+      );
+      return () => clearTimeout(delaySearch);
+    }
+  }, [props.searchTerm, t, selectedCategories, props.currentLang, props.show, searchTerm]);
+
+  function loadMore() {
+    const params = {
+      category: selectedCategories.trim() !== '' ? selectedCategories.split(',') : null,
+      amount: 15,
+      page:page + 1,
+      search: props.searchTerm
+    };
+    const requestBody = JSON.stringify(params);
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: requestBody
+    };
+    fetch(`/api/article/search?lang=${props.currentLang}`, options).
+      then((resp) => {
+        if(!resp.ok){
+          setFetchErrMsg(t('error.connection'));
+        } else {
+          return resp.json();
+        }
+      }). then(
+        (foundArticles)=>{
+          setFetchErrMsg('');
+          foundArticles.result.unshift(...articleResults.result);
+          setArticleResults(foundArticles);
+          setPage(page + 1);
+        }
+      );
+  }
 
   return (
     <div className={ !props.show ? 'hidden' : 
@@ -64,13 +124,28 @@ export default function SearchBox(props) {
         <p className="font-semibold text-sm">
           {fetchErrMsg !== '' ? fetchErrMsg : 
             loading ? 'LOADING...' : 
-              articleResults.length + ` ${t('search.found')}`}
+              articleResults?.result !== undefined ? 
+                <span>
+                  {articleResults?.amount + ' ' + t('search.found')}
+                  <br></br>
+                  {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
+                </span> : null
+          }
         </p>
-        {articleResults !== null && !loading && 
-          <ArticleResults articles = {articleResults}/>}
+        {articleResults?.result  !== null && articleResults?.result  !== undefined && !loading && 
+          <ArticleResults articles = {articleResults?.result}/>}
+        {articleResults?.next_page ? 
+          <button
+            onClick={loadMore}
+            className={'text-sm mx-auto font-light p-2 border border-gray-600 rounded-full ' + 
+            'hover:opacity-75'}
+          >
+          LOAD MORE
+          </button>  : null 
+        }
       </div>
       <div className="grow p-8 overflow-y-scroll">
-        {userResults !== null && !loading &&
+        {userResults !== null && userResults !== undefined && !loading &&
         <UserResults users= {userResults} />}
       </div>
     </div>

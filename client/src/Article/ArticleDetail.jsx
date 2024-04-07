@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
 import Comment from './Comment';
-import plus from '../images/plus.png';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export default function Article({
@@ -29,7 +27,7 @@ export default function Article({
     }
 
     function fetchRandomArticles() {
-      fetch(`article/random?lang=${currentLang}`).
+      fetch(`/api/article/random?lang=${currentLang}`).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -65,7 +63,7 @@ export default function Article({
         },
         body: requestBody
       };
-      fetch(`article/search?lang=${currentLang}`, options).
+      fetch(`/api/article/search?lang=${currentLang}`, options).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -92,7 +90,7 @@ export default function Article({
         style={{ backgroundImage : `url('${articles[0].image}')`}}
         className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
         'my-30 snap-always flex flex-col'} >
-        <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
+        <div className="w-1/2 backdrop-blur-lg bg-white/30 p-6 drop-shadow-md rounded-lg">
           <div className="text-4xl font-serif">
             {articles[0].headline}
           </div>
@@ -111,11 +109,6 @@ export default function Article({
         </div>
         <div className="flex items-end self-end h-full">
           <Comment/>
-        </div>
-        <div className="absolute bottom-0 right-0">
-          <Link to={`/post`}>
-            <img src={plus} alt="add button" className="size-6 my-1 mr-2"/>
-          </Link>
         </div>
       </section> :
       <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
