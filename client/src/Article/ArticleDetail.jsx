@@ -84,7 +84,7 @@ export default function Article({
           setFetchErrMsg(t('error.fetch'));
         });      
     }
-  }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang]);
+  }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang, page]);
 
   return (
     articles !== null && articles[0] !== undefined  && inView && fetchErrMsg === '' ? 
