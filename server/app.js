@@ -33,6 +33,6 @@ app.use('/api/users', userRoute);
 
 // Image route
 const imageRoute = require('./routes/imageRoute');
-app.use('api/image', imageRoute);
+app.use('/api/image', imageRoute);
 
 module.exports = app;
