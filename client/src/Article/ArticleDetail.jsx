@@ -9,12 +9,14 @@ import { useTranslation } from 'react-i18next';
 export default function Article({
   setUpdateScroll, 
   selectedCategories,
-  currentLang
+  currentLang,
+  page
 }) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
   const { t } = useTranslation();
+  const amount = 1;
 
   useEffect(() => {
     if(inView && articles === null) {
@@ -65,7 +67,7 @@ export default function Article({
         },
         body: requestBody
       };
-      fetch(`/api/article/search?lang=${currentLang}`, options).
+      fetch(`/api/article/search?amount=${amount}&page=${page}&lang=${currentLang}`, options).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -75,8 +77,7 @@ export default function Article({
         }).
         then((json) => {
           setFetchErrMsg('');
-          const random = Math.floor(Math.random() * 10);
-          const newArray = [json.result[random]];
+          const newArray = [json.result[0]];
           setArticles(newArray);
         }).
         catch (() => {
