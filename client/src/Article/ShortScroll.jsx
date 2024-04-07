@@ -27,9 +27,9 @@ export default function ShortScroll({selectedCategories, currentLang}) {
   }
 
   return (
-    <div className="h-[90vh] md:h-[80vh] snap-mandatory snap-y overflow-auto 
+    <div className="h-[93vh] md:h-[80vh] snap-mandatory snap-y overflow-auto 
         my-0 md:mx-auto no-scrollbar::-webkit-scrollbar no-scrollbar scroll-smooth 
-       -mx-2 md:rounded-xl md:shadow-md md:border-t-2 border-slate-100 ">
+       -mx-2 md:rounded-xl md:shadow-md md:border-t-2 border-slate-100 bg-white">
       {
         articleElems.map(
           (elem) => elem

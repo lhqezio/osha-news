@@ -39,7 +39,7 @@ export default function Search(){
         removeSelectedCategory={removeSelectedCategory}
         selectedCategories={selectedCategories}
       />
-      <input className="border rounded-sm border-gray-400 p-1 font-light" 
+      <input className="border rounded-sm border-gray-400 p-1 font-light mt-8" 
         type="text" value={searchTerm}
         onChange={
           (e)=>{

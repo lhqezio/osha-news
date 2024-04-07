@@ -89,7 +89,7 @@ export default function Article({
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
         className={'snap-start md:h-[80vh] md:p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
-        'my-30 snap-always flex flex-col h-[90vh]'} >
+        'my-30 snap-always flex flex-col h-[93vh]'} >
         <div 
           className={'md:w-1/2 backdrop-blur-lg p-6 drop-shadow-md' 
           + ' md:rounded-lg bg-white opacity-75'}>
@@ -113,7 +113,7 @@ export default function Article({
           <Comment/>
         </div>
       </section> :
-      <section ref={ref} className="snap-start h-[90vh] md:h-[80vh] rounded-xl p-4">
+      <section ref={ref} className="snap-start h-[93vh] md:h-[80vh] rounded-xl p-4">
         {
           fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />

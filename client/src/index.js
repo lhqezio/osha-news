@@ -17,6 +17,7 @@ import './i18n';
 import Profile from './Profile/Profile.jsx';
 import Navbar from './Navbar/Navbar.jsx';
 import Search from './Search/Search.jsx';
+// import FilterScroll from './FilterScroll.jsx';
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,14 @@ const router = createBrowserRouter([
       }
     ],
   }
-]);
+  // ,
+  // {
+  //   path:'/scroll',
+  //   element: <FilterScroll/>,
+  //   errorElement: <ErrorPage />
+  // }
+]
+);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <GoogleOAuthProvider 
