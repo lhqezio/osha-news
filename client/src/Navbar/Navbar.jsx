@@ -151,7 +151,7 @@ export default function Navbar(){
                   </div>
                   <div>{user}</div>
                   <img className="size-7 mx-2 rounded-full" src={userIcon}></img>
-                  <button onClick={logoutUser}>{t('home.logout')}</button>
+                  <Link to={'/'} button onClick={logoutUser}>{t('home.logout')}</Link>
                 </div>
               </div>
             </li>
