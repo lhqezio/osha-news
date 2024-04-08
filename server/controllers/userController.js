@@ -79,14 +79,14 @@ module.exports.getUserPosts = async (req, res) => {
   const user = req.query.user;
 
   if (!user){
-    res.json({ 'Error' : 'No user given' });
+    res.status(400).json({ 'Error' : 'No user given' });
   }
   const posts = await getUserPosts(user);
 
   if (posts.length > 0){
-    res.json({ 'posts' : posts });
+    res.status(200).json({ 'posts' : posts });
     return;
   }
-  res.json({ 'Error' : 'User not found' });
+  res.status(400).json({ 'Error' : 'User not found' });
 };
 
