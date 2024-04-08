@@ -1,9 +1,10 @@
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
 
 const app = express();
 
-//app.use(express.static('../client/build'));
+app.use(express.static('../client/build'));
 app.use(express.json());
 
 //for accepting files through requests
@@ -34,5 +35,9 @@ app.use('/api/users', userRoute);
 // Image route
 const imageRoute = require('./routes/imageRoute');
 app.use('/api/image', imageRoute);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve('../client/build', 'index.html'));
+});
 
 module.exports = app;
