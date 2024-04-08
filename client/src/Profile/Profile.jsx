@@ -10,6 +10,7 @@ export default function Profile(){
   const { t } = useTranslation();
   const [edit, setEdit] = useState(false);
   const [user, setUser] = useState(null);
+  const [reload, setReload] = useState(false);
 
   useEffect(
     ()=>{
@@ -22,12 +23,12 @@ export default function Profile(){
           // eslint-disable-next-line no-alert
           alert('Server Error Occured');
         });
-    }
+    }, []
   );
 
   useEffect(
     ()=>{
-      if(!edit) {
+      if(!edit || user !== null || reload) {
         Promise.all(
           [
             fetch(`/api/users/user-posts?user=${id}`).
@@ -65,11 +66,61 @@ export default function Profile(){
           ()=>{
             setFetchErrMsg(t('error.fetch'));
           }
+        ).finally(
+          ()=>{
+            setReload(false);
+          }
         );
         
       }
-    }, [id, setProfile, t, edit]
+    }, [edit, user, id, t, reload]
   );
+
+  function ArticleResult({article}){
+    return(
+      <div className="mt-4">
+        <p className="font-semibold text-sm">{article.category}</p>
+        <a className="text-xl font-serif font-normal my-1 cursor-pointer hover:text-gray-500"
+          href={article.link}
+        >
+          {article.headline}
+        </a>
+        {user?.name === profile.name ?
+          <button className="mt-1 block"
+            onClick={
+              ()=>{
+                fetch('/api/article/delete', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    ...article
+                  }),
+                  headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                  }
+                }).
+                  then((res) => {
+                    if(res.ok) {
+                      setReload(true);
+                      return res.json();
+
+                    }
+                    throw Error();
+                  } 
+
+                  ).
+                  catch(()=>{
+                    // eslint-disable-next-line no-alert
+                    alert('Error Deleting');
+                  });
+              }
+            }
+          >
+            DELETE
+          </button>  : null
+        }  
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -155,7 +206,7 @@ export default function Profile(){
                 <div className="md:overflow-y-scroll h-[50vh]">
                   {
                     profile.posts.map(
-                      (article) => <ArticleResult key = {article.id} article={article} />
+                      (article) => <ArticleResult key = {article.id} article={article}/>
                     )
                   }
                 </div>
@@ -163,19 +214,6 @@ export default function Profile(){
             </div>
           </div>
       }
-    </div>
-  );
-}
-
-function ArticleResult({article}){
-  return(
-    <div className="mt-4">
-      <p className="font-semibold text-sm">{article.category}</p>
-      <a className="text-xl font-serif font-normal my-1 cursor-pointer hover:text-gray-500"
-        href={article.link}
-      >
-        {article.headline}
-      </a>    
     </div>
   );
 }
