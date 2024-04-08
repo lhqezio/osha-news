@@ -45,12 +45,12 @@ module.exports.createNewsArticle = async (article) => {
   * @returns Return the updated article
   */
 module.exports.updateNewsArticle = async (article) => {
-  const dbArticke = await ArticleModel.findOneAndUpdate(
+  const dbArticle = await ArticleModel.findOneAndUpdate(
     { _id: article._id },
     article,
     { new: true }
   );
-  return dbArticke;
+  return dbArticle;
 };
 
 /**
@@ -136,8 +136,8 @@ module.exports.getSearchedArticles = async (filter, category, page, amount) => {
 const userSchema = mongoose.Schema({
   email: String,
   name: String,
-  posts: Array,
-  image: String
+  image: String,
+  description: String
 });
 
 const UserModel = new mongoose.model('users', userSchema);
@@ -152,7 +152,7 @@ module.exports.addNewUser = async (user) => {
 
   if (userExists.length === 0) { 
     const newUser = new UserModel({
-      email: user.email, name: user.name, posts: [], image: user.picture
+      email: user.email, name: user.name, image: user.picture, description: ''
     });                                                   
     await newUser.save();
   }
@@ -202,6 +202,19 @@ module.exports.searchUsers = async (filter, page, amount) => {
   );
 
   return users;
+};
+
+/**
+ * Change a users description in the database
+ * @param {String} newDescription description to update for the user
+ * @param {String} user user to update
+ */
+module.exports.addUserDescription = async (newDescription, user) => {
+  const updateUser = await UserModel.findOne({ email : user });
+  await UserModel.updateOne({ email : user }, 
+    { description : newDescription });
+  updateUser.description = newDescription;
+  await updateUser.save();
 };
 
 // Comments

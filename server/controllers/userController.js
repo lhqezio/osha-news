@@ -1,4 +1,4 @@
-const { getUser, searchUsers, getUserPosts } = require('../db/db');
+const { getUser, searchUsers, getUserPosts, addUserDescription } = require('../db/db');
 
 /**
  * Express Controller
@@ -14,7 +14,7 @@ module.exports.getUserInfo = async (req, res) => {
       'email' : user[0].email,
       'name' : user[0].name,
       'image' : user[0].image,
-      'posts' : user.posts
+      'description' : user[0].description
     });
   }
 };
@@ -95,3 +95,22 @@ module.exports.getUserPosts = async (req, res) => {
 
 };
 
+/**
+ * Change a users description
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ */
+module.exports.addUserDescription = async (req, res) => {
+  try{
+    const description = req.body.description;
+
+    if (!description){
+      res.status(400).json({'error' : 'no description given'});
+    }
+    addUserDescription(description, req.session.email);
+
+    res.status(200).json({'status' : 'description changes'});
+  } catch(err) {
+    res.status(500).json({ 'Error' : 'Internal Server Error'});
+  }
+};
