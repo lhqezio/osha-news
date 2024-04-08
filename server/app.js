@@ -41,7 +41,7 @@ const commentRoute = require('./routes/commentRoute');
 app.use('/api/comment', commentRoute);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve('../client/build', 'index.html'));
+  res.sendFile(path.resolve('/build', 'index.html'));
 });
 
 module.exports = app;
