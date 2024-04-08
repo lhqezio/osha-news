@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createHashRouter, RouterProvider} from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './Root';
@@ -19,7 +19,7 @@ import Navbar from './Navbar/Navbar.jsx';
 import Search from './Search/Search.jsx';
 // import FilterScroll from './FilterScroll.jsx';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Navbar />,
