@@ -15,8 +15,8 @@ const {
 /**
  * Express Controller
  * Get the first article from db
- * @param req request made to the api
- * @param res responce send by the api
+ * @param {Express.Request} req Request made to the api
+ * @param {Express.Response} res Responce send by the api
  */
 module.exports.getOneArticle = async (req, res) => {
   try {
@@ -41,10 +41,10 @@ module.exports.getOneArticle = async (req, res) => {
 /**
  * Express Controller
  * Get a random article from db
- * @param req request made to the api
- * @param res responce send by the api
- * @param req.query.amount set the amount of random article
- * @param req.param.filter list of viewed article by _id
+ * @param {Express.Request} req Request made to the api
+ * @param {Express.Response} res Responce send by the api
+ * @param {Number} req.query.amount Set the amount of random article
+ * @param {Array<String>} req.param.filter List of viewed article by _id
  */
 module.exports.getRandomArticle = async (req, res) => {
   try {
@@ -91,15 +91,15 @@ module.exports.getRandomArticle = async (req, res) => {
 
 /**
  * Search method that searches through articles through different methods
- * @param req Request made by api
- * @param res Response sent by api
- * @param req.body.category List of category
- * @param req.body.search Search query
- * @param req.query.search Search query
- * @param req.body.page Page number
- * @param req.query.page Page number
- * @param req.body.amount Amount of article in one page
- * @param req.query.amount Amount of article in one page
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {Array<String>} req.body.category List of category
+ * @param {String} req.body.search Search query
+ * @param {String} req.query.search Search query
+ * @param {Number} req.body.page Page number
+ * @param {Number} req.query.page Page number
+ * @param {Number} req.body.amount Amount of article in one page
+ * @param {Number} req.query.amount Amount of article in one page
  */
 module.exports.searchAllArticles = async (req, res) => {
   try{
@@ -194,10 +194,10 @@ module.exports.searchAllArticles = async (req, res) => {
 
 /**
  * Translate a list of articles
- * @param req Request made by api
- * @param res Response sent by api
- * @param req.body.articles List of articles to translate
- * @param req.query.lang Language to translate to 
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {Array<Article>} req.body.articles List of articles to translate
+ * @param {String} req.query.lang Language to translate to 
  */
 module.exports.translateArticles = async (req, res) => {
   const lang = req.query.lang;
@@ -232,11 +232,15 @@ module.exports.translateArticles = async (req, res) => {
 
 /**
  * Insert One article to the database
- * @param {*} req Request made by api
- * @param {*} res Response made by api
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response made by api
  * @param {Article} req.body.article Article to insert
  */
 module.exports.addArticle = async (req, res) => {
+  if (!req.session.name) {
+    res.status(401).json({'error' : 'Not logged in'});
+    return;
+  }
   try {
     const article = new Article(
       null,
@@ -244,7 +248,7 @@ module.exports.addArticle = async (req, res) => {
       req.body.headline,
       req.body.category,
       req.body.text,
-      req.body.authors,
+      req.session.name,
       req.body.date,
       req.body.image
     );
@@ -271,8 +275,8 @@ module.exports.addArticle = async (req, res) => {
 
 /**
  * Update One article in the database
- * @param {*} req Request made by api
- * @param {*} res Response made by api
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response made by api
  * @param {Article} req.body.article Article to insert
  */
 module.exports.updateArticle = async (req, res) => {
@@ -287,7 +291,7 @@ module.exports.updateArticle = async (req, res) => {
       req.body.headline,
       req.body.category,
       req.body.text,
-      req.body.authors,
+      req.session.name,
       req.body.date,
       req.body.image
     );

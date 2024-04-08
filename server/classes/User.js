@@ -1,5 +1,5 @@
 /**
- * Class representing an Article
+ * Class representing an User
  */
 class User {
   _id;
@@ -11,10 +11,10 @@ class User {
   /**
    * User Constructor
    * @param {string | null} id Id of the user
-   * @param {string} email email for user (unique/primary key)
-   * @param {string} name name for user
-   * @param {Array} posts posts associated to the user
-   * @param {string} image image for user
+   * @param {string} email Email for user (unique/primary key)
+   * @param {string} name Name for user
+   * @param {Array} posts Posts associated to the user
+   * @param {string} image Image for user
    */
   constructor(
     id, 
@@ -84,8 +84,8 @@ class User {
 
   /**
    * Check if an object is an user
-   * @param {User} obj user
-   * @returns Boolean
+   * @param {User} obj User
+   * @returns {Boolean} True if valid User
    */
   static isUser(obj) {
     if (!(typeof obj._id === 'string' || obj._id === null)) {
