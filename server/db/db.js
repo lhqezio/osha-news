@@ -191,6 +191,46 @@ module.exports.searchUsers = async (filter, page, amount) => {
   return users;
 };
 
+// Comments
+const commentSchema = mongoose.Schema({
+  postId: String,
+  email: String,
+  name: String,
+  comment: String
+});
+
+const CommentModel = new mongoose.model('comments', commentSchema);
+
+/**
+ * Add comments to database
+ * @param comment To add too the database.
+ * @returns Added Comment
+ */
+module.exports.addComment = async (comment) => {
+  const newComment = new CommentModel({
+    postId: comment.postId,
+    email: comment.email,
+    name: comment.name,
+    comment: comment.comment
+  });
+  const result = await newComment.save();
+  return result;
+};
+
+module.exports.getComments = async (postId) => {
+  const comments = await ArticleModel.aggregate(
+    [
+      { 
+        $match: {
+          postId: postId
+        } 
+      }
+    ]
+  );
+
+  return comments;
+};
+
 // Utils
 /**
  * Remove from the Database using filter.
