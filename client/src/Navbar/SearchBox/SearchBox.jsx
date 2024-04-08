@@ -78,8 +78,7 @@ export default function SearchBox(props) {
       );
       return () => clearTimeout(delaySearch);
     }
-  }, [props.searchTerm, t, selectedCategories, props.currentLang, props.show,
-    searchTerm, props.reload, props.setReload, props]);
+  }, [searchTerm, t, selectedCategories, props]);
 
   function loadMore() {
     const params = {
@@ -121,15 +120,14 @@ export default function SearchBox(props) {
     >
       <div className="md:w-[50vw] md:border-r border-gray-400 md:p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
-          {searchTerm === '' ? null :
-            fetchErrMsg !== '' ? fetchErrMsg : 
-              loading ? 'LOADING...' : 
-                articleResults?.result !== undefined ? 
-                  <span>
-                    {articleResults?.amount + ' ' + t('search.found')}
-                    <br></br>
-                    {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
-                  </span> : null
+          {loading ? 'LOADING...' : searchTerm === '' ? null && !loading :
+            fetchErrMsg !== '' ? fetchErrMsg :  
+              articleResults?.result !== undefined ? 
+                <span>
+                  {articleResults?.amount + ' ' + t('search.found')}
+                  <br></br>
+                  {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
+                </span> : 'NO ARTICLE FOUND'
           }
         </p>
         {articleResults?.result  !== null && articleResults?.result  !== undefined && !loading && 
@@ -146,8 +144,9 @@ export default function SearchBox(props) {
       </div>
       <div className="md:h-[70vh] grow md:p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
-          {searchTerm === '' ? 'ENTER A SEARCH TERM' : 
-            userResults?.length + ' USER(S) FOUND'
+          {loading ? <span className="hidden md:inline">LOADING...</span> : 
+            searchTerm === ''  ? 'ENTER A SEARCH TERM' : 
+              userResults?.length + ' USER(S) FOUND'
           }
         </p>
         {userResults !== null && userResults !== undefined && !loading &&
