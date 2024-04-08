@@ -104,7 +104,7 @@ module.exports.addUserDescription = async (req, res) => {
       res.status(400).json({'error' : 'no description given'});
       return;
     }
-    addUserDescription(description, req.session.email);
+    addUserDescription(description, req.session.userId);
 
     res.status(200).json({'status' : 'description changes'});
   } catch(err) {
