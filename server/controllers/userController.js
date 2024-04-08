@@ -84,11 +84,7 @@ module.exports.getUserPosts = async (req, res) => {
     }
     const posts = await getUserPosts(user);
   
-    if (posts.length > 0){
-      res.status(200).json({ 'posts' : posts });
-      return;
-    }
-    res.status(400).json({ 'Error' : 'User not found' });
+    res.status(200).json({ 'posts' : posts });
   } catch (err){
     res.status(500).json({ 'Error' : 'Internal Server Error'});
   }
@@ -106,8 +102,9 @@ module.exports.addUserDescription = async (req, res) => {
 
     if (!description){
       res.status(400).json({'error' : 'no description given'});
+      return;
     }
-    addUserDescription(description, req.session.email);
+    addUserDescription(description, req.session.userId);
 
     res.status(200).json({'status' : 'description changes'});
   } catch(err) {
