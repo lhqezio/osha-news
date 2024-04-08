@@ -28,32 +28,45 @@ export default function Profile(){
   useEffect(
     ()=>{
       if(!edit) {
-        fetch(`/api/users/search?name=${id}`).
-          then((resp) => {
-            if(!resp.ok){
-              setFetchErrMsg(t('error.connection'));
-            } else {
-              return resp.json();
-            }
-          }).
-          then((json) => {
-            if(json[0].data.length !== 1) {
-              setFetchErrMsg('Invalid Username');
-            } else {
-              setProfile(
-                {
-                  ...json[0].data[0],
-                  description: 'dd'
+        Promise.all(
+          [
+            fetch(`/api/users/user-posts?user=${id}`).
+              then((resp) => {
+                if(!resp.ok){
+                  setFetchErrMsg(t('error.connection'));
+                } else {
+                  return resp.json();
                 }
-              );
-              setFetchErrMsg('');
-            }
+              }),
+            fetch(`/api/users/search?name=${id}`).
+              then((resp) => {
+                if(!resp.ok){
+                  setFetchErrMsg(t('error.connection'));
+                } else {
+                  return resp.json();
+                }
+              })  
+          ]
+        ).then(([posts, json]) => {
+          if(json[0].data.length !== 1) {
+            setFetchErrMsg('Invalid Username');
+          } else {
+            setProfile(
+              {
+                ...json[0].data[0],
+                posts : posts.posts || []
+              }
+            );
+
+            setFetchErrMsg('');
           }
-          ).catch (
-            ()=>{
-              setFetchErrMsg(t('error.fetch'));
-            }
-          );       
+        }
+        ).catch (
+          ()=>{
+            setFetchErrMsg(t('error.fetch'));
+          }
+        );
+        
       }
     }, [id, setProfile, t, edit]
   );
@@ -105,7 +118,7 @@ export default function Profile(){
                             fetch('/api/users/description', {
                               method: 'POST',
                               body: JSON.stringify({
-                                description: profile.about,
+                                description: profile.description,
                               }),
                               headers: {
                                 'Content-type': 'application/json; charset=UTF-8'
