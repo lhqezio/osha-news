@@ -69,9 +69,18 @@ module.exports.searchUsers = async (req, res) => {
   res.send(users);
 };
 
+/**
+ * Get posts written by a specific user
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {String} req.query.user User to search for posts
+ */
 module.exports.getUserPosts = async (req, res) => {
   const user = req.query.user;
 
+  if (!user){
+    res.json({ 'Error' : 'No user given' });
+  }
   const posts = await getUserPosts(user);
 
   if (posts.length > 0){
