@@ -36,6 +36,10 @@ app.use('/api/users', userRoute);
 const imageRoute = require('./routes/imageRoute');
 app.use('/api/image', imageRoute);
 
+// Comment route
+const commentRoute = require('./routes/commentRoute');
+app.use('/api/comment', commentRoute);
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve('../client/build', 'index.html'));
 });

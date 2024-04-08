@@ -111,7 +111,7 @@ export default function Article({
           </div>
         </div>
         <div className="flex items-end self-end h-full m-4">
-          <Comment/>
+          <Comment articleId={articles[0]._id}/>
         </div>
       </section> :
       <section ref={ref} className="snap-start h-[93vh] md:h-[80vh] rounded-xl p-4">
