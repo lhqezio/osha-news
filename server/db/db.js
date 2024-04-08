@@ -203,8 +203,8 @@ const CommentModel = new mongoose.model('comments', commentSchema);
 
 /**
  * Add comments to database
- * @param comment To add too the database.
- * @returns Added Comment
+ * @param {Comment} comment To add too the database.
+ * @returns {CommentModel} Added Comment
  */
 module.exports.addComment = async (comment) => {
   const newComment = new CommentModel({
@@ -218,15 +218,9 @@ module.exports.addComment = async (comment) => {
 };
 
 module.exports.getComments = async (postId) => {
-  const comments = await ArticleModel.aggregate(
-    [
-      { 
-        $match: {
-          postId: postId
-        } 
-      }
-    ]
-  );
+  const comments = await CommentModel.find({
+    postId: postId
+  });
 
   return comments;
 };
