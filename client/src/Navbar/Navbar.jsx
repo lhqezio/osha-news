@@ -165,7 +165,9 @@ export default function Navbar(){
                     </select>
                   </div>
                   <div>{user}</div>
-                  <img className="size-7 mx-2 rounded-full" src={userIcon}></img>
+                  <Link to={`/profile/${user}`}>
+                    <img className="size-7 mx-2 rounded-full" src={userIcon}></img>
+                  </Link>
                   <Link to={'/'} button onClick={logoutUser}>{t('home.logout')}</Link>
                 </div>
               </div>
