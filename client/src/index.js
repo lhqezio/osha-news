@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import Root from './Root';
 import PostArticle from './Post/Post.jsx';
 import ErrorPage from './error-page';
+import SoloArticle from './Article/SoloArticle.jsx';
 import './index.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Login from './Signup/Login.jsx';
@@ -40,6 +41,12 @@ const router = createBrowserRouter([
         element: <Login />,
       }
     ],
+    
+  },
+  {
+    path: '/article/:id',
+    element: <SoloArticle />,
+    errorElement: <ErrorPage />,
   }
 ]);
 ReactDOM.createRoot(document.getElementById('root')).render(

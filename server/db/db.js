@@ -74,6 +74,12 @@ module.exports.getOneArticle = async () => {
   return article;
 };
 
+module.exports.getArticleById = async (id) => {
+  const article = await ArticleModel.findOne({ _id: id });
+  
+  return article;
+};
+
 /**
  * Get a list of all the articles category
  * @returns List of active catecories

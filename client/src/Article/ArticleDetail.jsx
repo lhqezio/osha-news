@@ -93,6 +93,7 @@ export default function Article({
         className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
         'my-30 snap-always flex flex-col'} >
         <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
+          <Link to={`/article/660c3f827aba13ae21e6a78b`}>bob</Link>
           <div className="text-4xl font-serif">
             {articles[0].headline}
           </div>

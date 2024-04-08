@@ -5,7 +5,8 @@ const {
   getSearchedArticles,
   createNewsArticle,
   updateNewsArticle,
-  deleteNewsArticle
+  deleteNewsArticle,
+  getArticleById
 } = require('../db/db');
 const { 
   translateOneArticle, 
@@ -21,6 +22,26 @@ const {
 module.exports.getOneArticle = async (req, res) => {
   try {
     const article = await getOneArticle();
+
+    if (req.query.lang && req.query.lang !== 'en') {
+      try {
+        const newArticle = await translateOneArticle(article, req.query.lang);
+        res.status(200).json(newArticle);
+      } catch (_) {
+        res.status(200).json(article);
+      }
+      return;
+    }
+
+    res.status(200).json(article);
+  } catch (_) {
+    res.status(500).json({'error': 'Internal Error.'});
+  }
+};
+
+module.exports.getOneArticleById = async (req, res) => {
+  try {
+    const article = await getArticleById(req.query.id);
 
     if (req.query.lang && req.query.lang !== 'en') {
       try {
