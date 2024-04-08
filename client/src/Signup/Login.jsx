@@ -29,7 +29,7 @@ export default function Login(){
         'Content-Type' : 'application/json'
       }
     }).
-      then(() => window.location = '/');
+      then(() => window.location.href = '/');
   };
   if (!LOGIN_STATUS){
     return (

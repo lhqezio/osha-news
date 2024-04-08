@@ -1,6 +1,6 @@
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
+// const path = require('path');
 
 const app = express();
 
@@ -40,8 +40,8 @@ app.use('/api/image', imageRoute);
 const commentRoute = require('./routes/commentRoute');
 app.use('/api/comment', commentRoute);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve('/build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve('/build', 'index.html'));
+// });
 
 module.exports = app;
