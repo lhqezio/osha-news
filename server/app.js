@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-const path = require('path');
 
 const app = express();
 
@@ -36,8 +35,8 @@ app.use('/api/users', userRoute);
 const imageRoute = require('./routes/imageRoute');
 app.use('/api/image', imageRoute);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve('../client/build', 'index.html'));
-});
+// Comment route
+const commentRoute = require('./routes/commentRoute');
+app.use('/api/comment', commentRoute);  
 
 module.exports = app;

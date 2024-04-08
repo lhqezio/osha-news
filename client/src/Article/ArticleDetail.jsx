@@ -82,7 +82,7 @@ export default function Article({
           setFetchErrMsg(t('error.fetch'));
         });      
     }
-  }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang, page]);
+  }, [inView, articles, setUpdateScroll, t, currentLang, page, selectedCategories]);
 
   return (
     articles !== null && articles[0] !== undefined  && inView && fetchErrMsg === '' ? 
@@ -110,8 +110,8 @@ export default function Article({
             <a className="text-blue-600" href={`${articles[0].link}`}>{t('article.moreInfo')}</a>
           </div>
         </div>
-        <div className="flex items-end self-end h-full m-4">
-          <Comment/>
+        <div className="flex items-end self-end h-full mb-16 m-8">
+          <Comment articleId={articles[0]._id}/>
         </div>
       </section> :
       <section ref={ref} className="snap-start h-[93vh] md:h-[80vh] rounded-xl p-4">

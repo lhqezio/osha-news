@@ -217,6 +217,40 @@ module.exports.addUserDescription = async (newDescription, user) => {
   await updateUser.save();
 };
 
+// Comments
+const commentSchema = mongoose.Schema({
+  postId: String,
+  email: String,
+  name: String,
+  comment: String
+});
+
+const CommentModel = new mongoose.model('comments', commentSchema);
+
+/**
+ * Add comments to database
+ * @param {Comment} comment To add too the database.
+ * @returns {CommentModel} Added Comment
+ */
+module.exports.addComment = async (comment) => {
+  const newComment = new CommentModel({
+    postId: comment.postId,
+    email: comment.email,
+    name: comment.name,
+    comment: comment.comment
+  });
+  const result = await newComment.save();
+  return result;
+};
+
+module.exports.getComments = async (postId) => {
+  const comments = await CommentModel.find({
+    postId: postId
+  });
+
+  return comments;
+};
+
 // Utils
 /**
  * Remove from the Database using filter.
