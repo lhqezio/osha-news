@@ -110,7 +110,7 @@ export default function Article({
             <a className="text-blue-600" href={`${articles[0].link}`}>{t('article.moreInfo')}</a>
           </div>
         </div>
-        <div className="flex items-end self-end h-full m-4">
+        <div className="flex items-end self-end h-full mb-16 m-8">
           <Comment/>
         </div>
       </section> :
