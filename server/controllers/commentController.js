@@ -12,10 +12,10 @@ const {
  * @param {Comment} req.body.comment Comment to add to the database
  */
 module.exports.addComment = async (req, res) => {
-  // if (!req.session.name) {
-  //   res.status(401).json({'error' : 'Not logged in'});
-  //   return;
-  // }
+  if (!req.session.name) {
+    res.status(401).json({'error' : 'Not logged in'});
+    return;
+  }
   if (Comment.isComment(req.body.comment)) {
     try {
       const comment = Comment.createComment(req.body.comment);
