@@ -13,12 +13,16 @@ let container = null;
 jest.mock('@uidotdev/usehooks', () => ({
   useClickAway: jest.fn(),
 }));
+jest.mock('react-router-dom', () => ({
+  Link: ({ children, to }) => <a href={to}>{children}</a>,
+}));
 const mockT = jest.fn().mockReturnValue('Categories');
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: mockT }),
 }));
 
 beforeEach(() => {
+  global.fetch.mockClear();
   container = document.createElement("div");
   document.body.appendChild(container);
 });
@@ -29,19 +33,22 @@ afterEach(() => {
   container = null;
 });
 
-const cats = ['Violent', 'Buisness', 'Politics'];
-
-jest.spyOn(global, "fetch").mockImplementation(() =>
-  Promise.resolve({
-    ok: true,
-    json: () => Promise.resolve(cats)
-  })
-);
-
 it("renders SearchBox", async () => {
+  global.fetch.mockImplementationOnce(() =>
+    Promise.resolve({
+      json: () => Promise.resolve({name: "Bob"}),
+    })
+  );
+
+  global.fetch.mockImplementationOnce(() =>
+    Promise.resolve({
+      json: () => Promise.resolve(['Violent', 'Buisness', 'Politics']),
+    })
+  );
   await act(async() => {
     render(<CategoryList currentLang="en" selectedCategories={[]} addSelectedCategory={jest.fn()} removeSelectedCategory={jest.fn()} />, container);
   });
-  expect(global.fetch).toHaveBeenCalledWith('/categories?lang=en');
-  expect(container.textContent).toContain("hi");
+  expect(global.fetch).toHaveBeenCalledWith('/api/categories?lang=en');
+  expect(global.fetch).toHaveBeenCalledWith('/api/users/user-info');
+  expect(container.textContent).toContain("Add Article");
 });

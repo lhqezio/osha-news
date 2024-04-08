@@ -15,7 +15,7 @@ export default function Article({
   const { t } = useTranslation();
 
   useEffect(() => {
-    if(inView && articles === null) {
+    if(articles === null) {
       if (selectedCategories.length === 0){
         fetchRandomArticles();
       }else{

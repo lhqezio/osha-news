@@ -22,14 +22,15 @@ it("renders SearchBox", async () => {
   jest.spyOn(global, "fetch").mockImplementation(() =>
     Promise.resolve({
       ok: true,
-      json: () => Promise.resolve({ result: ["violent"] })
+      json: () => Promise.resolve(["violent","politics"])
     })
   );
   await act(async() => {
     render(<Post />, container);
   });
  
-  expect(global.fetch).toHaveBeenCalledWith('/categories');
+  expect(global.fetch).toHaveBeenCalledWith('/api/categories');
+  expect(global.fetch).toHaveBeenCalledWith('/api/users/user-info');
 
   global.fetch.mockRestore();
 });

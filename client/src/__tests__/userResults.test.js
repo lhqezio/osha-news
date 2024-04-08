@@ -6,6 +6,11 @@ import { act } from "react-dom/test-utils";
 
 import UserResults from "../Navbar/SearchBox/UserResults.jsx";
 
+// Mock the useContext hook
+jest.mock('react-router-dom', () => ({
+  Link: ({ children, to }) => <a href={to}>{children}</a>,
+}));
+
 let container = null;
 beforeEach(() => {
   // setup a DOM element as a render target
