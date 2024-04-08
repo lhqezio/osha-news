@@ -76,17 +76,22 @@ module.exports.searchUsers = async (req, res) => {
  * @param {String} req.query.user User to search for posts
  */
 module.exports.getUserPosts = async (req, res) => {
-  const user = req.query.user;
+  try{
+    const user = req.query.user;
 
-  if (!user){
-    res.status(400).json({ 'Error' : 'No user given' });
+    if (!user){
+      res.status(400).json({ 'Error' : 'No user given' });
+    }
+    const posts = await getUserPosts(user);
+  
+    if (posts.length > 0){
+      res.status(200).json({ 'posts' : posts });
+      return;
+    }
+    res.status(400).json({ 'Error' : 'User not found' });
+  } catch (err){
+    res.status(500).json({ 'Error' : 'Internal Server Error'});
   }
-  const posts = await getUserPosts(user);
 
-  if (posts.length > 0){
-    res.status(200).json({ 'posts' : posts });
-    return;
-  }
-  res.status(400).json({ 'Error' : 'User not found' });
 };
 
