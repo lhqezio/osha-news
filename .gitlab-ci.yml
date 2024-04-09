@@ -4,6 +4,7 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'dev'
 
 stages:
   - lint
@@ -85,6 +86,7 @@ build-backend:
     expire_in: 1 days
     when: on_success
     paths:
+      - server/
       - server/node_modules
 
 test-server:
