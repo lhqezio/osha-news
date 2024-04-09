@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import LoadingAnimation from './LoadingAnimation';
 import Comment from './Comment';
-import plus from '../images/plus.png';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -69,12 +68,7 @@ export default function SoloArticle() {
             </div>
           </div>
           <div className="flex items-end self-end h-full">
-            <Comment/>
-          </div>
-          <div className="absolute bottom-0 right-0">
-            <Link to={`/post`}>
-              <img src={plus} alt="add button" className="size-6 my-1 mr-2"/>
-            </Link>
+            <Comment articleId={article._id}/>
           </div>
         </section> 
       </div> :

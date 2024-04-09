@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createHashRouter, RouterProvider} from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './Root';
@@ -17,8 +17,11 @@ const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 import './i18n';
 import Profile from './Profile/Profile.jsx';
 import Navbar from './Navbar/Navbar.jsx';
+import Search from './Search/Search.jsx';
+import FilterScroll from './FilterScroll.jsx';
+// import FilterScroll from './FilterScroll.jsx';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Navbar />,
@@ -39,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/search',
+        element: <Search />,
       }
     ],
   },
@@ -46,14 +53,20 @@ const router = createBrowserRouter([
     path: '/article/:id',
     element: <SoloArticle />,
     errorElement: <ErrorPage />,
+  },   
+  {
+    path:'/scroll',
+    element: <FilterScroll />,
+    errorElement: <ErrorPage />
   }
-]);
+]
+);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <GoogleOAuthProvider 
       clientId={ clientId }>
       <Provider store={store}>
-        <div className="px-8"><RouterProvider router={router} /></div>
+        <div className="px-2 md:px-8"><RouterProvider router={router} /></div>
       </Provider>
     </GoogleOAuthProvider>
   </React.StrictMode>

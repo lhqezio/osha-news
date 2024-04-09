@@ -26,6 +26,6 @@ router.post('/add', addArticle);
 
 router.put('/update', updateArticle);
 
-router.delete('/delete', deleteArticle);
+router.post('/delete', deleteArticle);
 
 module.exports = router;

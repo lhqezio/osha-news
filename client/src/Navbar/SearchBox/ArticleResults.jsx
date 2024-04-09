@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function ArticleResults({articles}){
   return (
@@ -13,7 +14,8 @@ export default function ArticleResults({articles}){
 }
 
 function ArticleResult({article}){
-  console.log(article);
+  const { t } = useTranslation();
+  
   return(
     article._id ? 
       <div className="my-6">
@@ -23,7 +25,10 @@ function ArticleResult({article}){
           {article.headline}
         </Link>
         {article.authors.trim() !== '' &&
-        <p className="text-sm font-sans font-normal">{` by ${article.authors}`}</p> }      
+        <p className="text-sm font-sans font-normal">
+          {` ${t('search.by')} ${article.authors}`}
+        </p>  
+        }      
       </div>
       :
       <div className="my-6">
@@ -35,7 +40,10 @@ function ArticleResult({article}){
           {article.headline}
         </a>
         {article.authors.trim() !== '' &&
-        <p className="text-sm font-sans font-normal">{` by ${article.authors}`}</p> }      
+        <p className="text-sm font-sans font-normal">
+          {` ${t('search.by')} ${article.authors}`}
+        </p> 
+        }      
       </div>
   );
 }
