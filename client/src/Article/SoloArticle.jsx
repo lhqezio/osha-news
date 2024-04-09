@@ -13,9 +13,7 @@ export default function SoloArticle() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if(article === null) {
-      fetchArticle();
-    }
+    fetchArticle();
 
     function fetchArticle() {
       fetch(`/api/article/id?id=${id}`).
@@ -41,40 +39,45 @@ export default function SoloArticle() {
           }
         );
     }
-  }, [article, t]);
+  }, []);
 
   return (
     article !== null && fetchErrMsg === '' ? 
-      <section
-        style={{ backgroundImage : `url('${article.image}')`}}
-        className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
-        'my-30 snap-always flex flex-col mt-6'} >
-        <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
-          <div className="text-4xl font-serif">
-            {article.headline}
+      <div>
+        <nav className="my-4">
+          <Link to="/" className="text-xl text-center w-full my-1">OSHA News</Link>
+        </nav>
+        <section
+          style={{ backgroundImage : `url('${article.image}')`}}
+          className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
+          'my-30 snap-always flex flex-col mt-6'} > 
+          <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
+            <div className="text-4xl font-serif">
+              {article.headline}
+            </div>
+            <div>
+              {article.short_description}
+            </div>
+            <div>
+              {article.authors}
+            </div>
+            <div>
+              {article.date}
+            </div>
+            <div>
+              <a className="text-blue-600" href={`${article.link}`}>{t('article.moreInfo')}</a>
+            </div>
           </div>
-          <div>
-            {article.short_description}
+          <div className="flex items-end self-end h-full">
+            <Comment/>
           </div>
-          <div>
-            {article.authors}
+          <div className="absolute bottom-0 right-0">
+            <Link to={`/post`}>
+              <img src={plus} alt="add button" className="size-6 my-1 mr-2"/>
+            </Link>
           </div>
-          <div>
-            {article.date}
-          </div>
-          <div>
-            <a className="text-blue-600" href={`${article.link}`}>{t('article.moreInfo')}</a>
-          </div>
-        </div>
-        <div className="flex items-end self-end h-full">
-          <Comment/>
-        </div>
-        <div className="absolute bottom-0 right-0">
-          <Link to={`/post`}>
-            <img src={plus} alt="add button" className="size-6 my-1 mr-2"/>
-          </Link>
-        </div>
-      </section> :
+        </section> 
+      </div> :
       <section className="snap-start h-[80vh] rounded-xl p-4">
         {
           fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
