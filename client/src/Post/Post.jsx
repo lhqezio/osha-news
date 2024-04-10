@@ -104,7 +104,7 @@ export default function PostArticle(){
         <form ref={ form } 
           className="flex flex-col border-2 border-gray-300 overflow-x-hidden
           m-auto absolute inset-x-1/4 inset-y-[20%] rounded shadow-lg overflow-y-auto" >
-          <feildset className="flex flex-col justify-between h-full">
+          <fieldset className="flex flex-col justify-between h-full">
             <legend className="text-2xl m-2">{t('post.upload')}</legend>
             {/* headline */}
             <div>
@@ -145,7 +145,7 @@ export default function PostArticle(){
             <input type="submit" value={t('post.submit')} onClick={postData} 
               className="w-full 
               text-center text-white border p-1 bg-blue-500 rounded" />
-          </feildset>
+          </fieldset>
         </form>
       </div>
     </div>
