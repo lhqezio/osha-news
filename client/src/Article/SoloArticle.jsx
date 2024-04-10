@@ -38,7 +38,7 @@ export default function SoloArticle() {
           }
         );
     }
-  }, []);
+  }, [id, t]);
 
   return (
     article !== null && fetchErrMsg === '' ? 
