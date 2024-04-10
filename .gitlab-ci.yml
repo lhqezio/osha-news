@@ -27,6 +27,7 @@ default:
 lint-server:
   stage: lint
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - changes: 
       - server/**
       - ".gitlab-ci.yml"
@@ -37,6 +38,7 @@ lint-server:
 lint-client:
   stage: lint
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - changes: 
       - client/**
       - ".gitlab-ci.yml"
@@ -47,6 +49,7 @@ lint-client:
 build-frontend:
   stage: build
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - changes: 
       - client/**
       - ".gitlab-ci.yml"
@@ -70,6 +73,7 @@ build-frontend:
 build-backend:
   stage: build
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - changes: 
       - server/**
       - ".gitlab-ci.yml"
@@ -92,6 +96,7 @@ build-backend:
 test-server:
   stage: tests
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - changes: 
       - server/**
       - ".gitlab-ci.yml"
