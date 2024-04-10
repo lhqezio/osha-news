@@ -3,7 +3,10 @@ const {
   getOneArticle, 
   getRandomArticle, 
   getSearchedArticles,
-  createNewsArticle
+  createNewsArticle,
+  updateNewsArticle,
+  deleteNewsArticle,
+  getArticleById
 } = require('../db/db');
 const { 
   translateOneArticle, 
@@ -13,8 +16,8 @@ const {
 /**
  * Express Controller
  * Get the first article from db
- * @param req request made to the api
- * @param res responce send by the api
+ * @param {Express.Request} req Request made to the api
+ * @param {Express.Response} res Responce send by the api
  */
 module.exports.getOneArticle = async (req, res) => {
   try {
@@ -36,13 +39,33 @@ module.exports.getOneArticle = async (req, res) => {
   }
 };
 
+module.exports.getOneArticleById = async (req, res) => {
+  try {
+    const article = await getArticleById(req.query.id);
+
+    if (req.query.lang && req.query.lang !== 'en') {
+      try {
+        const newArticle = await translateOneArticle(article, req.query.lang);
+        res.status(200).json(newArticle);
+      } catch (_) {
+        res.status(200).json(article);
+      }
+      return;
+    }
+
+    res.status(200).json(article);
+  } catch (_) {
+    res.status(500).json({'error': 'Internal Error.'});
+  }
+};
+
 /**
  * Express Controller
  * Get a random article from db
- * @param req request made to the api
- * @param res responce send by the api
- * @param req.query.amount set the amount of random article
- * @param req.param.filter list of viewed article by _id
+ * @param {Express.Request} req Request made to the api
+ * @param {Express.Response} res Responce send by the api
+ * @param {Number} req.query.amount Set the amount of random article
+ * @param {Array<String>} req.param.filter List of viewed article by _id
  */
 module.exports.getRandomArticle = async (req, res) => {
   try {
@@ -89,26 +112,26 @@ module.exports.getRandomArticle = async (req, res) => {
 
 /**
  * Search method that searches through articles through different methods
- * @param req Request made by api
- * @param res Response sent by api
- * @param req.body.category List of category
- * @param req.body.search Search query
- * @param req.query.search Search query
- * @param req.body.page Page number
- * @param req.query.page Page number
- * @param req.body.amount Amount of article in one page
- * @param req.query.amount Amount of article in one page
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {Array<String>} req.body.category List of category
+ * @param {String} req.body.search Search query
+ * @param {String} req.query.search Search query
+ * @param {Number} req.body.page Page number
+ * @param {Number} req.query.page Page number
+ * @param {Number} req.body.amount Amount of article in one page
+ * @param {Number} req.query.amount Amount of article in one page
  */
 module.exports.searchAllArticles = async (req, res) => {
   try{
     // Get all values from param first and then from query if it doesnt exist
-    const category = req.body.category;
+    const categories = req.body.category ? req.body.category : [req.query.category];
     const search = req.body.search ? req.body.search : req.query.search;
     const page = req.body.page ? req.body.page : req.query.page;
     const amount = req.body.amount ? req.body.amount : req.query.amount;
 
     // Make sure that one of search or category is present
-    if (!(search || category)) {
+    if (!(search || categories)) {
       res.status(400).json({ 'error' : 'missing search value' });
       return;
     }
@@ -116,8 +139,8 @@ module.exports.searchAllArticles = async (req, res) => {
     // Sets category if defined
     let categoryFilter = null;
 
-    if (category !== null || category.length > 0) {
-      categoryFilter = category;
+    if (categories !== null || categories.length > 0) {
+      categoryFilter = categories.map((cat) => new RegExp(cat, 'i'));
     }
 
     // set base page to 1 and amount to 10
@@ -149,26 +172,42 @@ module.exports.searchAllArticles = async (req, res) => {
     }
     
     const results = await getSearchedArticles(regex, categoryFilter, pageBase, amountBase);
-    const parsedResults = results[0].data;
+    const parsedResults = results[0].pageResult;
+    const count = results[0].totalCount[0].count;
+
+    const prevPage = pageBase > 1;
+    const nextPage = count - amountBase * pageBase > 0;
 
     if (req.query.lang && req.query.lang !== 'en') {
       try {
         const newResult = await translateMultipleArticle(parsedResults, req.query.lang);
-        res.status(200).json(
-          { 'search' : search, 'result' : newResult }
-        );
+        res.status(200).json({ 
+          'search' : search, 
+          'prev_page': prevPage,
+          'next_page': nextPage,
+          'amount': count,
+          'result' : newResult 
+        });
       } catch (_) {
-        res.status(200).json(
-          { 'search' : search, 'result' : parsedResults }
-        );
+        res.status(200).json({ 
+          'search' : search, 
+          'prev_page': prevPage,
+          'next_page': nextPage,
+          'amount': count,
+          'result' : parsedResults 
+        });
       }
       return;
     }
     
     // returns values found if more than 1 value exists
-    res.status(200).json(
-      { 'search' : search, 'result' : parsedResults }
-    );
+    res.status(200).json({ 
+      'search' : search, 
+      'prev_page': prevPage,
+      'next_page': nextPage,
+      'amount': count,
+      'result' : parsedResults 
+    });
   } catch (_) {
     res.status(500).json({ 'error' : 'Internal Error' });
   }
@@ -176,10 +215,10 @@ module.exports.searchAllArticles = async (req, res) => {
 
 /**
  * Translate a list of articles
- * @param req Request made by api
- * @param res Response sent by api
- * @param req.body.articles List of articles to translate
- * @param req.query.lang Language to translate to 
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response sent by api
+ * @param {Array<Article>} req.body.articles List of articles to translate
+ * @param {String} req.query.lang Language to translate to 
  */
 module.exports.translateArticles = async (req, res) => {
   const lang = req.query.lang;
@@ -193,10 +232,19 @@ module.exports.translateArticles = async (req, res) => {
     res.status(400).json({'error': 'Did not provide a list of articles.'});
     return;
   }
-  // TODO: ADD check to check if req.body.articles are article
+
+  let articleList;
+  try {
+    articleList = articles.map((article) => {
+      return Article.createArticle(article);
+    });
+  } catch (err) {
+    res.status(500).json({'error': err.message});
+    return;
+  }
 
   try {
-    const translatedArticles = await translateMultipleArticle(articles, lang);
+    const translatedArticles = await translateMultipleArticle(articleList, lang);
     res.status(200).json({articles: translatedArticles});
   } catch (_) {
     res.status(500).json({'error': 'Internal Error.'});
@@ -205,14 +253,104 @@ module.exports.translateArticles = async (req, res) => {
 
 /**
  * Insert One article to the database
- * @param {*} req Request made by api
- * @param {*} res Response made by api
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response made by api
  * @param {Article} req.body.article Article to insert
  */
 module.exports.addArticle = async (req, res) => {
+  if (!req.session.name) {
+    res.status(401).json({'error' : 'Not logged in'});
+    return;
+  }
   try {
     const article = new Article(
       null,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.session.name,
+      req.body.date,
+      req.body.image
+    );
+    if (article) {
+      try {
+        const newArticle = await createNewsArticle(article.getArticleNoId());
+        res.status(201).json({
+          'status': 'Added article',
+          'article': newArticle
+        });
+      } catch (_) {
+        res.status(500).json({'error' : 'Internal Error'});
+      }
+    } else {
+      res.status(400).json({'error': 'No article provided in body'});
+    }
+  } catch (err) {
+    res.status(400).json({
+      'error': 'Article does not follow the right format.',
+      'message': err.message
+    });
+  }
+};
+
+/**
+ * Update One article in the database
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response made by api
+ * @param {Article} req.body.article Article to insert
+ */
+module.exports.updateArticle = async (req, res) => {
+  try {
+    if (!req.body._id) {
+      res.status(400).json({'error': 'No article "_id" provided in body'});
+      return;
+    }
+    const article = new Article(
+      req.body._id,
+      req.body.link,
+      req.body.headline,
+      req.body.category,
+      req.body.text,
+      req.session.name,
+      req.body.date,
+      req.body.image
+    );
+    if (article) {
+      try {
+        const newArticle = await updateNewsArticle(article);
+        res.status(201).json({
+          'status': 'Edited article',
+          'article': newArticle
+        });
+      } catch (_) {
+        res.status(500).json({'error' : 'Internal Error'});
+      }
+    } else {
+      res.status(400).json({'error': 'No article provided in body'});
+    }
+  } catch (err) {
+    res.status(400).json({
+      'error': 'Article does not follow the right format.',
+      'message': err.message
+    });
+  }
+};
+
+/**
+ * Delete One article in the database
+ * @param {Express.Request} req Request made by api
+ * @param {Express.Response} res Response made by api
+ * @param {Article} req.body.article Article to insert
+ */
+module.exports.deleteArticle = async (req, res) => {
+  try {
+    if (!req.body._id) {
+      res.status(400).json({'error': 'No article "_id" provided in body'});
+      return;
+    }
+    const article = new Article(
+      req.body._id,
       req.body.link,
       req.body.headline,
       req.body.category,
@@ -223,10 +361,10 @@ module.exports.addArticle = async (req, res) => {
     );
     if (article) {
       try {
-        const newArticle = await createNewsArticle(article.getArticleNoId());
+        const newArticle = await deleteNewsArticle(article);
         res.status(201).json({
-          'status': 'Added article',
-          'article': newArticle
+          'status': 'Deletes article',
+          'info': newArticle
         });
       } catch (_) {
         res.status(500).json({'error' : 'Internal Error'});

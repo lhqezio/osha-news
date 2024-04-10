@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import LoadingAnimation from './LoadingAnimation';
 import Comment from './Comment';
-import plus from '../images/plus.png';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export default function Article({
   setUpdateScroll, 
   selectedCategories,
-  currentLang
+  currentLang,
+  page
 }) {
   const [fetchErrMsg, setFetchErrMsg] = useState('');
   const [articles, setArticles] = useState(null);
   const [ref, inView] = useInView();
   const { t } = useTranslation();
+  const amount = 1;
 
   useEffect(() => {
     if(inView && articles === null) {
@@ -65,7 +65,7 @@ export default function Article({
         },
         body: requestBody
       };
-      fetch(`/api/article/search?lang=${currentLang}`, options).
+      fetch(`/api/article/search?amount=${amount}&page=${page}&lang=${currentLang}`, options).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -75,25 +75,26 @@ export default function Article({
         }).
         then((json) => {
           setFetchErrMsg('');
-          const random = Math.floor(Math.random() * 10);
-          const newArray = [json.result[random]];
+          const newArray = [json.result[0]];
           setArticles(newArray);
         }).
         catch (() => {
           setFetchErrMsg(t('error.fetch'));
         });      
     }
-  }, [inView, articles, setUpdateScroll, selectedCategories, t, currentLang]);
+  }, [inView, articles, setUpdateScroll, t, currentLang, page, selectedCategories]);
 
   return (
     articles !== null && articles[0] !== undefined  && inView && fetchErrMsg === '' ? 
       <section
         ref={ref}
         style={{ backgroundImage : `url('${articles[0].image}')`}}
-        className={'snap-start h-[80vh] rounded-xl p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
-        'my-30 snap-always flex flex-col'} >
-        <div className="w-1/2 backdrop-blur-lg p-6 drop-shadow-md rounded-lg">
-          <div className="text-4xl font-serif">
+        className={'snap-start md:h-[80vh] md:p-4 bg-no-repeat bg-cover bg-center bg-fixed' +
+        'my-30 snap-always flex flex-col h-[93vh]'} >
+        <div 
+          className={'md:w-1/2 backdrop-blur-lg p-6 drop-shadow-md' 
+          + ' md:rounded-lg bg-white opacity-75'}>
+          <div className="text-2xl md:text-4xl font-serif">
             {articles[0].headline}
           </div>
           <div>
@@ -110,15 +111,10 @@ export default function Article({
           </div>
         </div>
         <div className="flex items-end self-end h-full">
-          <Comment/>
-        </div>
-        <div className="absolute bottom-0 right-0">
-          <Link to={`/post`}>
-            <img src={plus} alt="add button" className="size-6 my-1 mr-2"/>
-          </Link>
+          <Comment articleId={articles[0]._id}/>
         </div>
       </section> :
-      <section ref={ref} className="snap-start h-[80vh] rounded-xl p-4">
+      <section ref={ref} className="snap-start h-[93vh] md:h-[80vh] rounded-xl pb-16 pr-4 md:p-4">
         {
           fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />

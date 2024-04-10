@@ -1,11 +1,18 @@
 const express = require('express');
-//const path = require('path');
 const session = require('express-session');
 
 const app = express();
 
 app.use(express.static('../client/build'));
 app.use(express.json());
+
+//for accepting files through requests
+const fileUpload = require('express-fileupload');
+app.use(
+  fileUpload({
+    createParentPath: true,
+  })
+);
 app.use(session({secret: 'secretfornow'}));
 
 // Article route
@@ -24,7 +31,12 @@ app.use('/api/authenticate', authenticateRoute);
 const userRoute = require('./routes/userRoute');
 app.use('/api/users', userRoute);
 
-// Required to make React Router Dom works correctly
-//app.get('*', (req, res) => res.sendFile(path.resolve('..', 'client', 'build', 'index.html')));
+// Image route
+const imageRoute = require('./routes/imageRoute');
+app.use('/api/image', imageRoute);
+
+// Comment route
+const commentRoute = require('./routes/commentRoute');
+app.use('/api/comment', commentRoute);  
 
 module.exports = app;

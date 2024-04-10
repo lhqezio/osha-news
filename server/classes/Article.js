@@ -14,7 +14,7 @@ class Article {
   /**
    * Article Constructor
    * @param {string | null} id Id of the article
-   * @param {string} link Link to the full news article
+   * @param {string | null} link Link to the full news article
    * @param {string} headline Title of the article
    * @param {string} category Category of the article
    * @param {string} text Article text
@@ -37,7 +37,7 @@ class Article {
     } else {
       throw new Error(`id: ${id} is not a string or null.`);
     }
-    if (typeof link === 'string') {
+    if (typeof link === 'string' || link === null) {
       this.link = link;
     } else {
       throw new Error(`link: ${link} is not a string.`);
@@ -80,7 +80,7 @@ class Article {
 
   /**
    * Get this article without an id
-   * @returns Article object with no id
+   * @returns {Article} Article object with no id
    */
   getArticleNoId() {
     return {
@@ -96,7 +96,7 @@ class Article {
 
   /**\
    * Creates an Article with an existing article
-   * @returns Article
+   * @returns {Article} Article
    * @throws Error invalid article
    */
   static createArticle(article) {
@@ -119,14 +119,14 @@ class Article {
   /**
    * Ceck if an object is an article
    * @param {Article} obj Article
-   * @returns Boolean
+   * @returns {Boolean} True if valid Article
    */
   static isArticle(obj) {
     if (!(typeof obj._id === 'string' || obj._id === null)) {
       console.log(0);
       return false;
     }
-    if (typeof obj.link !== 'string') {
+    if (typeof obj.link !== 'string' || obj.link === null) {
       return false;
     }
     if (typeof obj.headline !== 'string') {

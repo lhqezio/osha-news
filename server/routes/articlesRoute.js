@@ -6,10 +6,14 @@ const {
   getRandomArticle, 
   searchAllArticles,
   translateArticles,
-  addArticle
+  getOneArticleById,
+  addArticle,
+  updateArticle,
+  deleteArticle
 } = require('../controllers/articlesControllers');
 
 router.get('/', getOneArticle);
+router.get('/id', getOneArticleById);
 
 router.get('/random', getRandomArticle);
 router.post('/random', getRandomArticle);
@@ -19,5 +23,9 @@ router.post('/search', searchAllArticles);
 
 router.post('/translate', translateArticles);
 router.post('/add', addArticle);
+
+router.put('/update', updateArticle);
+
+router.post('/delete', deleteArticle);
 
 module.exports = router;
