@@ -10,12 +10,13 @@ export default function SoloArticle() {
   const {id} = useParams();
   const [article, setArticle] = useState(null);
   const { t } = useTranslation();
+  const currentLang = localStorage.getItem('lang') ? localStorage.getItem('lang') : 'en';
 
   useEffect(() => {
     fetchArticle();
 
     function fetchArticle() {
-      fetch(`/api/article/id?id=${id}`).
+      fetch(`/api/article/id?id=${id}&lang=${currentLang}`).
         then((resp) => {
           if(!resp.ok){
             setFetchErrMsg(t('error.connection'));
@@ -38,7 +39,7 @@ export default function SoloArticle() {
           }
         );
     }
-  }, [id, t]);
+  }, [id, t, currentLang]);
 
   return (
     article !== null && fetchErrMsg === '' ? 

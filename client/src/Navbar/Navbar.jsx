@@ -12,6 +12,7 @@ export default function Navbar(){
   const { i18n, t } = useTranslation();
   const[searchTerm, setSearchTerm] = useState('');
   const [showSearchBox, setShowSearchBox] = useState(false);  
+  const [showUserBox, setShowUserBox] = useState(false);
   const [user, setUser] = useState('');
   const [userIcon, setUserIcon] = useState('');
   const [currentLang, setCurrentLang] = useState(
@@ -65,6 +66,26 @@ export default function Navbar(){
 
   const LOGIN_STATUS = useSelector((state) => state.value);
 
+  function LoginLinks({className, linkName}) {
+    return (
+      <>
+        <img className={`size-7 mb-4 lg:mb-0 lg:mx-2 rounded-full ${className}`} 
+          src={userIcon}></img>
+
+        <Link to={`/profile/${user}`} 
+          className={`${className} mb-4 lg:mb-0`}>{linkName}</Link>
+
+        <Link to={'/post'} className={`lg:mx-2 mb-4 lg:mb-0 ${className}`}>
+          {t('home.newArticle')}
+        </Link>
+        <Link to={'/'} className={`${className} mb-4 lg:mb-0`} button 
+          onClick={logoutUser}>
+          {t('home.logout')}
+        </Link>
+      </>
+    );
+  }
+
   return (
     <div>
       <nav className="my-4">
@@ -110,10 +131,45 @@ export default function Navbar(){
                   !LOGIN_STATUS ? 
                     <Link to={`/login`}><h1>{t('home.login')}</h1></Link> :
                     <>
-                      <Link to={'/post'} className="mx-3">{t('home.newArticle')}</Link>
-                      <Link to={`/profile/${user}`}>{user}</Link>
-                      <img className="size-7 mx-2 rounded-full" src={userIcon}></img>
-                      <Link to={'/'} button onClick={logoutUser}>{t('home.logout')}</Link></>
+                      <LoginLinks 
+                        linkName = {user}
+                        className={'hidden lg:block'}/>
+                      <button
+                        className="block lg:hidden" 
+                        onClick={
+                          ()=>{
+                            setShowUserBox(!showUserBox);
+                          }
+                        }>
+                        {user}
+                      </button>
+                      <div
+                        className={ !showUserBox ? 'hidden' : 
+                          'block lg:hidden p-2 text-black' +
+                        ' overflow-auto  absolute bg-white right-2 rounded-lg' +
+                        ' md:bg-opacity-95 z-10 border border-gray-500'
+                        }
+                        onMouseDown={
+                          (e)=>{
+                            e.preventDefault();
+                          }
+                        }
+                      >
+                        <LoginLinks 
+                          className={'block lg:hidden'}
+                          linkName={'GO TO PROFILE'}
+                        />
+                        <button
+                          className="block lg:hidden"
+                          onClick={
+                            ()=>{
+                              setShowUserBox(false);
+                            }
+                          }>
+          
+                        </button>
+                      </div>
+                    </>
                 }                
               </div>
             </div>
