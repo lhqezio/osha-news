@@ -110,7 +110,7 @@ export default function Navbar(){
                   !LOGIN_STATUS ? 
                     <Link to={`/login`}><h1>{t('home.login')}</h1></Link> :
                     <>
-                      <Link to={'/post'} className="mx-3">New Article</Link>
+                      <Link to={'/post'} className="mx-3">{t('home.newArticle')}</Link>
                       <Link to={`/profile/${user}`}>{user}</Link>
                       <img className="size-7 mx-2 rounded-full" src={userIcon}></img>
                       <Link to={'/'} button onClick={logoutUser}>{t('home.logout')}</Link></>

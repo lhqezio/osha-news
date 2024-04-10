@@ -115,7 +115,7 @@ export default function Profile(){
               }
             }
           >
-            DELETE
+            {t('profile.articleDelete')}
           </button>  : null
         }  
       </div>
@@ -201,7 +201,7 @@ export default function Profile(){
               </div>
               <div className="flex-1 md:ml-8">
                 <p className="font-semibold text-2xl mb-8 md:mb-2">
-                ALL POSTS
+                  {t('profile.allPost')}
                 </p>
                 <div className="md:overflow-y-scroll h-[50vh]">
                   {

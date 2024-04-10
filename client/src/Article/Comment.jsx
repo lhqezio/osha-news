@@ -1,6 +1,7 @@
 import comment from '../images/chat.png';
 import React, {useEffect, useState} from 'react';
 import { useClickAway } from '@uidotdev/usehooks';
+import { useTranslation } from 'react-i18next';
 
 export default function Comment({articleId}){
   const [hidden, setHidden] = useState(true);
@@ -11,6 +12,7 @@ export default function Comment({articleId}){
   const [send, setSend] = useState(false);
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getComments = async () => {
@@ -95,7 +97,7 @@ export default function Comment({articleId}){
             )
             :
             <li className="m-2">
-              <p className="text-xl">No Comments</p>
+              <p className="text-xl">{t('comment.noComment')}</p>
             </li>
           }
           {user ?
@@ -112,7 +114,7 @@ export default function Comment({articleId}){
                 }}
               />
               <button type="submit" onClick={() => setSend(true)}>
-                Comment
+                {t('comment.comment')}
               </button>
             </div>
             :

@@ -142,7 +142,7 @@ export default function PostArticle(){
                 className="w-1/3 m-2 block text-sm text-gray-900 border border-gray-300 
                 rounded cursor-pointer bg-gray-100 " required></input>  
             </div>
-            <input type="submit" value="Submit" onClick={postData} 
+            <input type="submit" value={t('post.submit')} onClick={postData} 
               className="w-full 
               text-center text-white border p-1 bg-blue-500 rounded" />
           </feildset>
