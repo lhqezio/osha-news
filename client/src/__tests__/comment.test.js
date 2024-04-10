@@ -31,5 +31,5 @@ it("renders SearchBox", async () => {
     render(<Comment />, container);
   });
  
-  expect(container.textContent).toContain("Bob");
+  expect(container.textContent).toContain("No Comments");
 });

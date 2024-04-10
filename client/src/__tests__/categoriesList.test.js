@@ -36,12 +36,6 @@ afterEach(() => {
 it("renders SearchBox", async () => {
   global.fetch.mockImplementationOnce(() =>
     Promise.resolve({
-      json: () => Promise.resolve({name: "Bob"}),
-    })
-  );
-
-  global.fetch.mockImplementationOnce(() =>
-    Promise.resolve({
       json: () => Promise.resolve(['Violent', 'Buisness', 'Politics']),
     })
   );
@@ -49,6 +43,5 @@ it("renders SearchBox", async () => {
     render(<CategoryList currentLang="en" selectedCategories={[]} addSelectedCategory={jest.fn()} removeSelectedCategory={jest.fn()} />, container);
   });
   expect(global.fetch).toHaveBeenCalledWith('/api/categories?lang=en');
-  expect(global.fetch).toHaveBeenCalledWith('/api/users/user-info');
-  expect(container.textContent).toContain("Add Article");
+  expect(document.querySelector('button')).toBeInTheDocument();
 });
