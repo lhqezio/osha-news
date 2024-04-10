@@ -16,7 +16,7 @@
     }
   },
   "plugins": ["react", "react-hooks"],
-  "ignorePatterns": ["**/build"],
+  "ignorePatterns": ["**/build", "**/__test__"],
   "rules": {
     "react/prop-types": [0],
     "react/react-in-jsx-scope": [0],
