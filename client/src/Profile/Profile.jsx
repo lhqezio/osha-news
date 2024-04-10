@@ -194,7 +194,7 @@ export default function Profile(){
                       }
                       className="p-4 mt-4 border border-black"
                       >
-                        {edit ? 'SAVE' : 'EDIT'}
+                        {edit ? t('profile.save') : t('profile.edit')}
                       </button> : null
                   }
                 </div>

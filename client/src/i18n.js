@@ -47,7 +47,9 @@ i18n.use(initReactI18next).init({
           about: 'ABOUT',
           posts: 'ALL POSTS',
           allPost: 'ALL POSTS',
-          articleDelete: 'DELETE'
+          articleDelete: 'DELETE',
+          edit: 'EDIT',
+          save: 'SAVE'
         },
         post: {
           upload: 'Upload Article',
@@ -102,7 +104,9 @@ i18n.use(initReactI18next).init({
           about: 'À PROPOS',
           posts: 'TOUS LES MESSAGES',
           allPost: 'TOUS LES ARTICLES',
-          articleDelete: 'SUPPRIMER'
+          articleDelete: 'SUPPRIMER',
+          edit: 'MODIFIER',
+          save: 'SAUVEGARDER'
         },
         post: {
           upload: `Télécharger l'article`,
@@ -157,7 +161,9 @@ i18n.use(initReactI18next).init({
           about: 'ACERCA DE',
           posts: 'TODOS LOS MENSAJES',
           allPost: 'TODOS LOS ARTÍCULOS',
-          articleDelete: 'BORRAR'
+          articleDelete: 'BORRAR',
+          edit: 'EDITAR',
+          save: 'AHORRAR'
         },
         post: {
           upload: 'Cargar artículo',
