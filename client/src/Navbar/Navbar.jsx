@@ -157,7 +157,7 @@ export default function Navbar(){
                       >
                         <LoginLinks 
                           className={'block lg:hidden'}
-                          linkName={'GO TO PROFILE'}
+                          linkName={t('home.goto')}
                         />
                         <button
                           className="block lg:hidden"
