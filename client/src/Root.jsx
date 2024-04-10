@@ -2,9 +2,11 @@
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import FilterScroll from './FilterScroll';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Root(){
   const handle = useFullScreenHandle();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -13,10 +15,10 @@ export default function Root(){
           + '-translate-y-1/2 text-2xl'
         }  >
           <button onClick={handle.enter}>
-        CLICK HERE TO START SCROLLING
+            {t('home.startScroll')}
           </button>
           <Link to="/scroll" className={'text-xs'}>
-          ADD TO HOME SCREEN THEN CLICK HERE IF YOU&apos;RE ON SAFARI MOBILE (NOT RECOMMENDED)
+            {t('home.scrollInstruction')}
           </Link>
         </div>
         <FullScreen handle={handle}>

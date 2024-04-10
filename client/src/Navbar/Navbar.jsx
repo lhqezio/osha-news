@@ -76,10 +76,11 @@ export default function Navbar(){
           className={`${className} mb-4 lg:mb-0`}>{linkName}</Link>
 
         <Link to={'/post'} className={`lg:mx-2 mb-4 lg:mb-0 ${className}`}>
-          NEW ARTICLE
+          {t('home.newArticle')}
         </Link>
         <Link to={'/'} className={`${className} mb-4 lg:mb-0`} button 
-          onClick={logoutUser}>LOGOUT
+          onClick={logoutUser}>
+          {t('home.logout')}
         </Link>
       </>
     );
@@ -165,7 +166,7 @@ export default function Navbar(){
                               setShowUserBox(false);
                             }
                           }>
-          CLOSE
+          
                         </button>
                       </div>
                     </>

@@ -114,7 +114,7 @@ export default function Profile(){
               }
             }
           >
-            DELETE
+            {t('profile.articleDelete')}
           </button>  : null
         }  
       </div>
@@ -193,14 +193,14 @@ export default function Profile(){
                       }
                       className="p-4 mt-4 border border-black"
                       >
-                        {edit ? 'SAVE' : 'EDIT'}
+                        {edit ? t('profile.save') : t('profile.edit')}
                       </button> : null
                   }
                 </div>
               </div>
               <div className="flex-1 md:ml-8">
                 <p className="font-semibold text-2xl mb-8 md:mb-2">
-                ALL POSTS
+                  {t('profile.allPost')}
                 </p>
                 <div className="md:overflow-y-scroll h-[50vh]">
                   {

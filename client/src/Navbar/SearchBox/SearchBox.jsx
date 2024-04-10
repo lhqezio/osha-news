@@ -120,14 +120,14 @@ export default function SearchBox(props) {
     >
       <div className="md:w-[50vw] md:border-r border-gray-400 md:p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
-          {loading ? 'LOADING...' : searchTerm === '' ? null && !loading :
+          {loading ? t('search.loading') : searchTerm === '' ? null && !loading :
             fetchErrMsg !== '' ? fetchErrMsg :  
               articleResults?.result !== undefined ? 
                 <span>
                   {articleResults?.amount + ' ' + t('search.found')}
                   <br></br>
                   {selectedCategories !== '' ? selectedCategories.replaceAll(',', ' · ') : null}
-                </span> : 'NO ARTICLE FOUND'
+                </span> : t('search.noArticle')
           }
         </p>
         {articleResults?.result  !== null && articleResults?.result  !== undefined && !loading && 
@@ -138,15 +138,15 @@ export default function SearchBox(props) {
             className={'text-sm mx-auto font-light p-2 border border-gray-600 rounded-full ' + 
             'hover:opacity-75'}
           >
-          LOAD MORE
+            {t('search.loadMore')}
           </button>  : null 
         }
       </div>
       <div className="md:h-[70vh] grow md:p-8 overflow-y-scroll">
         <p className="font-semibold text-sm">
-          {loading ? <span className="hidden md:inline">LOADING...</span> : 
-            searchTerm === ''  ? 'ENTER A SEARCH TERM' : 
-              userResults?.length + ' USER(S) FOUND'
+          {loading ? <span className="hidden md:inline">{t('search.loading')}</span> : 
+            searchTerm === ''  ? t('search.enter') : 
+              userResults?.length + ' ' + t('search.userFound')
           }
         </p>
         {userResults !== null && userResults !== undefined && !loading &&
