@@ -19,6 +19,7 @@ i18n.use(initReactI18next).init({
           login: 'Login',
           logout: 'Logout',
           close: 'CLOSE',
+          goto: 'GO TO PROFILE',
           startScroll: 'CLICK HERE TO START SCROLLING',
           scrollInstruction: `ADD TO HOME SCREEN THEN CLICK HERE IF YOU'RE ON SAFARI MOBILE (NOT RECOMMENDED)`
         },
@@ -78,7 +79,8 @@ i18n.use(initReactI18next).init({
           newArticle: 'Nouvel article',
           login: 'Se Connecter',
           logout: 'Se Déconnecter',
-          close: 'CERCA',
+          close: 'FERMER',
+          goto: 'ALLER AU PROFIL',
           startScroll: 'CLIQUEZ ICI POUR COMMENCER LE DÉFILEMENT',
           scrollInstruction: `AJOUTER À L'ÉCRAN D'ACCUEIL PUIS CLIQUEZ ICI SI VOUS ÊTES SUR SAFARI MOBILE (NON RECOMMANDÉ)`
         },
@@ -138,7 +140,8 @@ i18n.use(initReactI18next).init({
           newArticle: 'Articulo nuevo',
           login: 'Acceso',
           logout: 'Cerrar Sesión',
-          close: 'CLOSE',
+          close: 'CERCA',
+          goto: 'IR AL PERFIL',
           startScroll: 'HAGA CLIC AQUÍ PARA COMENZAR A DESPLAZARSE',
           scrollInstruction: `AGREGAR A LA PANTALLA DE INICIO Y LUEGO HAGA CLIC AQUÍ SI ESTÁ EN SAFARI MOBILE (NO RECOMENDADO)`
         },
