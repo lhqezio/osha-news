@@ -17,7 +17,7 @@ export default function Article({
   const amount = 1;
 
   useEffect(() => {
-    if(articles === null) {
+    if(inView && articles === null) {
       if (selectedCategories.length === 0){
         fetchRandomArticles();
       }else{
