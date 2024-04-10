@@ -166,7 +166,7 @@ export default function Navbar(){
                               setShowUserBox(false);
                             }
                           }>
-          
+                          {t('home.close')}
                         </button>
                       </div>
                     </>
