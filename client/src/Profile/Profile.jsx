@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import {Link} from 'react-router-dom';
 
 export default function Profile(){  
   const { id } = useParams();
@@ -80,11 +80,10 @@ export default function Profile(){
     return(
       <div className="mt-4">
         <p className="font-semibold text-sm">{article.category}</p>
-        <a className="text-xl font-serif font-normal my-1 cursor-pointer hover:text-gray-500"
-          href={article.link}
-        >
+        <Link to={`/article/${article._id}`}
+          className="text-xl font-serif font-normal my-1 cursor-pointer hover:text-gray-500">
           {article.headline}
-        </a>
+        </Link>
         {user?.name === profile.name ?
           <button className="mt-1 block"
             onClick={
@@ -115,7 +114,7 @@ export default function Profile(){
               }
             }
           >
-            DELETE
+            {t('profile.articleDelete')}
           </button>  : null
         }  
       </div>
@@ -194,14 +193,14 @@ export default function Profile(){
                       }
                       className="p-4 mt-4 border border-black"
                       >
-                        {edit ? 'SAVE' : 'EDIT'}
+                        {edit ? t('profile.save') : t('profile.edit')}
                       </button> : null
                   }
                 </div>
               </div>
               <div className="flex-1 md:ml-8">
                 <p className="font-semibold text-2xl mb-8 md:mb-2">
-                ALL POSTS
+                  {t('profile.allPost')}
                 </p>
                 <div className="md:overflow-y-scroll h-[50vh]">
                   {

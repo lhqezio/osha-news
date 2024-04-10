@@ -1,9 +1,10 @@
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createHashRouter, RouterProvider} from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './Root';
 import PostArticle from './Post/Post.jsx';
 import ErrorPage from './error-page';
+import SoloArticle from './Article/SoloArticle.jsx';
 import './index.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Login from './Signup/Login.jsx';
@@ -20,7 +21,7 @@ import Search from './Search/Search.jsx';
 import FilterScroll from './FilterScroll.jsx';
 // import FilterScroll from './FilterScroll.jsx';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Navbar />,
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
         element: <Search />,
       }
     ],
+  },
+  {
+    path: '/article/:id',
+    element: <SoloArticle />,
+    errorElement: <ErrorPage />,
   },   
   {
     path:'/scroll',
