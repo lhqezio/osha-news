@@ -74,8 +74,10 @@ export default function CategoryList({
         </ul>
       </div>
       <ul ref={ref} className={ hidden ? 'hidden' : 
-        'block md:border md:rounded-md p-2 -ml-2 md:ml-0 md:-mt-2 text-lg h-[60vh] md:h-60' +
-        ' overflow-auto w-[100vw] md:w-80 absolute bg-white md:bg-opacity-95 z-10 font-bold' } >
+        'block md:border md:rounded-md p-2 left-0 md:ml-0 md:-mt-2 text-lg h-[60vh] md:h-60 ' +
+        'overflow-auto w-[100vw] md:w-80 md:left-[auto] absolute bg-white md:bg-opacity-95 z-10 ' +
+        'font-bold'
+      } >
         {categories.map((cat, i) =>
           <li key={i}>
             <button className="mb-8 md:mb-4" onClick={addCategory} type="button">{cat}</button>

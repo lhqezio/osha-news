@@ -114,7 +114,7 @@ export default function Article({
           <Comment articleId={articles[0]._id}/>
         </div>
       </section> :
-      <section ref={ref} className="snap-start h-[93vh] md:h-[80vh] rounded-xl p-4">
+      <section ref={ref} className="snap-start h-[93vh] md:h-[80vh] rounded-xl pb-16 pr-4 md:p-4">
         {
           fetchErrMsg !== '' ? <div className="text-red-700">{fetchErrMsg}</div> : 
             <LoadingAnimation type={'spokes'} color={'black'} />
